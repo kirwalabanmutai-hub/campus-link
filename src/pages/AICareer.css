@@ -1,0 +1,169 @@
+.subsection-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Layout */
+.career-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: var(--space-6);
+}
+@media (max-width: 1100px) {
+  .career-layout { grid-template-columns: 1fr; }
+}
+
+.match-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Match card */
+.match-card { cursor: pointer; transition: all var(--transition); }
+.match-card--active {
+  border-color: var(--color-primary);
+  background: var(--color-bg-card-2);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Match circle */
+.match-circle-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+.match-circle-wrap svg { width: 80px; height: 80px; }
+.match-pct {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+}
+
+.match-title {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+.match-salary {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+.match-skills { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+/* Detail panel */
+.career-detail-card { padding: var(--space-6); }
+.career-detail-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+.career-detail-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: var(--color-primary-glow);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.career-detail-title {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  color: var(--color-text);
+}
+.career-detail-salary { font-size: var(--font-size-sm); color: var(--color-primary); font-weight: 600; }
+
+.detail-skills { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-3); }
+.detail-skill-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+/* Skill card */
+.skill-card { padding: var(--space-5); }
+.skill-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+.skill-emoji { font-size: 1.75rem; }
+.skill-name {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+.skill-cat { font-size: var(--font-size-xs); color: var(--color-text-dim); }
+
+/* Roadmap */
+.roadmap { display: flex; flex-direction: column; gap: 0; }
+.roadmap-step {
+  display: flex;
+  gap: var(--space-4);
+  position: relative;
+}
+.roadmap-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 32px;
+}
+.roadmap-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-bg-card-2);
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-text-dim);
+  flex-shrink: 0;
+  z-index: 1;
+}
+.roadmap-dot--done {
+  background: var(--color-primary-glow);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+.roadmap-line {
+  width: 2px;
+  flex: 1;
+  min-height: 32px;
+  background: var(--color-border);
+  margin: 4px 0;
+}
+.roadmap-line--done { background: var(--color-primary); }
+.roadmap-content { padding-bottom: var(--space-6); }
+.roadmap-title {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+.roadmap-desc { font-size: var(--font-size-sm); color: var(--color-text-muted); }
+.roadmap-step--done .roadmap-title { color: var(--color-primary); }

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wallet — CampusLink</title>
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="campuslink.css" />
+  <style>
+    .balance-card { background: linear-gradient(135deg, #0a3d2e, #0d1f3c); border:1px solid var(--primary); border-radius:var(--radius); padding:2rem; position:relative; overflow:hidden; margin-bottom:1.5rem; }
+    .balance-card::before { content:''; position:absolute; top:-60px; right:-60px; width:200px; height:200px; background:var(--primary-g); border-radius:50%; }
+    .balance-label { color:var(--muted); font-size:0.82rem; text-transform:uppercase; letter-spacing:.06em; }
+    .balance-amount { font-size:clamp(2rem,6vw,3rem); font-weight:900; color:var(--primary); margin:.25rem 0; }
+    .balance-sub { color:var(--muted); font-size:0.875rem; }
+    .balance-actions { display:flex; gap:0.75rem; margin-top:1.5rem; flex-wrap:wrap; }
+    .stat-row { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+    .stat-box { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:1rem; }
+    .stat-box .val { font-size:1.3rem; font-weight:800; margin-bottom:.2rem; }
+    .stat-box .lbl { color:var(--muted); font-size:0.78rem; }
+    .tx-item { display:flex; align-items:center; gap:1rem; padding:.75rem 0; border-bottom:1px solid var(--border); }
+    .tx-item:last-child { border-bottom:none; }
+    .tx-icon { width:38px; height:38px; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+    .tx-info { flex:1; }
+    .tx-name { font-weight:600; font-size:0.9rem; }
+    .tx-date { color:var(--muted); font-size:0.78rem; }
+    .tx-amount { font-weight:700; font-size:0.95rem; }
+    .income  { color:var(--success); }
+    .expense { color:var(--danger); }
+  </style>
+</head>
+<body>
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="home.html" class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></a>
+    <nav class="nav-links">
+      <a href="home.html"      class="nav-link">🏠 Home</a>
+      <a href="services.html"  class="nav-link">🛍️ Services</a>
+      <a href="gigs.html"      class="nav-link">💼 Gigs &amp; Jobs</a>
+      <a href="career.html"    class="nav-link">🤖 AI Career</a>
+      <a href="wallet.html"    class="nav-link active">💳 Wallet</a>
+      <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container">
+    <h1 class="section-title mb-6">My Wallet</h1>
+
+    <div style="display:grid;grid-template-columns:1fr 360px;gap:1.5rem;align-items:start" class="wallet-layout">
+      <div>
+        <!-- Balance card -->
+        <div class="balance-card">
+          <div class="balance-label">Available Balance</div>
+          <div class="balance-amount">Ksh 12,450.00</div>
+          <div class="balance-sub">Last updated just now · Account verified ✓</div>
+          <div class="balance-actions">
+            <button class="btn btn-primary">＋ Add Money</button>
+            <button class="btn btn-ghost">↑ Send</button>
+            <button class="btn btn-ghost">↓ Withdraw</button>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stat-row">
+          <div class="stat-box"><div class="val income">+Ksh 28,500</div><div class="lbl">Earned this month</div></div>
+          <div class="stat-box"><div class="val expense">−Ksh 16,050</div><div class="lbl">Spent this month</div></div>
+          <div class="stat-box"><div class="val" style="color:var(--accent)">Ksh 12,450</div><div class="lbl">Net balance</div></div>
+          <div class="stat-box"><div class="val" style="color:var(--warn)">14</div><div class="lbl">Transactions</div></div>
+        </div>
+
+        <!-- Transactions -->
+        <div class="card">
+          <div style="font-weight:700;margin-bottom:1rem">Recent Transactions</div>
+          <div class="tx-item">
+            <div class="tx-icon" style="background:#10b98122">🖨️</div>
+            <div class="tx-info"><div class="tx-name">Printing (B&amp;W) × 15</div><div class="tx-date">Today, 10:32 AM</div></div>
+            <div class="tx-amount expense">−Ksh 450</div>
+          </div>
+          <div class="tx-item">
+            <div class="tx-icon" style="background:#22c55e22">💻</div>
+            <div class="tx-info"><div class="tx-name">Web Design Gig Payment</div><div class="tx-date">Yesterday, 3:15 PM</div></div>
+            <div class="tx-amount income">+Ksh 3,800</div>
+          </div>
+          <div class="tx-item">
+            <div class="tx-icon" style="background:#3b82f622">👕</div>
+            <div class="tx-info"><div class="tx-name">Laundry Service — 2kg</div><div class="tx-date">Jun 15, 9:00 AM</div></div>
+            <div class="tx-amount expense">−Ksh 200</div>
+          </div>
+          <div class="tx-item">
+            <div class="tx-icon" style="background:#22c55e22">📚</div>
+            <div class="tx-info"><div class="tx-name">Math Tutoring Session</div><div class="tx-date">Jun 14, 4:30 PM</div></div>
+            <div class="tx-amount income">+Ksh 2,000</div>
+          </div>
+          <div class="tx-item">
+            <div class="tx-icon" style="background:#f59e0b22">🍱</div>
+            <div class="tx-info"><div class="tx-name">Food Delivery — Campus Bites</div><div class="tx-date">Jun 13, 12:45 PM</div></div>
+            <div class="tx-amount expense">−Ksh 350</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spending Breakdown (donut) -->
+      <div>
+        <div class="card">
+          <div style="font-weight:700;margin-bottom:1.25rem">Spending Breakdown</div>
+          <div style="display:flex;justify-content:center;margin-bottom:1.25rem">
+            <svg width="160" height="160" viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="60" fill="none" stroke="var(--border)" stroke-width="24"/>
+              <!-- Food 35% -->
+              <circle cx="80" cy="80" r="60" fill="none" stroke="#10b981" stroke-width="24" stroke-dasharray="376.8" stroke-dashoffset="244.9" stroke-linecap="butt" transform="rotate(-90 80 80)"/>
+              <!-- Printing 25% -->
+              <circle cx="80" cy="80" r="60" fill="none" stroke="#3b82f6" stroke-width="24" stroke-dasharray="376.8" stroke-dashoffset="282.6" stroke-linecap="butt" transform="rotate(36 80 80)"/>
+              <!-- Laundry 20% -->
+              <circle cx="80" cy="80" r="60" fill="none" stroke="#f59e0b" stroke-width="24" stroke-dasharray="376.8" stroke-dashoffset="301.4" stroke-linecap="butt" transform="rotate(126 80 80)"/>
+              <!-- Other 20% -->
+              <circle cx="80" cy="80" r="60" fill="none" stroke="#8b5cf6" stroke-width="24" stroke-dasharray="376.8" stroke-dashoffset="301.4" stroke-linecap="butt" transform="rotate(198 80 80)"/>
+              <text x="80" y="76" text-anchor="middle" fill="var(--text)" font-size="14" font-weight="800">Ksh</text>
+              <text x="80" y="94" text-anchor="middle" fill="var(--primary)" font-size="12" font-weight="700">16,050</text>
+            </svg>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.6rem">
+            <div class="flex items-center justify-between"><span style="display:flex;align-items:center;gap:.5rem"><span style="width:10px;height:10px;border-radius:50%;background:#10b981;display:inline-block"></span>Food</span><span class="text-muted text-sm">35%</span></div>
+            <div class="flex items-center justify-between"><span style="display:flex;align-items:center;gap:.5rem"><span style="width:10px;height:10px;border-radius:50%;background:#3b82f6;display:inline-block"></span>Printing</span><span class="text-muted text-sm">25%</span></div>
+            <div class="flex items-center justify-between"><span style="display:flex;align-items:center;gap:.5rem"><span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block"></span>Laundry</span><span class="text-muted text-sm">20%</span></div>
+            <div class="flex items-center justify-between"><span style="display:flex;align-items:center;gap:.5rem"><span style="width:10px;height:10px;border-radius:50%;background:#8b5cf6;display:inline-block"></span>Other</span><span class="text-muted text-sm">20%</span></div>
+          </div>
+        </div>
+
+        <div class="card mt-4">
+          <div style="font-weight:700;margin-bottom:.75rem">M-Pesa Integration</div>
+          <p class="text-muted text-sm mb-3">Top up or withdraw directly via M-Pesa. Instant settlement.</p>
+          <div class="form-group">
+            <label class="label">Phone Number</label>
+            <input class="input" type="tel" placeholder="07XX XXX XXX" />
+          </div>
+          <div class="form-group">
+            <label class="label">Amount (Ksh)</label>
+            <input class="input" type="number" placeholder="500" />
+          </div>
+          <button class="btn btn-primary w-full">Initiate M-Pesa STK Push</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div><p>AI-powered campus marketplace.</p></div>
+    <div class="footer-col"><h4>Platform</h4><ul><li><a href="services.html">Services</a></li><li><a href="gigs.html">Gigs</a></li><li><a href="career.html">AI Career</a></li></ul></div>
+    <div class="footer-col"><h4>Account</h4><ul><li><a href="register.html">Register</a></li><li><a href="login.html">Sign In</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 CampusLink</span></div>
+</footer>
+<style>@media(max-width:900px){.wallet-layout{grid-template-columns:1fr!important}}</style>
+</body>
+</html>

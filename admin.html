@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin — CampusLink</title>
+<link rel="icon" href="public/favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* ── Tokens ── */
+:root{
+  --bg:#080d19;--bg2:#0d1526;--card:#111827;--card2:#1a2235;
+  --border:#1f2e47;--border2:#263550;
+  --primary:#10b981;--primary-d:#059669;--primary-g:#10b98122;
+  --accent:#3b82f6;--warn:#f59e0b;--danger:#ef4444;--success:#22c55e;
+  --text:#f1f5f9;--muted:#8da4c4;--dim:#4b6187;
+  --font:'Inter',-apple-system,sans-serif;
+  --radius:.75rem;--sidebar:240px;--topbar:60px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit}
+
+/* ── Sidebar ── */
+#sidebar{
+  width:var(--sidebar);min-height:100vh;background:var(--bg2);
+  border-right:1px solid var(--border);display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;z-index:200;transition:left .28s ease;
+  overflow-y:auto;
+}
+.sidebar-logo{
+  height:var(--topbar);display:flex;align-items:center;gap:.6rem;
+  padding:0 1.1rem;border-bottom:1px solid var(--border);flex-shrink:0;
+  font-weight:800;font-size:1rem;
+}
+.logo-mark{background:var(--primary);color:#000;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:900;flex-shrink:0}
+.logo-accent{color:var(--primary)}
+.sidebar-nav{padding:.75rem .6rem;flex:1}
+.nav-section-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);padding:.5rem .6rem;margin-top:.5rem}
+.nav-item{
+  display:flex;align-items:center;gap:.65rem;
+  padding:.6rem .75rem;border-radius:var(--radius);
+  font-size:.875rem;font-weight:500;color:var(--muted);
+  cursor:pointer;transition:all .18s;margin-bottom:.15rem;
+  width:100%;text-align:left;
+}
+.nav-item:hover{background:var(--card2);color:var(--text)}
+.nav-item.active{background:var(--primary-g);color:var(--primary);font-weight:600;border:1px solid var(--primary);}
+.nav-item .nav-icon{font-size:1.05rem;flex-shrink:0;width:20px;text-align:center}
+.sidebar-footer{padding:.75rem;border-top:1px solid var(--border)}
+.sidebar-footer a,.sidebar-footer button{
+  display:flex;align-items:center;gap:.65rem;padding:.55rem .75rem;
+  border-radius:var(--radius);font-size:.875rem;color:var(--muted);width:100%;
+  transition:all .18s;
+}
+.sidebar-footer a:hover{background:var(--card2);color:var(--text)}
+.sidebar-footer .logout-btn:hover{background:rgba(239,68,68,.1);color:var(--danger)}
+
+/* ── Overlay (mobile) ── */
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:199;backdrop-filter:blur(2px)}
+#overlay.show{display:block}
+
+/* ── Main wrap ── */
+#mainWrap{
+  margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;
+  min-height:100vh;transition:margin-left .28s ease;
+}
+
+/* ── Topbar ── */
+#topbar{
+  height:var(--topbar);background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 1.25rem;gap:1rem;
+  position:sticky;top:0;z-index:100;
+}
+#hamburger{
+  display:none;width:36px;height:36px;border-radius:var(--radius);
+  background:var(--card2);border:1px solid var(--border);
+  align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;
+}
+.topbar-title{font-weight:700;font-size:1rem;flex:1}
+.topbar-actions{display:flex;align-items:center;gap:.6rem}
+.notif-btn{
+  width:34px;height:34px;border-radius:var(--radius);background:var(--card2);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:1rem;position:relative;transition:all .18s;
+}
+.notif-btn:hover{border-color:var(--border2);background:var(--card)}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--danger);border:1.5px solid var(--bg2)}
+.user-chip{
+  display:flex;align-items:center;gap:.5rem;
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:.3rem .65rem;
+  font-size:.82rem;font-weight:600;transition:all .18s;
+}
+.user-chip:hover{border-color:var(--border2)}
+.user-avatar{width:26px;height:26px;border-radius:50%;background:var(--primary-g);color:var(--primary);font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+/* ── Panels ── */
+#content{padding:1.5rem;flex:1}
+.panel{display:none}
+.panel.active{display:block}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem}
+.panel-title{font-size:1.3rem;font-weight:800}
+.panel-sub{color:var(--muted);font-size:.875rem}
+
+/* ── Stat cards ── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;transition:all .18s}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.stat-icon{width:38px;height:38px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:.7rem}
+.stat-val{font-size:1.7rem;font-weight:900;margin-bottom:.1rem}
+.stat-lbl{color:var(--muted);font-size:.78rem}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:var(--radius);font-size:.85rem;font-weight:600;transition:all .18s;cursor:pointer}
+.btn-primary{background:var(--primary);color:#000}
+.btn-primary:hover{background:var(--primary-d)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border2)}
+.btn-ghost:hover{background:var(--card2)}
+.btn-danger{background:rgba(239,68,68,.12);color:var(--danger);border:1px solid rgba(239,68,68,.25)}
+.btn-danger:hover{background:rgba(239,68,68,.22)}
+.btn-sm{padding:.3rem .75rem;font-size:.78rem}
+.btn-icon{width:32px;height:32px;padding:0;border-radius:.5rem;justify-content:center;flex-shrink:0}
+
+/* ── Search + toolbar ── */
+.toolbar{display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.search-wrap{position:relative;flex:1;min-width:180px;max-width:360px}
+.search-input{
+  width:100%;background:var(--card2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:.5rem .9rem .5rem 2.4rem;
+  font-size:.875rem;color:var(--text);transition:border-color .18s;
+}
+.search-input:focus{outline:none;border-color:var(--primary)}
+.search-input::placeholder{color:var(--dim)}
+.search-icon{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;font-size:.95rem}
+
+/* ── Table ── */
+.table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead tr{border-bottom:1px solid var(--border);background:var(--card2)}
+th{padding:.7rem 1rem;text-align:left;font-weight:600;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+td{padding:.7rem 1rem;border-bottom:1px solid var(--border);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--card2)}
+.td-emoji{font-size:1.4rem;line-height:1}
+.td-name{font-weight:600;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.td-muted{color:var(--muted);font-size:.8rem}
+.td-actions{display:flex;gap:.4rem;align-items:center}
+.no-data{padding:3rem;text-align:center;color:var(--muted)}
+
+/* ── Badge ── */
+.badge{display:inline-flex;align-items:center;padding:.18rem .55rem;border-radius:.4rem;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.badge-green{background:var(--primary-g);color:var(--primary);border:1px solid var(--primary)}
+.badge-blue{background:rgba(59,130,246,.12);color:var(--accent);border:1px solid rgba(59,130,246,.3)}
+.badge-warn{background:rgba(245,158,11,.12);color:var(--warn)}
+.badge-red{background:rgba(239,68,68,.12);color:var(--danger)}
+
+/* ── Categories grid ── */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.75rem}
+.cat-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:1rem;display:flex;align-items:center;justify-content:space-between;
+  gap:.5rem;transition:all .18s;
+}
+.cat-card:hover{border-color:var(--border2)}
+.cat-info{display:flex;align-items:center;gap:.6rem}
+.cat-emoji{font-size:1.4rem}
+.cat-name{font-weight:600;font-size:.9rem}
+.add-cat-form{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.cat-input{
+  background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:.5rem .9rem;font-size:.875rem;color:var(--text);width:140px;
+}
+.cat-input:focus{outline:none;border-color:var(--primary)}
+
+/* ── Settings form ── */
+.settings-form{max-width:560px}
+.form-group{margin-bottom:1.1rem}
+.form-label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:.35rem;font-weight:500}
+.form-input{
+  width:100%;background:var(--card2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:.6rem .9rem;font-size:.875rem;
+  color:var(--text);transition:border-color .18s;
+}
+.form-input:focus{outline:none;border-color:var(--primary)}
+.form-input::placeholder{color:var(--dim)}
+.form-group textarea.form-input{height:80px;resize:vertical}
+
+/* ── Modal ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);
+  z-index:500;align-items:center;justify-content:center;padding:1rem;
+  backdrop-filter:blur(4px);
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--card);border:1px solid var(--border2);border-radius:var(--radius);
+  width:100%;max-width:520px;max-height:90vh;overflow-y:auto;
+  animation:modalIn .22s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 1.25rem;border-bottom:1px solid var(--border);
+}
+.modal-title{font-weight:700;font-size:1rem}
+.modal-close{
+  width:30px;height:30px;border-radius:.5rem;background:var(--card2);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  transition:all .18s;
+}
+.modal-close:hover{background:rgba(239,68,68,.15);color:var(--danger)}
+.modal-body{padding:1.25rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.modal-footer{
+  padding:.9rem 1.25rem;border-top:1px solid var(--border);
+  display:flex;justify-content:flex-end;gap:.6rem;
+}
+
+/* ── Confirm dialog ── */
+.confirm-box{
+  background:var(--card);border:1px solid var(--border2);border-radius:var(--radius);
+  padding:1.5rem;max-width:360px;width:100%;text-align:center;
+  animation:modalIn .2s ease;
+}
+.confirm-icon{font-size:2.5rem;margin-bottom:.75rem}
+.confirm-title{font-weight:700;margin-bottom:.5rem}
+.confirm-sub{color:var(--muted);font-size:.875rem;margin-bottom:1.25rem}
+.confirm-btns{display:flex;gap:.6rem;justify-content:center}
+
+/* ── Toast ── */
+#toast{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;
+  background:var(--card2);border:1px solid var(--border2);
+  border-radius:var(--radius);padding:.7rem 1.1rem;
+  font-size:.875rem;font-weight:500;
+  transform:translateY(120%);opacity:0;
+  transition:transform .25s ease,opacity .25s ease;
+  max-width:300px;display:flex;align-items:center;gap:.6rem;
+}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.toast-success{border-color:var(--primary);color:var(--primary)}
+#toast.toast-error{border-color:var(--danger);color:var(--danger)}
+#toast.toast-info{border-color:var(--accent);color:var(--accent)}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  #sidebar{left:calc(-1 * var(--sidebar))}
+  #sidebar.open{left:0}
+  #mainWrap{margin-left:0}
+  #hamburger{display:flex}
+  .form-row{grid-template-columns:1fr}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  #content{padding:1rem}
+  th,td{padding:.55rem .75rem}
+  .delete-all-label{display:none}
+}
+@media(max-width:480px){
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .add-cat-form{flex-direction:column}
+  .cat-input{width:100%}
+}
+
+/* ── Recent items list ── */
+.recent-list{display:flex;flex-direction:column;gap:.5rem}
+.recent-item{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.65rem .9rem;background:var(--card2);
+  border:1px solid var(--border);border-radius:var(--radius);
+  font-size:.85rem;
+}
+.recent-item .ri-icon{font-size:1.3rem;flex-shrink:0}
+.recent-item .ri-info{flex:1;min-width:0}
+.recent-item .ri-name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.recent-item .ri-meta{color:var(--muted);font-size:.75rem}
+.recent-item .ri-badge{flex-shrink:0}
+
+/* ── Quick actions ── */
+.qa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.qa-btn{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:1rem;text-align:center;cursor:pointer;transition:all .18s;
+}
+.qa-btn:hover{border-color:var(--primary);background:var(--primary-g)}
+.qa-btn:hover .qa-icon{background:var(--primary-g)}
+.qa-icon{font-size:1.5rem;margin-bottom:.4rem;width:44px;height:44px;border-radius:var(--radius);background:var(--card2);display:flex;align-items:center;justify-content:center;margin:0 auto .5rem}
+.qa-label{font-size:.82rem;font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- Overlay -->
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ── Sidebar ── -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">CL</div>
+    <span>Campus<span class="logo-accent">Link</span> <span style="color:var(--dim);font-size:.7rem;font-weight:500">Admin</span></span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <button class="nav-item active" onclick="navigate('overview',this)">
+      <span class="nav-icon">📊</span> Overview
+    </button>
+    <button class="nav-item" onclick="navigate('services',this)">
+      <span class="nav-icon">🛍️</span> Services
+    </button>
+    <button class="nav-item" onclick="navigate('gigs',this)">
+      <span class="nav-icon">💼</span> Gigs &amp; Jobs
+    </button>
+    <div class="nav-section-label">Config</div>
+    <button class="nav-item" onclick="navigate('categories',this)">
+      <span class="nav-icon">🏷️</span> Categories
+    </button>
+    <button class="nav-item" onclick="navigate('settings',this)">
+      <span class="nav-icon">⚙️</span> Settings
+    </button>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="home.html" target="_blank">
+      <span>🌐</span> View Live Site
+    </a>
+    <button class="logout-btn" onclick="if(confirm('Reset all data to defaults?'))resetData()">
+      <span>🔄</span> Reset Data
+    </button>
+  </div>
+</aside>
+
+<!-- ── Main ── -->
+<div id="mainWrap">
+
+  <!-- Topbar -->
+  <header id="topbar">
+    <button id="hamburger" onclick="toggleSidebar()">☰</button>
+    <div class="topbar-title" id="topbarTitle">Overview</div>
+    <div class="topbar-actions">
+      <button class="notif-btn" title="Notifications">🔔<span class="notif-dot"></span></button>
+      <button class="btn btn-danger btn-sm" onclick="openDeleteAll()" title="Delete all content" style="gap:.35rem">
+        🗑️ <span class="delete-all-label">Delete All</span>
+      </button>
+      <div class="user-chip">
+        <div class="user-avatar">LK</div>
+        <span>Admin</span>
+      </div>
+    </div>
+  </header>
+
+  <main id="content">
+
+    <!-- ══ OVERVIEW ══ -->
+    <div id="panel-overview" class="panel active">
+      <div class="panel-header">
+        <div><div class="panel-title">Dashboard Overview</div><div class="panel-sub">Welcome back, Admin. Here's what's happening.</div></div>
+        <button class="btn btn-danger" onclick="openDeleteAll()">🗑️ Delete All Content</button>
+      </div>
+
+      <div class="stat-grid" id="overviewStats"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem" id="overviewGrids">
+        <div>
+          <div style="font-weight:700;margin-bottom:.75rem;font-size:.95rem">Quick Actions</div>
+          <div class="qa-grid">
+            <div class="qa-btn" onclick="navigate('services',document.querySelector('[data-panel=services]'));openModal('service')">
+              <div class="qa-icon">➕</div><div class="qa-label">Add Service</div>
+            </div>
+            <div class="qa-btn" onclick="navigate('gigs',document.querySelector('[data-panel=gigs]'));openModal('gig')">
+              <div class="qa-icon">💼</div><div class="qa-label">Post Gig</div>
+            </div>
+            <div class="qa-btn" onclick="navigate('categories',document.querySelector('[data-panel=categories]'))">
+              <div class="qa-icon">🏷️</div><div class="qa-label">Add Category</div>
+            </div>
+            <div class="qa-btn" onclick="navigate('settings',document.querySelector('[data-panel=settings]'))">
+              <div class="qa-icon">⚙️</div><div class="qa-label">Settings</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700;margin-bottom:.75rem;font-size:.95rem">Recent Services</div>
+          <div class="recent-list" id="recentServices"></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-weight:700;margin-bottom:.75rem;font-size:.95rem">Recent Gigs</div>
+        <div class="recent-list" id="recentGigs"></div>
+      </div>
+    </div>
+
+    <!-- ══ SERVICES ══ -->
+    <div id="panel-services" class="panel">
+      <div class="panel-header">
+        <div><div class="panel-title">Services</div><div class="panel-sub">Manage all campus services</div></div>
+        <button class="btn btn-primary" onclick="openModal('service')">＋ Add Service</button>
+      </div>
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="svcSearch" type="text" placeholder="Search services…" oninput="renderServicesTable()"/>
+        </div>
+        <select class="cat-input" id="svcCatFilter" onchange="renderServicesTable()" style="width:140px">
+          <option value="">All Categories</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th style="width:48px"></th>
+            <th>Name</th>
+            <th>Provider</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Rating</th>
+            <th>Badge</th>
+            <th style="width:90px">Actions</th>
+          </tr></thead>
+          <tbody id="svcTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ GIGS ══ -->
+    <div id="panel-gigs" class="panel">
+      <div class="panel-header">
+        <div><div class="panel-title">Gigs &amp; Jobs</div><div class="panel-sub">Manage posted gigs and job listings</div></div>
+        <button class="btn btn-primary" onclick="openModal('gig')">＋ Post Gig</button>
+      </div>
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="gigSearch" type="text" placeholder="Search gigs…" oninput="renderGigsTable()"/>
+        </div>
+        <select class="cat-input" id="gigCatFilter" onchange="renderGigsTable()" style="width:140px">
+          <option value="">All Categories</option>
+          <option value="Academic">Academic</option>
+          <option value="Tech">Tech</option>
+          <option value="Creative">Creative</option>
+          <option value="Admin">Admin</option>
+          <option value="Physical">Physical</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Budget</th>
+            <th>Applicants</th>
+            <th>Posted</th>
+            <th style="width:90px">Actions</th>
+          </tr></thead>
+          <tbody id="gigTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ CATEGORIES ══ -->
+    <div id="panel-categories" class="panel">
+      <div class="panel-header">
+        <div><div class="panel-title">Categories</div><div class="panel-sub">Manage service categories</div></div>
+      </div>
+      <div class="cat-grid" id="catGrid"></div>
+      <div class="add-cat-form" style="margin-top:1.25rem;align-items:flex-end">
+        <div>
+          <label class="form-label">Category Name</label>
+          <input class="cat-input form-input" id="newCatName" type="text" placeholder="e.g. Transport" style="width:160px"/>
+        </div>
+        <div>
+          <label class="form-label">Emoji</label>
+          <input class="cat-input form-input" id="newCatEmoji" type="text" placeholder="🚗" style="width:80px;text-align:center"/>
+        </div>
+        <div>
+          <label class="form-label">Color (hex)</label>
+          <input class="cat-input form-input" id="newCatColor" type="color" value="#10b981" style="width:60px;padding:.3rem;height:38px"/>
+        </div>
+        <button class="btn btn-primary" onclick="addCategory()">＋ Add Category</button>
+      </div>
+    </div>
+
+    <!-- ══ SETTINGS ══ -->
+    <div id="panel-settings" class="panel">
+      <div class="panel-header">
+        <div><div class="panel-title">Site Settings</div><div class="panel-sub">Manage your CampusLink configuration</div></div>
+      </div>
+      <div class="settings-form">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem">
+          <div style="font-weight:700;margin-bottom:1rem">General</div>
+          <div class="form-group"><label class="form-label">Site Name</label><input class="form-input" id="s_name" type="text"/></div>
+          <div class="form-group"><label class="form-label">Tagline</label><input class="form-input" id="s_tagline" type="text"/></div>
+          <div class="form-group"><label class="form-label">Contact Email</label><input class="form-input" id="s_email" type="email"/></div>
+          <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="s_phone" type="tel"/></div>
+          <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="s_location" type="text"/></div>
+          <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+        </div>
+
+        <div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-weight:700;color:var(--danger);margin-bottom:.5rem">⚠️ Danger Zone</div>
+          <p style="color:var(--muted);font-size:.875rem;margin-bottom:1rem">Reset all services, gigs, and categories to their default values. This cannot be undone.</p>
+          <button class="btn btn-danger" onclick="confirmReset()">Reset All Data to Defaults</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══ MODALS ══ -->
+
+<!-- Service modal -->
+<div class="modal-overlay" id="svcModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="svcModalTitle">Add Service</div>
+      <button class="modal-close" onclick="closeModal('svcModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="svcEditId"/>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Emoji</label><input class="form-input" id="f_emoji" placeholder="🖨️" style="text-align:center;font-size:1.2rem"/></div>
+        <div class="form-group"><label class="form-label">Badge (optional)</label><input class="form-input" id="f_badge" placeholder="Popular, New, Hot…"/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Service Name *</label><input class="form-input" id="f_name" placeholder="e.g. Printing (B&W)" required/></div>
+      <div class="form-group"><label class="form-label">Provider *</label><input class="form-input" id="f_provider" placeholder="e.g. Galileo Print Shop" required/></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <select class="form-input" id="f_cat"></select>
+        </div>
+        <div class="form-group"><label class="form-label">Price *</label><input class="form-input" id="f_price" placeholder="Ksh 30/page" required/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Rating (1–5)</label><input class="form-input" id="f_rating" type="number" step="0.1" min="1" max="5" placeholder="4.8"/></div>
+        <div class="form-group"><label class="form-label">Reviews</label><input class="form-input" id="f_reviews" type="number" min="0" placeholder="120"/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="f_location" placeholder="Block A, Room 2"/></div>
+      <div class="form-group"><label class="form-label">Hours</label><input class="form-input" id="f_hours" placeholder="8am–8pm"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('svcModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveService()">Save Service</button>
+    </div>
+  </div>
+</div>
+
+<!-- Gig modal -->
+<div class="modal-overlay" id="gigModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="gigModalTitle">Post Gig</div>
+      <button class="modal-close" onclick="closeModal('gigModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="gigEditId"/>
+      <div class="form-group"><label class="form-label">Gig Title *</label><input class="form-input" id="g_title" placeholder="e.g. Math Tutor Needed" required/></div>
+      <div class="form-group"><label class="form-label">Description *</label><textarea class="form-input" id="g_desc" placeholder="Describe the gig…" style="height:80px;resize:vertical" required></textarea></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <select class="form-input" id="g_cat">
+            <option>Academic</option><option>Tech</option><option>Creative</option>
+            <option>Admin</option><option>Physical</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Budget *</label><input class="form-input" id="g_budget" placeholder="Ksh 2,000" required/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Required Skills (comma-separated)</label><input class="form-input" id="g_skills" placeholder="React, Figma, JavaScript"/></div>
+      <div class="form-group"><label class="form-label">Poster Initials</label><input class="form-input" id="g_poster" placeholder="LK" maxlength="2" style="text-transform:uppercase"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('gigModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveGig()">Save Gig</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DELETE ALL MODAL ══ -->
+<div class="modal-overlay" id="deleteAllModal">
+  <div class="modal" style="max-width:420px;border-color:rgba(239,68,68,.4)">
+    <div class="modal-header" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.06)">
+      <div class="modal-title" style="color:var(--danger)">⚠️ Delete All Content</div>
+      <button class="modal-close" onclick="closeModal('deleteAllModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:var(--radius);padding:1rem;margin-bottom:1.25rem">
+        <p style="font-weight:700;color:var(--danger);margin-bottom:.4rem">This will permanently delete:</p>
+        <ul style="color:var(--muted);font-size:.875rem;padding-left:1.1rem;line-height:2">
+          <li>All <strong id="daCountSvc" style="color:var(--text)">0</strong> services</li>
+          <li>All <strong id="daCountGig" style="color:var(--text)">0</strong> gigs &amp; jobs</li>
+          <li>All <strong id="daCountCat" style="color:var(--text)">0</strong> categories</li>
+        </ul>
+        <p style="color:var(--danger);font-size:.8rem;margin-top:.5rem;font-weight:600">⚡ This action cannot be undone.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label" style="color:var(--muted)">
+          Type <strong style="color:var(--danger);font-family:monospace;letter-spacing:.05em">DELETE</strong> to confirm
+        </label>
+        <input class="form-input" id="deleteConfirmInput" type="text" placeholder="Type DELETE here…"
+          oninput="document.getElementById('deleteAllBtn').disabled = this.value !== 'DELETE'"
+          style="border-color:rgba(239,68,68,.3);letter-spacing:.05em;font-weight:600"/>
+      </div>
+    </div>
+    <div class="modal-footer" style="border-color:rgba(239,68,68,.2)">
+      <button class="btn btn-ghost" onclick="closeModal('deleteAllModal')">Cancel</button>
+      <button class="btn btn-danger" id="deleteAllBtn" disabled onclick="executeDeleteAll()"
+        style="opacity:.5;transition:opacity .2s">
+        🗑️ Delete Everything
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm dialog -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-title" id="confirmTitle">Delete this item?</div>
+    <div class="confirm-sub" id="confirmSub">This action cannot be undone.</div>
+    <div class="confirm-btns">
+      <button class="btn btn-ghost" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn btn-danger" id="confirmOkBtn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script src="data.js"></script>
+<script>
+/* ── Navigation ── */
+let currentPanel = 'overview';
+function navigate(panel, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + panel).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  else {
+    const items = document.querySelectorAll('.nav-item');
+    items.forEach(i => { if (i.textContent.toLowerCase().includes(panel)) i.classList.add('active'); });
+  }
+  currentPanel = panel;
+  document.getElementById('topbarTitle').textContent =
+    { overview:'Overview', services:'Services', gigs:'Gigs & Jobs', categories:'Categories', settings:'Settings' }[panel] || panel;
+  closeSidebar();
+  refreshPanel(panel);
+}
+
+function refreshPanel(panel) {
+  if (panel === 'overview')    renderOverview();
+  if (panel === 'services')    { renderServicesTable(); populateCatFilters(); }
+  if (panel === 'gigs')        renderGigsTable();
+  if (panel === 'categories')  renderCategoryGrid();
+  if (panel === 'settings')    loadSettings();
+}
+
+/* ── Sidebar ── */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// Set data-panel on nav items for quick access
+document.querySelectorAll('.nav-item').forEach((el, i) => {
+  const panels = ['overview','services','gigs','categories','settings'];
+  if (panels[i] !== undefined) el.dataset.panel = panels[i];
+});
+
+/* ── Toast ── */
+function toast(msg, type='success') {
+  const t = document.getElementById('toast');
+  const icons = { success:'✅', error:'❌', info:'ℹ️' };
+  t.innerHTML = `<span>${icons[type]||'✅'}</span> ${msg}`;
+  t.className = `toast toast-${type} show`;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ── Modal ── */
+function openModal(type, editId) {
+  if (type === 'service') {
+    document.getElementById('svcEditId').value = editId || '';
+    document.getElementById('svcModalTitle').textContent = editId ? 'Edit Service' : 'Add Service';
+    populateSvcCatSelect();
+    if (editId) {
+      const s = CampusData.getServices().find(x => x.id == editId);
+      if (s) {
+        document.getElementById('f_emoji').value    = s.emoji    || '';
+        document.getElementById('f_name').value     = s.name     || '';
+        document.getElementById('f_provider').value = s.provider || '';
+        document.getElementById('f_cat').value      = s.cat      || '';
+        document.getElementById('f_price').value    = s.price    || '';
+        document.getElementById('f_rating').value   = s.rating   || '';
+        document.getElementById('f_reviews').value  = s.reviews  || '';
+        document.getElementById('f_location').value = s.location || '';
+        document.getElementById('f_hours').value    = s.hours    || '';
+        document.getElementById('f_badge').value    = s.badge    || '';
+      }
+    } else {
+      ['f_emoji','f_name','f_provider','f_price','f_rating','f_reviews','f_location','f_hours','f_badge']
+        .forEach(id => document.getElementById(id).value = '');
+    }
+    document.getElementById('svcModal').classList.add('open');
+  } else if (type === 'gig') {
+    document.getElementById('gigEditId').value = editId || '';
+    document.getElementById('gigModalTitle').textContent = editId ? 'Edit Gig' : 'Post Gig';
+    if (editId) {
+      const g = CampusData.getGigs().find(x => x.id == editId);
+      if (g) {
+        document.getElementById('g_title').value  = g.title  || '';
+        document.getElementById('g_desc').value   = g.desc   || '';
+        document.getElementById('g_cat').value    = g.cat    || 'Academic';
+        document.getElementById('g_budget').value = g.budget || '';
+        document.getElementById('g_skills').value = (g.skills||[]).join(', ');
+        document.getElementById('g_poster').value = g.poster || '';
+      }
+    } else {
+      ['g_title','g_desc','g_budget','g_skills','g_poster'].forEach(id => document.getElementById(id).value = '');
+    }
+    document.getElementById('gigModal').classList.add('open');
+  }
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+/* ── Confirm ── */
+function confirm(title, sub, onOk) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmSub').textContent   = sub || 'This action cannot be undone.';
+  document.getElementById('confirmModal').classList.add('open');
+  const btn = document.getElementById('confirmOkBtn');
+  btn.onclick = () => { closeModal('confirmModal'); onOk(); };
+}
+
+/* ── Overview ── */
+function renderOverview() {
+  const c = CampusData.counts();
+  document.getElementById('overviewStats').innerHTML = `
+    <div class="stat-card"><div class="stat-icon" style="background:#10b98122">🛍️</div><div class="stat-val" style="color:var(--primary)">${c.services}</div><div class="stat-lbl">Total Services</div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:#3b82f622">💼</div><div class="stat-val" style="color:var(--accent)">${c.gigs}</div><div class="stat-lbl">Active Gigs</div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:#f59e0b22">🏷️</div><div class="stat-val" style="color:var(--warn)">${c.categories}</div><div class="stat-lbl">Categories</div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:#22c55e22">👥</div><div class="stat-val" style="color:var(--success)">10K+</div><div class="stat-lbl">Registered Users</div></div>
+  `;
+  const svcs = CampusData.getServices().slice(-4).reverse();
+  document.getElementById('recentServices').innerHTML = svcs.map(s => `
+    <div class="recent-item">
+      <span class="ri-icon">${s.emoji||'🛍️'}</span>
+      <div class="ri-info"><div class="ri-name">${s.name}</div><div class="ri-meta">${s.provider} · ${s.cat}</div></div>
+      <span class="ri-badge">${s.badge ? `<span class="badge badge-green">${s.badge}</span>` : `<span style="color:var(--muted);font-size:.78rem">${s.price}</span>`}</span>
+    </div>
+  `).join('') || '<div style="color:var(--muted);font-size:.875rem;padding:.5rem">No services yet.</div>';
+
+  const gigs = CampusData.getGigs().slice(-4).reverse();
+  document.getElementById('recentGigs').innerHTML = gigs.map(g => `
+    <div class="recent-item">
+      <span class="ri-icon">💼</span>
+      <div class="ri-info"><div class="ri-name">${g.title}</div><div class="ri-meta">${g.cat} · ${g.applicants} applicants</div></div>
+      <span class="ri-badge" style="color:var(--primary);font-weight:700">${g.budget}</span>
+    </div>
+  `).join('') || '<div style="color:var(--muted);font-size:.875rem;padding:.5rem">No gigs yet.</div>';
+}
+
+/* ── Services Table ── */
+function populateSvcCatSelect() {
+  const sel = document.getElementById('f_cat');
+  const cats = CampusData.getCategories();
+  sel.innerHTML = cats.map(c => `<option value="${c.name}">${c.emoji} ${c.name}</option>`).join('');
+}
+function populateCatFilters() {
+  const cats = CampusData.getCategories();
+  const sel = document.getElementById('svcCatFilter');
+  sel.innerHTML = '<option value="">All Categories</option>' + cats.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+}
+
+function renderServicesTable() {
+  const q   = (document.getElementById('svcSearch')?.value || '').toLowerCase();
+  const cat = document.getElementById('svcCatFilter')?.value || '';
+  const svcs = CampusData.getServices().filter(s =>
+    (!cat || s.cat === cat) &&
+    (!q   || s.name.toLowerCase().includes(q) || s.provider.toLowerCase().includes(q))
+  );
+  const tbody = document.getElementById('svcTbody');
+  if (!svcs.length) { tbody.innerHTML = `<tr><td colspan="8" class="no-data">No services found. <button class="btn btn-primary btn-sm" onclick="openModal('service')">Add one →</button></td></tr>`; return; }
+  tbody.innerHTML = svcs.map(s => `
+    <tr>
+      <td class="td-emoji">${s.emoji||'🛍️'}</td>
+      <td><div class="td-name">${s.name}</div><div class="td-muted">${s.location||''}</div></td>
+      <td class="td-muted">${s.provider}</td>
+      <td><span class="badge badge-blue">${s.cat}</span></td>
+      <td style="font-weight:600;color:var(--primary)">${s.price}</td>
+      <td><span style="color:var(--warn)">★ ${s.rating}</span> <span class="td-muted">(${s.reviews||0})</span></td>
+      <td>${s.badge ? `<span class="badge badge-green">${s.badge}</span>` : '<span class="td-muted">—</span>'}</td>
+      <td class="td-actions">
+        <button class="btn btn-sm btn-ghost btn-icon" onclick="openModal('service',${s.id})" title="Edit">✏️</button>
+        <button class="btn btn-sm btn-danger btn-icon" onclick="deleteService(${s.id},'${s.name.replace(/'/g,"\\'")}')" title="Delete">🗑️</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function saveService() {
+  const id    = document.getElementById('svcEditId').value;
+  const name  = document.getElementById('f_name').value.trim();
+  const prov  = document.getElementById('f_provider').value.trim();
+  const cat   = document.getElementById('f_cat').value;
+  const price = document.getElementById('f_price').value.trim();
+  if (!name || !prov || !cat || !price) { toast('Please fill all required fields.','error'); return; }
+  const data = {
+    emoji:    document.getElementById('f_emoji').value.trim() || '🛍️',
+    name, provider: prov, cat, price,
+    rating:   document.getElementById('f_rating').value  || '5.0',
+    reviews:  parseInt(document.getElementById('f_reviews').value) || 0,
+    location: document.getElementById('f_location').value.trim(),
+    hours:    document.getElementById('f_hours').value.trim(),
+    badge:    document.getElementById('f_badge').value.trim() || null,
+  };
+  if (id) { CampusData.updateService(parseInt(id), data); toast('Service updated!'); }
+  else    { CampusData.addService(data); toast('Service added!'); }
+  closeModal('svcModal');
+  renderServicesTable();
+  if (currentPanel === 'overview') renderOverview();
+}
+
+function deleteService(id, name) {
+  confirm(`Delete "${name}"?`, 'This service will be removed from the platform.', () => {
+    CampusData.deleteService(id);
+    renderServicesTable();
+    if (currentPanel === 'overview') renderOverview();
+    toast('Service deleted.', 'info');
+  });
+}
+
+/* ── Gigs Table ── */
+function renderGigsTable() {
+  const q   = (document.getElementById('gigSearch')?.value || '').toLowerCase();
+  const cat = document.getElementById('gigCatFilter')?.value || '';
+  const gigs = CampusData.getGigs().filter(g =>
+    (!cat || g.cat === cat) &&
+    (!q   || g.title.toLowerCase().includes(q) || (g.desc||'').toLowerCase().includes(q))
+  );
+  const tbody = document.getElementById('gigTbody');
+  if (!gigs.length) { tbody.innerHTML = `<tr><td colspan="6" class="no-data">No gigs found. <button class="btn btn-primary btn-sm" onclick="openModal('gig')">Post one →</button></td></tr>`; return; }
+  const catColors = { Academic:'badge-green', Tech:'badge-blue', Creative:'badge-warn', Admin:'badge-blue', Physical:'badge-red' };
+  tbody.innerHTML = gigs.map(g => `
+    <tr>
+      <td><div class="td-name">${g.title}</div><div class="td-muted" style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${g.desc||''}</div></td>
+      <td><span class="badge ${catColors[g.cat]||'badge-blue'}">${g.cat}</span></td>
+      <td style="font-weight:600;color:var(--primary)">${g.budget}</td>
+      <td>${g.applicants||0}</td>
+      <td class="td-muted">${g.posted||'—'}</td>
+      <td class="td-actions">
+        <button class="btn btn-sm btn-ghost btn-icon" onclick="openModal('gig',${g.id})" title="Edit">✏️</button>
+        <button class="btn btn-sm btn-danger btn-icon" onclick="deleteGig(${g.id},'${g.title.replace(/'/g,"\\'")}')" title="Delete">🗑️</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function saveGig() {
+  const id     = document.getElementById('gigEditId').value;
+  const title  = document.getElementById('g_title').value.trim();
+  const desc   = document.getElementById('g_desc').value.trim();
+  const budget = document.getElementById('g_budget').value.trim();
+  if (!title || !desc || !budget) { toast('Please fill all required fields.','error'); return; }
+  const skills = document.getElementById('g_skills').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const data = {
+    title, desc, cat: document.getElementById('g_cat').value, budget,
+    skills,
+    poster: (document.getElementById('g_poster').value.toUpperCase() || 'XX').slice(0,2),
+  };
+  if (id) { CampusData.updateGig(parseInt(id), data); toast('Gig updated!'); }
+  else    { CampusData.addGig(data); toast('Gig posted!'); }
+  closeModal('gigModal');
+  renderGigsTable();
+  if (currentPanel === 'overview') renderOverview();
+}
+
+function deleteGig(id, title) {
+  confirm(`Delete "${title}"?`, 'This gig will be removed from listings.', () => {
+    CampusData.deleteGig(id);
+    renderGigsTable();
+    if (currentPanel === 'overview') renderOverview();
+    toast('Gig deleted.', 'info');
+  });
+}
+
+/* ── Categories ── */
+function renderCategoryGrid() {
+  const cats = CampusData.getCategories();
+  document.getElementById('catGrid').innerHTML = cats.map(c => `
+    <div class="cat-card">
+      <div class="cat-info">
+        <span class="cat-emoji">${c.emoji}</span>
+        <span class="cat-name">${c.name}</span>
+      </div>
+      <button class="btn btn-sm btn-danger btn-icon" onclick="deleteCat('${c.name}')" title="Delete">🗑️</button>
+    </div>
+  `).join('') || '<div style="color:var(--muted)">No categories. Add one below.</div>';
+}
+
+function addCategory() {
+  const name  = document.getElementById('newCatName').value.trim();
+  const emoji = document.getElementById('newCatEmoji').value.trim();
+  const color = document.getElementById('newCatColor').value;
+  if (!name) { toast('Category name is required.','error'); return; }
+  CampusData.addCategory({ name, emoji: emoji||'📦', color: color||'#10b981' });
+  document.getElementById('newCatName').value  = '';
+  document.getElementById('newCatEmoji').value = '';
+  renderCategoryGrid();
+  toast('Category added!');
+}
+
+function deleteCat(name) {
+  confirm(`Delete category "${name}"?`, 'Services in this category will remain but lose their category label.', () => {
+    CampusData.deleteCategory(name);
+    renderCategoryGrid();
+    toast('Category deleted.','info');
+  });
+}
+
+/* ── Settings ── */
+function loadSettings() {
+  const s = CampusData.getSettings();
+  document.getElementById('s_name').value     = s.siteName  || '';
+  document.getElementById('s_tagline').value  = s.tagline   || '';
+  document.getElementById('s_email').value    = s.email     || '';
+  document.getElementById('s_phone').value    = s.phone     || '';
+  document.getElementById('s_location').value = s.location  || '';
+}
+function saveSettings() {
+  CampusData.saveSettings({
+    siteName: document.getElementById('s_name').value.trim(),
+    tagline:  document.getElementById('s_tagline').value.trim(),
+    email:    document.getElementById('s_email').value.trim(),
+    phone:    document.getElementById('s_phone').value.trim(),
+    location: document.getElementById('s_location').value.trim(),
+  });
+  toast('Settings saved!');
+}
+
+/* ── Reset ── */
+function confirmReset() {
+  confirm('Reset all data?', 'All services, gigs, and categories will be restored to defaults. This cannot be undone.', resetData);
+}
+function resetData() {
+  CampusData.reset();
+  renderOverview();
+  renderServicesTable();
+  renderGigsTable();
+  renderCategoryGrid();
+  loadSettings();
+  toast('Data reset to defaults.','info');
+}
+
+/* ── Close modals on overlay click ── */
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+/* ── Close on Escape ── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+});
+
+/* ── Delete All ── */
+function openDeleteAll() {
+  const c = CampusData.counts();
+  document.getElementById('daCountSvc').textContent = c.services;
+  document.getElementById('daCountGig').textContent = c.gigs;
+  document.getElementById('daCountCat').textContent = c.categories;
+  document.getElementById('deleteConfirmInput').value = '';
+  const btn = document.getElementById('deleteAllBtn');
+  btn.disabled = true;
+  btn.style.opacity = '.4';
+  document.getElementById('deleteAllModal').classList.add('open');
+}
+
+document.getElementById('deleteConfirmInput').addEventListener('input', function () {
+  const btn = document.getElementById('deleteAllBtn');
+  const ok  = this.value === 'DELETE';
+  btn.disabled    = !ok;
+  btn.style.opacity = ok ? '1' : '.4';
+});
+
+function executeDeleteAll() {
+  CampusData.clearAll();
+  closeModal('deleteAllModal');
+  renderOverview();
+  renderServicesTable();
+  renderGigsTable();
+  renderCategoryGrid();
+  toast('All content deleted.', 'error');
+}
+
+/* ── Init ── */
+renderOverview();
+populateCatFilters();
+</script>
+</body>
+</html>

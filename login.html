@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — CampusLink</title>
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="campuslink.css" />
+  <style>
+    .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; background: var(--bg); }
+    .auth-card { width: 100%; max-width: 420px; }
+    .auth-logo { display: flex; align-items: center; justify-content: center; gap: .6rem; font-weight: 800; font-size: 1.2rem; margin-bottom: 2rem; }
+    .auth-title { font-size: 1.6rem; font-weight: 800; text-align: center; margin-bottom: .4rem; }
+    .auth-sub   { color: var(--muted); text-align: center; font-size: .875rem; margin-bottom: 2rem; }
+    .divider { display: flex; align-items: center; gap: 1rem; margin: 1.25rem 0; color: var(--dim); font-size: .8rem; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .google-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: .75rem; padding: .65rem; border: 1px solid var(--border2); border-radius: var(--radius); background: var(--card2); font-size: .9rem; font-weight: 600; color: var(--text); cursor: pointer; transition: all .2s; margin-bottom: 1rem; }
+    .google-btn:hover { background: var(--card); border-color: var(--primary); }
+    .auth-footer { text-align: center; color: var(--muted); font-size: .875rem; margin-top: 1.25rem; }
+    .auth-footer a { color: var(--primary); font-weight: 600; }
+    .error-msg { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.3); color: var(--danger); border-radius: var(--radius); padding: .65rem 1rem; font-size: .875rem; margin-bottom: 1rem; display: none; }
+  </style>
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-mark">CL</div>
+      <span>Campus<span class="logo-accent">Link</span></span>
+    </div>
+
+    <h1 class="auth-title">Welcome back</h1>
+    <p class="auth-sub">Sign in to your CampusLink account</p>
+
+    <div class="error-msg" id="errMsg">Invalid email or password. Please try again.</div>
+
+    <button class="google-btn" onclick="alert('Google OAuth coming soon!')">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20H24v8h11.3C33.6 33 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3L37 9.7C33.5 6.5 29 4.5 24 4.5 12.7 4.5 3.5 13.7 3.5 25S12.7 45.5 24 45.5c11 0 20.5-8 20.5-20.5 0-1.4-.1-2.7-.4-4z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.1 19 12 24 12c3 0 5.8 1.1 7.9 3L37 9.7C33.5 6.5 29 4.5 24 4.5c-7.7 0-14.3 4.4-17.7 10.2z"/><path fill="#4CAF50" d="M24 45.5c4.9 0 9.4-1.8 12.8-4.8L30.8 36C28.9 37.3 26.5 38 24 38c-5.3 0-9.6-3-11.3-7.4l-6.6 5.1C9.6 41 16.3 45.5 24 45.5z"/><path fill="#1976D2" d="M43.6 20H24v8h11.3c-.9 2.4-2.5 4.4-4.5 5.8l6 4.7c3.5-3.3 5.7-8.2 5.7-14 0-1.4-.1-2.7-.4-4z"/></svg>
+      Continue with Google
+    </button>
+
+    <div class="divider">or sign in with email</div>
+
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label class="label" for="email">Email address</label>
+        <input class="input" id="email" type="email" placeholder="you@university.edu" required autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label class="label" for="password" style="display:flex;justify-content:space-between">
+          Password <a href="#" style="color:var(--primary);font-size:.8rem">Forgot password?</a>
+        </label>
+        <input class="input" id="password" type="password" placeholder="••••••••" required autocomplete="current-password" />
+      </div>
+      <button type="submit" class="btn btn-primary w-full" style="justify-content:center;padding:.7rem">Sign In</button>
+    </form>
+
+    <div class="auth-footer">
+      Don't have an account? <a href="register.html">Create one free →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function handleLogin(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+  const pass  = document.getElementById('password').value;
+  if (email && pass.length >= 6) {
+    window.location.href = 'dashboard.html';
+  } else {
+    document.getElementById('errMsg').style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>

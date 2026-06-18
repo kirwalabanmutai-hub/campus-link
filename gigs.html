@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gigs &amp; Jobs — CampusLink</title>
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="campuslink.css" />
+  <style>
+    .gig-card-inner { display:flex; flex-direction:column; height:100%; }
+    .gig-title { font-weight:700; font-size:1rem; margin:0.5rem 0 0.3rem; }
+    .gig-desc  { color:var(--muted); font-size:0.82rem; line-height:1.6; margin-bottom:0.75rem; }
+    .gig-skills { display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.75rem; }
+    .skill-tag { background:var(--bg); border:1px solid var(--border2); padding:0.2rem 0.6rem; border-radius:var(--radius); font-size:0.75rem; color:var(--muted); }
+    .gig-footer { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:0.75rem; border-top:1px solid var(--border); }
+    .gig-budget { font-weight:700; color:var(--primary); font-size:0.95rem; }
+    .poster { display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; }
+    .avatar { width:28px; height:28px; border-radius:50%; background:var(--primary-g); color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.7rem; }
+    .applied-btn { background:var(--success); color:#000; }
+  </style>
+</head>
+<body>
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="home.html" class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></a>
+    <nav class="nav-links">
+      <a href="home.html"      class="nav-link">🏠 Home</a>
+      <a href="services.html"  class="nav-link">🛍️ Services</a>
+      <a href="gigs.html"      class="nav-link active">💼 Gigs &amp; Jobs</a>
+      <a href="career.html"    class="nav-link">🤖 AI Career</a>
+      <a href="wallet.html"    class="nav-link">💳 Wallet</a>
+      <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container">
+    <div class="flex items-center justify-between mb-6" style="flex-wrap:wrap;gap:1rem">
+      <div>
+        <h1 class="section-title">Gigs &amp; Jobs</h1>
+        <p class="text-muted">Find campus work, freelance gigs, and part-time opportunities</p>
+      </div>
+      <a href="register.html" class="btn btn-primary">+ Post a Gig</a>
+    </div>
+
+    <div class="search-wrap mb-4" style="max-width:540px">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="gigSearch" type="text" placeholder="Search gigs…" oninput="filterGigs()" />
+    </div>
+
+    <div class="cat-tabs" id="gigTabs">
+      <button class="cat-tab active" onclick="setGigTab(this,'All')">All</button>
+      <button class="cat-tab" onclick="setGigTab(this,'Academic')">Academic</button>
+      <button class="cat-tab" onclick="setGigTab(this,'Tech')">Tech</button>
+      <button class="cat-tab" onclick="setGigTab(this,'Creative')">Creative</button>
+      <button class="cat-tab" onclick="setGigTab(this,'Physical')">Physical</button>
+      <button class="cat-tab" onclick="setGigTab(this,'Admin')">Admin</button>
+    </div>
+
+    <div class="grid-2" id="gigGrid"></div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div><p>AI-powered campus marketplace.</p></div>
+    <div class="footer-col"><h4>Platform</h4><ul><li><a href="services.html">Services</a></li><li><a href="gigs.html">Gigs</a></li><li><a href="career.html">AI Career</a></li></ul></div>
+    <div class="footer-col"><h4>Account</h4><ul><li><a href="register.html">Register</a></li><li><a href="login.html">Sign In</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 CampusLink</span></div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+/* Gigs loaded live from localStorage — admin changes appear here instantly */
+let GIGS = CampusData.getGigs();
+
+let activeGigTab = 'All';
+let appliedGigs = new Set();
+
+function setGigTab(el, cat) {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  activeGigTab = cat;
+  renderGigs();
+}
+
+function filterGigs() { renderGigs(); }
+
+function renderGigs() {
+  GIGS = CampusData.getGigs(); // always fresh
+  const q = document.getElementById('gigSearch').value.toLowerCase();
+  const filtered = GIGS.filter(g =>
+    (activeGigTab === 'All' || g.cat === activeGigTab) &&
+    (g.title.toLowerCase().includes(q) || (g.desc||'').toLowerCase().includes(q))
+  );
+  document.getElementById('gigGrid').innerHTML = filtered.map(g => `
+    <div class="card">
+      <div class="flex items-center justify-between mb-2">
+        <span class="badge badge-accent">${g.cat}</span>
+        <span class="text-dim text-xs">${g.posted||'just now'}</span>
+      </div>
+      <div class="gig-title">${g.title}</div>
+      <p class="gig-desc">${g.desc||''}</p>
+      <div class="gig-skills">${(g.skills||[]).map(s => `<span class="skill-tag">${s}</span>`).join('')}</div>
+      <div class="gig-footer">
+        <div>
+          <div class="poster">
+            <div class="avatar">${g.poster||'??'}</div>
+            <span class="text-muted">${g.applicants||0} applicants</span>
+          </div>
+          <span class="gig-budget">${g.budget}</span>
+        </div>
+        <button class="btn btn-sm ${appliedGigs.has(g.id) ? 'applied-btn' : 'btn-outline'}"
+          onclick="toggleApply(${g.id})">
+          ${appliedGigs.has(g.id) ? '✓ Applied' : 'Apply'}
+        </button>
+      </div>
+    </div>
+  `).join('') || '<div style="color:var(--muted);padding:2rem;text-align:center">No gigs found.</div>';
+}
+
+function toggleApply(id) {
+  if (appliedGigs.has(id)) appliedGigs.delete(id);
+  else appliedGigs.add(id);
+  renderGigs();
+}
+
+renderGigs();
+</script>
+</body>
+</html>

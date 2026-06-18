@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: hcw_postgres
+    environment:
+      POSTGRES_USER:     hcw_user
+      POSTGRES_PASSWORD: hcw_password
+      POSTGRES_DB:       hcw_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: hcw_backend
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://hcw_user:hcw_password@postgres:5432/hcw_db
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: hcw_frontend
+    env_file: .env
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:5000/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

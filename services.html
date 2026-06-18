@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — CampusLink</title>
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="campuslink.css" />
+  <style>
+    .page-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem; }
+    .results-count { color:var(--muted); font-size:0.875rem; margin-bottom:1rem; }
+    .svc-card-inner { display:flex; flex-direction:column; height:100%; }
+    .svc-emoji-wrap { position:relative; font-size:2.4rem; margin-bottom:0.75rem; }
+    .svc-emoji-wrap .badge { position:absolute; top:0; right:0; }
+    .svc-name { font-weight:700; font-size:1rem; }
+    .svc-provider { color:var(--muted); font-size:0.82rem; margin-bottom:0.4rem; }
+    .svc-meta { display:flex; align-items:center; gap:0.75rem; font-size:0.8rem; margin-bottom:0.35rem; }
+    .svc-meta .stars { color:var(--warn); }
+    .svc-loc, .svc-hours { color:var(--muted); font-size:0.78rem; display:flex; align-items:center; gap:0.3rem; margin-bottom:0.25rem; }
+    .svc-footer { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:0.75rem; border-top:1px solid var(--border); }
+    .svc-price { font-weight:700; color:var(--primary); font-size:0.9rem; }
+    .filter-btn { display:flex; align-items:center; gap:0.4rem; }
+  </style>
+</head>
+<body>
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="home.html" class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></a>
+    <nav class="nav-links">
+      <a href="home.html"      class="nav-link">🏠 Home</a>
+      <a href="services.html"  class="nav-link active">🛍️ Services</a>
+      <a href="gigs.html"      class="nav-link">💼 Gigs &amp; Jobs</a>
+      <a href="career.html"    class="nav-link">🤖 AI Career</a>
+      <a href="wallet.html"    class="nav-link">💳 Wallet</a>
+      <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container">
+    <div class="page-header">
+      <div>
+        <h1 class="section-title">Campus Services</h1>
+        <p class="text-muted">Find and book trusted campus services near you</p>
+      </div>
+      <button class="btn btn-ghost filter-btn">⚙️ Filters ▾</button>
+    </div>
+
+    <div class="search-wrap mb-4" style="max-width:540px">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="svcSearch" type="text" placeholder="Search services…" oninput="filterServices()" />
+    </div>
+
+    <div class="cat-tabs" id="catTabs">
+      <button class="cat-tab active" onclick="setTab(this,'All')">All</button>
+      <button class="cat-tab" onclick="setTab(this,'Printing')">Printing</button>
+      <button class="cat-tab" onclick="setTab(this,'Laundry')">Laundry</button>
+      <button class="cat-tab" onclick="setTab(this,'Academic')">Academic</button>
+      <button class="cat-tab" onclick="setTab(this,'Food')">Food</button>
+      <button class="cat-tab" onclick="setTab(this,'Housing')">Housing</button>
+      <button class="cat-tab" onclick="setTab(this,'Repairs')">Repairs</button>
+      <button class="cat-tab" onclick="setTab(this,'Writing')">Writing</button>
+      <button class="cat-tab" onclick="setTab(this,'Movers')">Movers</button>
+    </div>
+
+    <p class="results-count" id="resultCount">14 services found</p>
+    <div class="grid-4" id="svcGrid"></div>
+    <div id="emptyState" class="hidden text-center" style="padding:3rem 0;color:var(--muted)">No services match your search.</div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div><p>AI-powered campus marketplace.</p></div>
+    <div class="footer-col"><h4>Platform</h4><ul><li><a href="services.html">Services</a></li><li><a href="gigs.html">Gigs</a></li><li><a href="career.html">AI Career</a></li></ul></div>
+    <div class="footer-col"><h4>Account</h4><ul><li><a href="register.html">Register</a></li><li><a href="login.html">Sign In</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 CampusLink</span></div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+/* Services are loaded live from localStorage so admin changes appear here instantly */
+let SERVICES = CampusData.getServices();
+
+/* Rebuild category tabs dynamically from stored categories */
+(function buildTabs() {
+  const cats = ['All', ...CampusData.getCategories().map(c => c.name)];
+  const tabsEl = document.getElementById('catTabs');
+  tabsEl.innerHTML = cats.map((c, i) =>
+    `<button class="cat-tab${i===0?' active':''}" onclick="setTab(this,'${c}')">${c}</button>`
+  ).join('');
+})();
+
+let activeTab = 'All';
+
+function setTab(el, cat) {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  activeTab = cat;
+  render();
+}
+
+function filterServices() { render(); }
+
+function render() {
+  SERVICES = CampusData.getServices(); // always fresh from storage
+  const q = document.getElementById('svcSearch').value.toLowerCase();
+  const filtered = SERVICES.filter(s => {
+    const matchCat = activeTab === 'All' || s.cat === activeTab;
+    const matchQ = s.name.toLowerCase().includes(q) || s.provider.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  document.getElementById('resultCount').textContent = filtered.length + ' service' + (filtered.length !== 1 ? 's' : '') + ' found';
+  const grid = document.getElementById('svcGrid');
+  grid.innerHTML = filtered.map(s => `
+    <div class="card">
+      <div class="svc-emoji-wrap">
+        <span style="font-size:2.2rem">${s.emoji}</span>
+        ${s.badge ? `<span class="badge badge-primary" style="position:absolute;top:0;right:0">${s.badge}</span>` : ''}
+      </div>
+      <div class="svc-name">${s.name}</div>
+      <div class="svc-provider">${s.provider}</div>
+      <div class="svc-meta"><span class="stars">★ ${s.rating}</span><span class="text-dim text-xs">(${s.reviews})</span></div>
+      <div class="svc-loc">📍 ${s.location}</div>
+      <div class="svc-hours">🕐 ${s.hours}</div>
+      <div class="svc-footer"><span class="svc-price">${s.price}</span><button class="btn btn-primary btn-sm">Book Now</button></div>
+    </div>
+  `).join('');
+  document.getElementById('emptyState').classList.toggle('hidden', filtered.length > 0);
+  grid.classList.toggle('hidden', filtered.length === 0);
+}
+
+render();
+</script>
+</body>
+</html>
