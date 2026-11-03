@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Shop — CampusLink</title>
+<link rel="icon" href="public/favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="campuslink.css"/>
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<style>
+/* ── Shop-specific styles ── */
+.shop-layout{display:grid;grid-template-columns:220px 1fr;gap:1.5rem;align-items:start}
+.filter-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;position:sticky;top:80px}
+.filter-section{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.filter-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.filter-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-bottom:.6rem}
+.filter-group{display:flex;flex-wrap:wrap;gap:.4rem}
+.f-btn{padding:.32rem .75rem;border-radius:var(--radius);font-size:.8rem;font-weight:500;border:1px solid var(--border);color:var(--muted);background:var(--bg2);cursor:pointer;transition:all .18s;white-space:nowrap}
+.f-btn:hover{border-color:var(--border2);color:var(--text)}
+.f-btn.active{background:var(--primary);color:#000;border-color:var(--primary);font-weight:700}
+.f-btn.active-gender-m{background:#3b82f6;color:#fff;border-color:#3b82f6;font-weight:700}
+.f-btn.active-gender-f{background:#ec4899;color:#fff;border-color:#ec4899;font-weight:700}
+
+/* ── Product grid ── */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
+.product-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .2s;display:flex;flex-direction:column}
+.product-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.product-img{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  height:140px;display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;position:relative;
+}
+.product-badge{position:absolute;top:.5rem;right:.5rem;background:var(--primary);color:#000;font-size:.65rem;font-weight:700;padding:.18rem .5rem;border-radius:.4rem;text-transform:uppercase}
+.product-body{padding:.9rem;flex:1;display:flex;flex-direction:column}
+.product-name{font-weight:700;font-size:.9rem;margin-bottom:.2rem;line-height:1.3}
+.product-meta{color:var(--muted);font-size:.75rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.35rem;flex-wrap:wrap}
+.meta-tag{background:var(--bg2);border:1px solid var(--border);border-radius:.35rem;padding:.1rem .4rem;font-size:.68rem}
+.product-price{font-weight:800;font-size:1rem;color:var(--primary);margin-bottom:.75rem;margin-top:auto}
+.add-cart-btn{
+  width:100%;padding:.5rem;border-radius:var(--radius);
+  background:var(--primary);color:#000;font-weight:700;font-size:.82rem;
+  cursor:pointer;border:none;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:.4rem;
+}
+.add-cart-btn:hover{background:var(--primary-d)}
+.add-cart-btn.added{background:var(--bg2);color:var(--primary);border:1px solid var(--primary)}
+
+/* ── Cart ── */
+#cartBtn{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--primary);color:#000;font-size:1.4rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;border:none;box-shadow:0 4px 20px rgba(16,185,129,.4);
+  transition:transform .2s;
+}
+#cartBtn:hover{transform:scale(1.1)}
+#cartCount{
+  position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;
+  width:20px;height:20px;border-radius:50%;font-size:.7rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;border:2px solid var(--bg);
+}
+#cartPanel{
+  position:fixed;top:0;right:-100%;width:360px;max-width:100vw;height:100vh;
+  background:var(--bg2);border-left:1px solid var(--border);z-index:400;
+  transition:right .28s ease;display:flex;flex-direction:column;
+}
+#cartPanel.open{right:0}
+.cart-header{
+  padding:1rem 1.1rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  font-weight:700;font-size:1rem;
+}
+.cart-close{width:32px;height:32px;border-radius:.5rem;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:all .18s}
+.cart-close:hover{background:rgba(239,68,68,.1);color:var(--danger)}
+.cart-items{flex:1;overflow-y:auto;padding:.75rem}
+.cart-item{display:flex;gap:.75rem;padding:.75rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.5rem}
+.cart-item-icon{font-size:1.8rem;flex-shrink:0;width:44px;height:44px;background:var(--bg2);border-radius:.5rem;display:flex;align-items:center;justify-content:center}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{font-weight:600;font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cart-item-price{color:var(--primary);font-weight:700;font-size:.85rem}
+.qty-controls{display:flex;align-items:center;gap:.4rem;margin-top:.35rem}
+.qty-btn{width:24px;height:24px;border-radius:.4rem;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all .18s;font-weight:700}
+.qty-btn:hover{background:var(--primary);color:#000;border-color:var(--primary)}
+.qty-val{font-size:.85rem;font-weight:700;min-width:18px;text-align:center}
+.cart-remove{width:24px;height:24px;border-radius:.4rem;background:transparent;border:1px solid rgba(239,68,68,.2);color:var(--danger);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.8rem;transition:all .18s;margin-left:auto}
+.cart-remove:hover{background:rgba(239,68,68,.15)}
+.cart-footer{padding:1rem 1.1rem;border-top:1px solid var(--border);background:var(--card)}
+.cart-total-row{display:flex;justify-content:space-between;margin-bottom:.75rem;font-weight:700;font-size:1rem}
+.checkout-btn{width:100%;padding:.7rem;background:var(--primary);color:#000;font-weight:800;font-size:.9rem;border:none;border-radius:var(--radius);cursor:pointer;transition:all .18s}
+.checkout-btn:hover{background:var(--primary-d)}
+.cart-empty{text-align:center;padding:2rem;color:var(--muted);font-size:.875rem}
+
+/* ── Toolbar ── */
+.shop-toolbar{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap}
+.results-pill{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:.3rem .8rem;font-size:.8rem;color:var(--muted);flex-shrink:0}
+
+/* ── Cart overlay ── */
+#cartOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:399;backdrop-filter:blur(2px)}
+#cartOverlay.show{display:block}
+
+/* ── Dept tabs ── */
+.dept-tabs{display:flex;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.dept-tab{
+  display:flex;align-items:center;gap:.4rem;
+  padding:.45rem 1rem;border-radius:var(--radius);
+  font-size:.875rem;font-weight:600;border:1px solid var(--border);
+  color:var(--muted);background:var(--card);cursor:pointer;transition:all .18s;
+}
+.dept-tab:hover{border-color:var(--border2);color:var(--text)}
+.dept-tab.active{background:var(--primary);color:#000;border-color:var(--primary)}
+
+/* ── No-results ── */
+.no-results{grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted)}
+
+/* ── Mobile ── */
+@media(max-width:900px){
+  .shop-layout{grid-template-columns:1fr}
+  .filter-panel{position:static}
+  #cartPanel{width:100vw}
+}
+@media(max-width:480px){
+  .product-grid{grid-template-columns:repeat(2,1fr)}
+  .product-img{height:110px;font-size:2.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="home.html" class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></a>
+    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()" aria-label="Open menu"><i class="ph ph-list"></i></button>
+    <nav class="nav-links" id="mainNav">
+      <div class="mobile-nav-head">
+        <div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div>
+        <button class="mobile-close-btn" onclick="closeMobileNav()"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="nav-wrap">
+        <a href="home.html" class="nav-link "><i class="ph ph-house-simple"></i> Home</a>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="services.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-storefront"></i> Services <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop">
+          <div class="drop-col">
+            <div class="drop-head">Campus Services</div>
+            <a href="services.html" class="drop-item"><i class="ph ph-printer"></i> Printing &amp; Copying</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-t-shirt"></i> Laundry</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-fork-knife"></i> Food Delivery</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-house"></i> Housing &amp; Rooms</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-book-open"></i> Academic Notes</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Logistics</div>
+            <a href="services.html" class="drop-item"><i class="ph ph-truck"></i> Room Moving</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-motorcycle"></i> Pickup &amp; Delivery</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-archive-box"></i> Luggage Storage</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-wrench"></i> Repairs &amp; Fixes</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-pencil-simple"></i> Essay Writing</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="shop.html" class="nav-link active" onclick="handleDrop(event,this)"><i class="ph ph-shopping-bag"></i> Shop <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop">
+          <div class="drop-col">
+            <div class="drop-head">Clothes</div>
+            <a href="shop.html" class="drop-item"><i class="ph ph-soccer-ball"></i> Men's Jerseys</a>
+            <a href="shop.html" class="drop-item"><i class="ph ph-person-simple"></i> Men's Clothing</a>
+            <a href="shop.html" class="drop-item"><i class="ph ph-dress"></i> Women's Clothing</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Food</div>
+            <a href="shop.html" class="drop-item"><i class="ph ph-shopping-cart"></i> Groceries</a>
+            <a href="shop.html" class="drop-item"><i class="ph ph-bowl-food"></i> Ready Meals</a>
+            <a href="shop.html" class="drop-item"><i class="ph ph-cookie"></i> Snacks</a>
+            <a href="shop.html" class="drop-item"><i class="ph ph-coffee"></i> Beverages</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="gigs.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-briefcase"></i> Gigs &amp; Jobs <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop">
+          <div class="drop-col">
+            <div class="drop-head">Find Work</div>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-graduation-cap"></i> Academic</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-code"></i> Tech &amp; Dev</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-palette"></i> Creative</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-clipboard-text"></i> Admin</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-barbell"></i> Physical</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Opportunities</div>
+            <a href="register.html" class="drop-item"><i class="ph ph-plus-circle"></i> Post a Gig</a>
+            <a href="gigs.html"     class="drop-item"><i class="ph ph-users"></i> Browse Talent</a>
+            <a href="gigs.html"     class="drop-item"><i class="ph ph-clock"></i> Part-time Jobs</a>
+            <a href="gigs.html"     class="drop-item"><i class="ph ph-student"></i> Internships</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="career.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-brain"></i> AI Career <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop" style="min-width:220px">
+          <div class="drop-col">
+            <div class="drop-head">Career Tools</div>
+            <a href="career.html" class="drop-item"><i class="ph ph-chart-bar"></i> Career Match</a>
+            <a href="career.html" class="drop-item"><i class="ph ph-target"></i> Skill Gap Analysis</a>
+            <a href="career.html" class="drop-item"><i class="ph ph-map-trifold"></i> 16-Week Roadmap</a>
+            <a href="career.html" class="drop-item"><i class="ph ph-file-text"></i> Resume Advice</a>
+            <a href="career.html" class="drop-item"><i class="ph ph-chat-circle-dots"></i> Interview Prep</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="wallet.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-wallet"></i> Wallet <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop">
+          <div class="drop-col">
+            <div class="drop-head">My Finances</div>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-currency-dollar"></i> My Balance</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-list-bullets"></i> Transaction History</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-chart-pie-slice"></i> Spending Analytics</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-trend-up"></i> Earnings Report</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Payments</div>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-device-mobile"></i> M-Pesa Top Up</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-paper-plane-tilt"></i> Send Money</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-credit-card"></i> Pay for Service</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-crown"></i> Subscription Plans</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap">
+        <a href="dashboard.html" class="nav-link "><i class="ph ph-gauge"></i> Dashboard</a>
+      </div>
+    </nav>
+    <div class="nav-actions">
+      <a href="admin.html" class="btn btn-ghost btn-sm" style="border-color:#f59e0b44;color:#f59e0b"><i class="ph ph-gear-six"></i> Admin</a>
+      <a href="login.html" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container">
+
+    <!-- Page header -->
+    <div class="flex items-center justify-between mb-6" style="flex-wrap:wrap;gap:1rem">
+      <div>
+        <h1 class="section-title" style="margin-bottom:.25rem">Campus Shop</h1>
+        <p class="text-muted">Clothes, food, groceries &amp; more — delivered to your hostel</p>
+      </div>
+    </div>
+
+    <!-- Department tabs -->
+    <div class="dept-tabs" id="deptTabs">
+      <button class="dept-tab active" onclick="setDept(this,'All')">🏪 All</button>
+      <button class="dept-tab"        onclick="setDept(this,'Clothes')">👕 Clothes</button>
+      <button class="dept-tab"        onclick="setDept(this,'Food')">🥦 Food &amp; Groceries</button>
+    </div>
+
+    <div class="shop-layout">
+
+      <!-- ── Filter panel ── -->
+      <aside class="filter-panel">
+
+        <!-- Clothes filters (shown only when dept = Clothes or All) -->
+        <div id="clothesFilters">
+          <div class="filter-section">
+            <div class="filter-label">👕 Gender</div>
+            <div class="filter-group">
+              <button class="f-btn active" onclick="setGender(this,'All')">All</button>
+              <button class="f-btn" onclick="setGender(this,'Men')" style="">👨 Men</button>
+              <button class="f-btn" onclick="setGender(this,'Women')">👩 Women</button>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-label">🏷️ Clothing Type</div>
+            <div class="filter-group" id="typeGroup">
+              <button class="f-btn active" onclick="setType(this,'All')">All Types</button>
+              <button class="f-btn" onclick="setType(this,'Jerseys')">⚽ Jerseys</button>
+              <button class="f-btn" onclick="setType(this,'T-Shirts')">👕 T-Shirts</button>
+              <button class="f-btn" onclick="setType(this,'Jeans')">👖 Jeans</button>
+              <button class="f-btn" onclick="setType(this,'Hoodies')">🧥 Hoodies</button>
+              <button class="f-btn" onclick="setType(this,'Dresses')">👗 Dresses</button>
+              <button class="f-btn" onclick="setType(this,'Blouses')">👚 Blouses</button>
+              <button class="f-btn" onclick="setType(this,'Skirts')">🩱 Skirts</button>
+              <button class="f-btn" onclick="setType(this,'Shorts')">🩳 Shorts</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Food filters -->
+        <div id="foodFilters">
+          <div class="filter-section">
+            <div class="filter-label">🥦 Food Category</div>
+            <div class="filter-group">
+              <button class="f-btn active" onclick="setSubcat(this,'All')">All</button>
+              <button class="f-btn" onclick="setSubcat(this,'Groceries')">🛒 Groceries</button>
+              <button class="f-btn" onclick="setSubcat(this,'Ready Meals')">🍛 Ready Meals</button>
+              <button class="f-btn" onclick="setSubcat(this,'Snacks')">🍟 Snacks</button>
+              <button class="f-btn" onclick="setSubcat(this,'Beverages')">☕ Beverages</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Price range -->
+        <div class="filter-section">
+          <div class="filter-label">💰 Max Price</div>
+          <input type="range" id="priceRange" min="0" max="5000" step="100" value="5000"
+            oninput="document.getElementById('priceVal').textContent='Ksh '+Number(this.value).toLocaleString();renderProducts()"
+            style="width:100%;accent-color:var(--primary)"/>
+          <div style="color:var(--muted);font-size:.8rem;margin-top:.3rem">Up to: <span id="priceVal">Ksh 5,000</span></div>
+        </div>
+
+        <button class="btn btn-ghost w-full" style="margin-top:.25rem;justify-content:center" onclick="resetFilters()">
+          ↺ Reset Filters
+        </button>
+      </aside>
+
+      <!-- ── Products ── -->
+      <div>
+        <div class="shop-toolbar">
+          <div class="search-wrap" style="flex:1;max-width:340px">
+            <span class="search-icon">🔍</span>
+            <input class="search-input" id="shopSearch" type="text" placeholder="Search products…" oninput="renderProducts()"/>
+          </div>
+          <div class="results-pill" id="resultsPill">Loading…</div>
+          <select id="sortSelect" onchange="renderProducts()"
+            style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:.4rem .75rem;color:var(--text);font-size:.82rem;cursor:pointer">
+            <option value="default">Default order</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </div>
+
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- Cart overlay -->
+<div id="cartOverlay" onclick="closeCart()"></div>
+
+<!-- Cart button -->
+<button id="cartBtn" onclick="toggleCart()">
+  🛒
+  <div id="cartCount">0</div>
+</button>
+
+<!-- Cart panel -->
+<div id="cartPanel">
+  <div class="cart-header">
+    🛒 Your Cart
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Your cart is empty.<br/>Add items to get started!</div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total-row">
+      <span>Total</span>
+      <span id="cartTotal" style="color:var(--primary)">Ksh 0</span>
+    </div>
+    <button class="checkout-btn" onclick="checkout()">🚀 Place Order</button>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div><p>AI-powered campus marketplace for students in Africa.</p></div>
+    <div class="footer-col"><h4>Shop</h4><ul>
+      <li><a href="shop.html" onclick="setDept(document.querySelector('[onclick*=Clothes]'),\'Clothes\')">Clothes</a></li>
+      <li><a href="shop.html">Food &amp; Groceries</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Platform</h4><ul>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="gigs.html">Gigs &amp; Jobs</a></li>
+      <li><a href="career.html">AI Career</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Account</h4><ul>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="login.html">Sign In</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 CampusLink</span><span>Made with ❤️ for African students</span></div>
+</footer>
+
+<script>
+/* ════════════════════════════════════════
+   PRODUCT DATA
+   dept: 'Clothes' | 'Food'
+   gender: 'Men' | 'Women' | 'Unisex'   (clothes only)
+   type: 'Jerseys' | 'T-Shirts' etc.    (clothes only)
+   subcat: 'Groceries' | 'Ready Meals' etc. (food only)
+════════════════════════════════════════ */
+const PRODUCTS = [
+  /* ── Men Jerseys ── */
+  {id:1,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Liverpool FC Home Jersey',       price:2500, badge:'Best Seller'},
+  {id:2,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Manchester United Away Jersey',  price:2800, badge:null},
+  {id:3,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Chelsea Home Jersey 2024/25',    price:2600, badge:'New'},
+  {id:4,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Real Madrid Training Jersey',    price:2400, badge:null},
+  {id:5,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Barcelona FC Away Jersey',       price:2700, badge:null},
+  {id:6,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'🇰🇪', name:'Kenya National Team Jersey',     price:1800, badge:'Local'},
+  {id:7,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'🏀', name:'NBA Lakers Jersey #23',          price:3200, badge:null},
+  {id:8,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Arsenal Home Jersey 2024/25',   price:2550, badge:null},
+  /* ── Men T-Shirts ── */
+  {id:9,  dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         emoji:'👕', name:'Campus Graphic Oversized Tee',  price:800,  badge:null},
+  {id:10, dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         emoji:'👕', name:'Plain White Essential Tee',     price:600,  badge:null},
+  {id:11, dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         emoji:'👕', name:'Black Streetwear Tee',           price:750,  badge:'Trending'},
+  /* ── Men Jeans ── */
+  {id:12, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         emoji:'👖', name:'Slim Fit Dark Wash Jeans',      price:1500, badge:null},
+  {id:13, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         emoji:'👖', name:'Cargo Pants — Olive Green',     price:1200, badge:null},
+  {id:14, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         emoji:'👖', name:'Khaki Slim Chinos',             price:1350, badge:null},
+  /* ── Men Hoodies ── */
+  {id:15, dept:'Clothes', gender:'Men',   type:'Hoodies',  subcat:null,         emoji:'🧥', name:'Campus Zip-Up Hoodie',          price:1800, badge:null},
+  {id:16, dept:'Clothes', gender:'Men',   type:'Hoodies',  subcat:null,         emoji:'🧥', name:'Oversized Pullover Hoodie',     price:1600, badge:'Popular'},
+  /* ── Men Shorts ── */
+  {id:17, dept:'Clothes', gender:'Men',   type:'Shorts',   subcat:null,         emoji:'🩳', name:'Sport Running Shorts',          price:650,  badge:null},
+  {id:18, dept:'Clothes', gender:'Men',   type:'Shorts',   subcat:null,         emoji:'🩳', name:'Denim Shorts',                  price:900,  badge:null},
+  /* ── Women Dresses ── */
+  {id:19, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         emoji:'👗', name:'Floral Summer Dress',           price:1200, badge:'Popular'},
+  {id:20, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         emoji:'👗', name:'Casual Midi Dress',             price:1500, badge:null},
+  {id:21, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         emoji:'👗', name:'Office Shift Dress',            price:1800, badge:null},
+  {id:22, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         emoji:'👗', name:'Mini Party Dress — Black',      price:1100, badge:'Trending'},
+  /* ── Women Blouses ── */
+  {id:23, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         emoji:'👚', name:'White Ruffle Blouse',           price:900,  badge:null},
+  {id:24, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         emoji:'👚', name:'Striped Button-Down Blouse',    price:850,  badge:null},
+  {id:25, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         emoji:'👚', name:'Flowy Chiffon Blouse',          price:950,  badge:'New'},
+  /* ── Women Jeans ── */
+  {id:26, dept:'Clothes', gender:'Women', type:'Jeans',    subcat:null,         emoji:'👖', name:'High-Waist Skinny Jeans',       price:1400, badge:'Best Seller'},
+  {id:27, dept:'Clothes', gender:'Women', type:'Jeans',    subcat:null,         emoji:'👖', name:'Mom Jeans — Light Blue',        price:1300, badge:null},
+  /* ── Women Skirts ── */
+  {id:28, dept:'Clothes', gender:'Women', type:'Skirts',   subcat:null,         emoji:'🩱', name:'Pleated Mini Skirt — Beige',    price:700,  badge:null},
+  {id:29, dept:'Clothes', gender:'Women', type:'Skirts',   subcat:null,         emoji:'🩱', name:'Maxi Wrap Skirt — Floral',      price:1000, badge:'New'},
+  /* ── Women Hoodies ── */
+  {id:30, dept:'Clothes', gender:'Women', type:'Hoodies',  subcat:null,         emoji:'🧥', name:'Cropped Campus Hoodie',         price:1400, badge:null},
+
+  /* ── Food: Groceries ── */
+  {id:31, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🍚', name:'Basmati Rice 2kg',              price:220,  badge:null},
+  {id:32, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🫙', name:'Cooking Oil 1L',                price:280,  badge:null},
+  {id:33, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🍬', name:'Sugar 1kg',                     price:160,  badge:null},
+  {id:34, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🌾', name:'Wheat Flour 2kg',               price:180,  badge:null},
+  {id:35, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🍅', name:'Fresh Tomatoes 500g',           price:60,   badge:null},
+  {id:36, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🧅', name:'Onions 1kg',                    price:80,   badge:null},
+  {id:37, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🍞', name:'White Bread Loaf',              price:65,   badge:null},
+  {id:38, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🥚', name:'Eggs — Tray of 30',             price:420,  badge:'Value'},
+  {id:39, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🥛', name:'Fresh Milk 1L',                 price:65,   badge:null},
+  {id:40, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🍝', name:'Pasta 500g',                    price:120,  badge:null},
+  {id:41, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🫘', name:'Dry Beans 1kg',                 price:180,  badge:null},
+  {id:42, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🥔', name:'Potatoes 1kg',                  price:90,   badge:null},
+  {id:43, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🧂', name:'Table Salt 500g',               price:40,   badge:null},
+  {id:44, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🥫', name:'Canned Tomatoes 400g',          price:85,   badge:null},
+  {id:45, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🧈', name:'Blueband Margarine 500g',       price:150,  badge:null},
+  /* ── Food: Ready Meals ── */
+  {id:46, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  emoji:'🍛', name:'Rice & Beans (1 serving)',      price:150,  badge:'Popular'},
+  {id:47, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  emoji:'🍚', name:'Pilau — Large Portion',         price:200,  badge:null},
+  {id:48, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  emoji:'🫓', name:'Chapati & Stew (3 pcs)',        price:180,  badge:null},
+  {id:49, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  emoji:'🌿', name:'Ugali & Sukuma Wiki',           price:120,  badge:'Value'},
+  {id:50, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  emoji:'🍗', name:'Chicken & Chips',               price:350,  badge:null},
+  /* ── Food: Snacks ── */
+  {id:51, dept:'Food', gender:null, type:null, subcat:'Snacks',       emoji:'🍩', name:'Mandazi — 5 pieces',            price:50,   badge:null},
+  {id:52, dept:'Food', gender:null, type:null, subcat:'Snacks',       emoji:'🥟', name:'Samosa — 3 pieces',             price:60,   badge:'Popular'},
+  {id:53, dept:'Food', gender:null, type:null, subcat:'Snacks',       emoji:'🍟', name:'Fries — Large Portion',         price:150,  badge:null},
+  {id:54, dept:'Food', gender:null, type:null, subcat:'Snacks',       emoji:'🍪', name:'Biscuit Pack (Digestive)',      price:80,   badge:null},
+  {id:55, dept:'Food', gender:null, type:null, subcat:'Snacks',       emoji:'🥜', name:'Roasted Groundnuts (200g)',     price:70,   badge:null},
+  /* ── Food: Beverages ── */
+  {id:56, dept:'Food', gender:null, type:null, subcat:'Beverages',    emoji:'☕', name:'Masala Tea (cup)',              price:30,   badge:null},
+  {id:57, dept:'Food', gender:null, type:null, subcat:'Beverages',    emoji:'☕', name:'Black Coffee (cup)',            price:50,   badge:null},
+  {id:58, dept:'Food', gender:null, type:null, subcat:'Beverages',    emoji:'🧃', name:'Fresh Fruit Juice (300ml)',     price:80,   badge:null},
+  {id:59, dept:'Food', gender:null, type:null, subcat:'Beverages',    emoji:'🥤', name:'Soda — Coca-Cola 500ml',        price:70,   badge:null},
+  {id:60, dept:'Food', gender:null, type:null, subcat:'Beverages',    emoji:'🧋', name:'Mango Smoothie (400ml)',        price:120,  badge:'New'},
+];
+
+/* ── Filter State ── */
+let state = { dept:'All', gender:'All', type:'All', subcat:'All' };
+
+function setDept(el, val) {
+  document.querySelectorAll('.dept-tab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  state.dept   = val;
+  state.gender = 'All';
+  state.type   = 'All';
+  state.subcat = 'All';
+  // reset sub-buttons
+  resetGroupBtns('typeGroup');
+  document.querySelectorAll('#clothesFilters .f-btn, #foodFilters .f-btn')
+    .forEach(b=>{ if(b.textContent.trim()==='All'||b.textContent.includes('All')) b.classList.add('active'); else b.classList.remove('active'); });
+  document.getElementById('clothesFilters').style.display = (val==='Food') ? 'none' : '';
+  document.getElementById('foodFilters').style.display    = (val==='Clothes') ? 'none' : '';
+  renderProducts();
+}
+
+function setGender(el, val) {
+  document.querySelectorAll('#clothesFilters .filter-section:first-child .f-btn').forEach(b=>b.classList.remove('active','active-gender-m','active-gender-f'));
+  el.classList.add(val==='Men'?'active-gender-m':val==='Women'?'active-gender-f':'active');
+  state.gender = val;
+  state.type   = 'All';
+  resetGroupBtns('typeGroup');
+  // Show type buttons that match gender
+  updateTypeButtons(val);
+  renderProducts();
+}
+
+function setType(el, val) {
+  document.querySelectorAll('#typeGroup .f-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  state.type = val;
+  renderProducts();
+}
+
+function setSubcat(el, val) {
+  document.querySelectorAll('#foodFilters .f-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  state.subcat = val;
+  renderProducts();
+}
+
+function updateTypeButtons(gender) {
+  // hide irrelevant type buttons based on gender
+  const womenOnly = ['Dresses','Blouses','Skirts'];
+  const menOnly   = ['Jerseys','Shorts'];
+  document.querySelectorAll('#typeGroup .f-btn').forEach(btn => {
+    const t = btn.textContent.replace(/[⚽👕👖🧥👗👚🩱🩳]/g,'').trim();
+    if (gender==='Men'    && womenOnly.includes(t)) btn.style.display='none';
+    else if (gender==='Women' && menOnly.includes(t))   btn.style.display='none';
+    else btn.style.display='';
+  });
+}
+
+function resetGroupBtns(groupId) {
+  document.querySelectorAll('#'+groupId+' .f-btn').forEach(b=>b.classList.remove('active'));
+  const first = document.querySelector('#'+groupId+' .f-btn');
+  if(first) first.classList.add('active');
+}
+
+function resetFilters() {
+  state = { dept:'All', gender:'All', type:'All', subcat:'All' };
+  document.querySelectorAll('.dept-tab').forEach((b,i)=>b.classList.toggle('active',i===0));
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active','active-gender-m','active-gender-f'));
+  document.querySelectorAll('.filter-section .f-btn:first-child').forEach(b=>b.classList.add('active'));
+  document.getElementById('clothesFilters').style.display='';
+  document.getElementById('foodFilters').style.display='';
+  document.getElementById('priceRange').value=5000;
+  document.getElementById('priceVal').textContent='Ksh 5,000';
+  document.getElementById('shopSearch').value='';
+  document.querySelectorAll('#typeGroup .f-btn').forEach(b=>b.style.display='');
+  renderProducts();
+}
+
+/* ── Render products ── */
+function renderProducts() {
+  const q       = document.getElementById('shopSearch').value.toLowerCase();
+  const maxP    = parseInt(document.getElementById('priceRange').value);
+  const sortVal = document.getElementById('sortSelect').value;
+
+  let items = PRODUCTS.filter(p => {
+    if (state.dept !== 'All'    && p.dept !== state.dept)     return false;
+    if (state.dept === 'Clothes' || (state.dept === 'All' && p.dept === 'Clothes')) {
+      if (state.gender !== 'All' && p.gender && p.gender !== state.gender) return false;
+      // STRICT: when a specific type is selected, ONLY that type shows
+      if (state.type !== 'All' && p.dept === 'Clothes' && p.type !== state.type) return false;
+    }
+    if (state.dept === 'Food' || (state.dept === 'All' && p.dept === 'Food')) {
+      if (state.subcat !== 'All' && p.subcat !== state.subcat) return false;
+    }
+    if (p.price > maxP) return false;
+    if (q && !p.name.toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  if (sortVal === 'price-asc')  items = [...items].sort((a,b)=>a.price-b.price);
+  if (sortVal === 'price-desc') items = [...items].sort((a,b)=>b.price-a.price);
+  if (sortVal === 'name')       items = [...items].sort((a,b)=>a.name.localeCompare(b.name));
+
+  document.getElementById('resultsPill').textContent = items.length + ' product' + (items.length!==1?'s':'');
+
+  const grid = document.getElementById('productGrid');
+  if (!items.length) {
+    grid.innerHTML = `<div class="no-results">
+      <div style="font-size:3rem;margin-bottom:.75rem">🔍</div>
+      <div style="font-weight:700;margin-bottom:.35rem">No products found</div>
+      <div style="color:var(--muted);font-size:.875rem">Try adjusting your filters or search term.</div>
+      <button class="btn btn-ghost" style="margin-top:1rem" onclick="resetFilters()">↺ Reset Filters</button>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = items.map(p => {
+    const inCart = cart.find(c=>c.id===p.id);
+    return `
+    <div class="product-card">
+      <div class="product-img">
+        ${p.emoji}
+        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+      </div>
+      <div class="product-body">
+        <div class="product-name">${p.name}</div>
+        <div class="product-meta">
+          ${p.dept==='Clothes'?`<span class="meta-tag">${p.gender}</span><span class="meta-tag">${p.type}</span>`:''}
+          ${p.dept==='Food'?`<span class="meta-tag">${p.subcat}</span>`:''}
+        </div>
+        <div class="product-price">Ksh ${p.price.toLocaleString()}</div>
+        <button class="add-cart-btn ${inCart?'added':''}" onclick="addToCart(${p.id})">
+          ${inCart ? `✓ In Cart (${inCart.qty})` : '🛒 Add to Cart'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── Cart ── */
+let cart = [];
+
+function addToCart(id) {
+  const p = PRODUCTS.find(p=>p.id===id);
+  const existing = cart.find(c=>c.id===id);
+  if (existing) existing.qty++;
+  else cart.push({...p, qty:1});
+  updateCart();
+  renderProducts(); // refresh button state
+  // Flash the cart button
+  const btn = document.getElementById('cartBtn');
+  btn.style.transform='scale(1.3)';
+  setTimeout(()=>btn.style.transform='',200);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(c=>c.id!==id);
+  updateCart();
+  renderProducts();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(c=>c.id===id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(id);
+  else updateCart();
+}
+
+function updateCart() {
+  const total = cart.reduce((s,c)=>s+c.price*c.qty, 0);
+  const count = cart.reduce((s,c)=>s+c.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartCount').style.display = count>0?'flex':'none';
+
+  const itemsEl  = document.getElementById('cartItems');
+  const footerEl = document.getElementById('cartFooter');
+
+  if (!cart.length) {
+    itemsEl.innerHTML  = '<div class="cart-empty">Your cart is empty.<br/>Add items to get started!</div>';
+    footerEl.style.display = 'none';
+    return;
+  }
+
+  footerEl.style.display = '';
+  document.getElementById('cartTotal').textContent = 'Ksh ' + total.toLocaleString();
+
+  itemsEl.innerHTML = cart.map(c=>`
+    <div class="cart-item">
+      <div class="cart-item-icon">${c.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${c.name}</div>
+        <div class="cart-item-price">Ksh ${(c.price*c.qty).toLocaleString()}</div>
+        <div class="qty-controls">
+          <button class="qty-btn" onclick="changeQty(${c.id},-1)">−</button>
+          <span class="qty-val">${c.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${c.id},+1)">+</button>
+          <button class="cart-remove" onclick="removeFromCart(${c.id})">✕</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleCart() {
+  document.getElementById('cartPanel').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('show');
+}
+function closeCart() {
+  document.getElementById('cartPanel').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('show');
+}
+
+function checkout() {
+  if (!cart.length) return;
+  const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  alert(`✅ Order placed!\n\nTotal: Ksh ${total.toLocaleString()}\nItems: ${cart.reduce((s,c)=>s+c.qty,0)}\n\nPayment via M-Pesa coming soon!`);
+  cart = [];
+  updateCart();
+  closeCart();
+  renderProducts();
+}
+
+/* ── Init ── */
+document.getElementById('cartCount').style.display='none';
+document.getElementById('clothesFilters').style.display='';
+document.getElementById('foodFilters').style.display='';
+renderProducts();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

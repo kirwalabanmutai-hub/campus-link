@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chapter One - Open Campus</title>
+  <style>
+    @page { size: A4; margin: 25mm 25mm 25mm 30mm; }
+    * { box-sizing: border-box; }
+    body {
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 24px;
+      color: #111;
+      background: #fff;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12pt;
+      line-height: 1.5;
+    }
+    h1, h2, h3 { font-size: 12pt; line-height: 1.5; }
+    h1, .chapter-title { text-align: center; font-weight: bold; }
+    h1 { margin: 0 0 1em; text-transform: uppercase; }
+    h2 { margin: 1em 0 0.25em; font-weight: bold; }
+    h3 { margin: 0.6em 0 0.2em; font-weight: bold; }
+    p { margin: 0 0 0.65em; text-align: justify; }
+    ol { margin: 0.2em 0 0.8em 1.4em; padding: 0; }
+    li { margin: 0 0 0.35em; padding-left: 0.15em; }
+    .subtitle { text-align: center; margin-bottom: 1.5em; }
+    .refs { font-size: 11pt; }
+    .page-break { break-before: page; }
+    .download-bar { position: sticky; top: 0; display: flex; justify-content: flex-end; padding: 0.5em 0; background: #fff; }
+    .download-btn { border: 0; border-radius: 4px; padding: 0.65em 1em; color: #fff; background: #12664f; font: 600 10pt Arial, sans-serif; cursor: pointer; }
+    .download-btn:hover { background: #0b4e3c; }
+    @media print {
+      body { max-width: none; padding: 0; }
+      .download-bar { display: none; }
+      h2, h3 { break-after: avoid; }
+      p, li { orphans: 3; widows: 3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="download-bar"><button class="download-btn" id="download-pdf" type="button">Download PDF</button></div>
+  <h1>Chapter One</h1>
+  <p class="chapter-title">Introduction</p>
+  <p class="subtitle"><strong>Study title:</strong> Design and Evaluation of Open Campus (CampusLink), an Integrated Campus Services and Opportunities Platform for Students at a Selected Institution in Nairobi County, Kenya</p>
+
+  <h2>1.1 Introduction</h2>
+  <p>This chapter introduces the study on Open Campus, a digital platform branded CampusLink in the project interface. It presents the background and statement of the problem, the purpose and objectives of the study, and the research questions. It then explains the study's significance, scope, limitations, and assumptions. The study focuses on whether bringing campus services, short-term work opportunities, and career-support resources together in one accessible platform can respond to needs identified by students and service providers at a selected institution in Nairobi County, Kenya.</p>
+
+  <h2>1.2 Background to the Study</h2>
+  <p>Digital platforms have changed how people find information, connect with service providers, and access work. In education and employment, websites and mobile applications can make opportunities easier to search and can reduce the effort involved in contacting providers. These benefits are not automatic: information must be current and trustworthy, the service must work on devices and networks available to its users, and users need confidence that their personal information and transactions are handled appropriately. The International Labour Organization (ILO) continues to identify the transition from education to decent work as an important challenge for young people. Its <em>Global Employment Trends for Youth 2024</em> reports that about one in five young people worldwide were not in employment, education, or training in 2023 (ILO, 2024). This global context makes accessible career information and practical routes to experience relevant, while not by itself establishing the scale of the problem at any one university.</p>
+  <p>Across Africa, the transition from higher education into decent work remains an important development concern. For students, internships, freelance assignments, tutoring, and other flexible work can provide practical experience alongside study. Campus life also depends on access to nearby services such as printing, food, laundry, accommodation, repairs, and transport. A platform intended for this context needs to make opportunities and services discoverable while helping users assess the relevance and reliability of listings. The Open Campus project addresses this regional concern through a single interface for service listings, gigs, career-support screens, and reputation features; its value for a particular campus must still be evaluated with local users.</p>
+  <p>In Kenya, the project is framed around local campus needs and uses Kenyan shilling values and an M-Pesa-labelled payment flow in its interface. These design choices make the platform relevant to the Kenyan setting, but the availability of digital payment tools does not establish that students have a dependable way to discover campus services, identify short-term work, or obtain career guidance. National employment and education indicators provide broader context, but they do not measure how students at a particular institution search for these resources or which platform functions they would use.</p>
+  <p>At the institutional level, the study focuses on students and campus service providers at a selected institution in Nairobi County, Kenya. The extent to which these users face difficulty finding or verifying services and work opportunities is not quantified in the project files. Establishing the channels they currently use, the barriers they encounter, and the functions they need is therefore part of the study. This distinction prevents illustrative project content from being mistaken for findings about the selected population.</p>
+  <p>The Open Campus project offers a practical starting point for investigating this need. Its interface brings together campus-service listings, gigs and jobs, career-guidance screens, reputation features, and a wallet concept. The listings and career recommendations in the source files are demonstration content, and the campus wallet interface does not establish completed real-world payments. A separate Human Capital Wallet component contains API and database structures for opportunities, profiles, income records, investments, and payments; it should be treated as a related prototype component, not proof that the public-facing CampusLink functions are integrated or operational. The requirements, usability, perceived usefulness, and practical constraints of an integrated platform have not yet been established with users at the selected institution.</p>
+  <p>This study will address that knowledge gap by documenting user needs, developing or refining the platform within a defined project scope, and evaluating the resulting prototype with students and relevant campus providers. It will examine whether the proposed functions are understandable and useful, rather than assume that a digital platform will create employment, guarantee provider quality, or improve financial outcomes. Findings will be limited to the selected institution and the 2026 study period, but may inform later campus-level implementation and research. Local evidence from the study will connect the broad global and regional context to the institutional problem.</p>
+
+  <h2>1.3 Statement of the Problem</h2>
+  <p>Students and campus service providers at a selected institution in Nairobi County, Kenya, need accessible ways to discover campus services, short-term work, and career resources, yet the project files provide no measured evidence about the channels these users currently rely on or the scale of any difficulty they experience. Globally, about one in five young people were not in employment, education, or training in 2023 (ILO, 2024), highlighting the wider youth transition-to-work context but not measuring the situation at the selected institution. The Open Campus prototype groups service listings, gigs, career guidance, and wallet concepts, but its demonstration data do not establish local demand, usability, or successful real transactions. Without requirements and usability evidence from campus users, the platform may fail to address their needs and the existing information gap may persist; this study will establish those requirements and evaluate the prototype with students and relevant providers during 2026.</p>
+
+  <h2>1.4 Purpose of the Study</h2>
+  <p>The purpose of this study is to design and evaluate Open Campus (CampusLink), an integrated digital platform for discovering campus services and work opportunities and accessing career-support resources, for students and relevant providers at a selected institution in Nairobi County, Kenya.</p>
+
+  <h2>1.5 Objectives of the Study</h2>
+  <p>The general objective is to design and evaluate Open Campus (CampusLink) as an integrated campus services and opportunities platform at a selected institution in Nairobi County. The specific objectives are to:</p>
+  <ol>
+    <li>Identify the channels and information-access challenges experienced by students and campus service providers when finding or offering campus services and work opportunities during the 2026 study period.</li>
+    <li>Design and implement a prototype that consolidates the service-discovery, gig/opportunity, and career-support requirements identified by participants during 2026.</li>
+    <li>Assess prototype usability by measuring completion of predefined tasks and participants' scores on the System Usability Scale during the 2026 study period.</li>
+    <li>Measure participants' perceived usefulness and intention to use the prototype for discovering campus services and opportunities using a structured questionnaire during 2026.</li>
+  </ol>
+
+  <h2>1.6 Research Questions</h2>
+  <ol>
+    <li>Which channels and information-access challenges do students and campus service providers experience when finding or offering campus services and work opportunities at the selected institution?</li>
+    <li>Which platform requirements should guide the design and implementation of an integrated campus services and opportunities prototype?</li>
+    <li>To what extent can participants complete the predefined tasks, and what usability scores do they assign to the prototype on the System Usability Scale?</li>
+    <li>How useful do participants consider the prototype for discovering campus services and opportunities, and how likely are they to use it?</li>
+  </ol>
+
+  <h2>1.7 Justification for the Study / Significance of the Study</h2>
+  <p>The study is justified by the need to establish, rather than assume, how students and providers at the selected institution find and share campus services and work opportunities. Students may benefit from having relevant listings and career-support resources organized in one place. Campus service providers and student workers may gain a more visible channel for presenting their offerings. Institution administrators may use the findings to understand demand, accessibility, trust, and implementation considerations before considering deployment. Developers and future researchers may use the documented requirements and evaluation results as a basis for improving the prototype or conducting a larger study. The study will not claim employment, income, or transaction benefits unless these outcomes are directly measured.</p>
+
+  <h2>1.8 Scope of the Study (Delimitation)</h2>
+  <p>The study will be geographically limited to a selected higher education institution in Nairobi County, Kenya, during the 2026 study period. Participants will include students and campus service providers or opportunity posters. The technical scope will cover requirements gathering, prototype design and implementation, and evaluation of service and opportunity discovery, career-support screens, and selected account or transaction-record concepts. The wallet and M-Pesa functions will be evaluated only as interface or prototype workflows, not as live financial services. The study will not claim to represent all Kenyan institutions or measure long-term employment outcomes.</p>
+
+  <h2>1.9 Limitations of the Study</h2>
+  <p>The study may face a small or non-random sample, limiting generalization beyond the selected institution; this will be addressed by describing the sampling method and participant characteristics and by avoiding population-wide claims. Self-reported experiences may be affected by recall or social-desirability bias; questions will be kept neutral and, where feasible, responses will be compared with task-based observations. Limited time, internet access, device availability, or participant familiarity with digital platforms may affect usability sessions; the researcher will provide consistent instructions, allow participants to use available devices, record technical interruptions, and avoid treating connectivity failures as user errors. Because current screens include sample data and the payment workflow is not verified as a live integration, prototype results cannot establish real transaction security, service quality, adoption, or financial impact. The researcher will state these boundaries and evaluate only functions that can be demonstrated. Finally, a single-site design may not capture differences among institutions; the study will delimit its conclusions to the chosen site and recommend broader testing as future work.</p>
+
+  <h2>1.10 Assumptions of the Study</h2>
+  <p>The study will proceed on the following assumptions, each of which will be checked as far as practicable:</p>
+  <ol>
+    <li>Participants can describe the channels they use and the difficulties they encounter when finding campus services or opportunities; neutral questions and, where possible, demonstrations of current search practices will help assess this assumption.</li>
+    <li>Students and providers in the selected sample have access to a phone or computer and sufficient connectivity to take part in the planned evaluation; device and connectivity access will be recorded so that access barriers are not mistaken for poor usability.</li>
+    <li>The service-discovery, opportunity, and career-support tasks selected for testing reflect meaningful activities for the target users; tasks will be derived from the requirements findings and reviewed with representative participants.</li>
+    <li>Participants will provide responses in good faith and will attempt the evaluation tasks as instructed; the researcher will explain voluntary participation, protect confidentiality, and use the same task instructions for all participants.</li>
+    <li>Demonstration records and sample listings are suitable for evaluating navigation and task flow but not for drawing conclusions about real-world service availability, payment completion, or employment outcomes.</li>
+  </ol>
+
+  <h2>References</h2>
+  <p class="refs">International Labour Organization. (2024). <em>Global Employment Trends for Youth 2024: Decent Work, Brighter Futures.</em> International Labour Office.</p>
+  <script>
+    const pdfButton = document.getElementById('download-pdf');
+
+    function pdfText(value) {
+      return value.normalize('NFKD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[\u2018\u2019]/g, "'")
+        .replace(/[\u201c\u201d]/g, '"')
+        .replace(/[\u2013\u2014]/g, '-')
+        .replace(/[^\x20-\x7e]/g, ' ');
+    }
+
+    function escapePdf(value) {
+      return value.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+    }
+
+    function downloadPdf() {
+      const pageWidth = 595;
+      const marginLeft = 85;
+      const marginRight = 72;
+      const lineHeight = 17;
+      const fontSize = 12;
+      const maxWidth = pageWidth - marginLeft - marginRight;
+      const measure = document.createElement('canvas').getContext('2d');
+      const pages = [[]];
+      let y = 770;
+
+      function newPage() {
+        pages.push([]);
+        y = 770;
+      }
+
+      function addLine(text, bold, centered, indent) {
+        if (y < 65) newPage();
+        measure.font = `${fontSize * 4 / 3}px "Times New Roman"`;
+        const width = measure.measureText(text).width * 0.75;
+        const x = centered ? (pageWidth - width) / 2 : marginLeft + indent;
+        pages[pages.length - 1].push(
+          `BT /${bold ? 'F2' : 'F1'} ${fontSize} Tf 1 0 0 1 ${x.toFixed(2)} ${y} Tm (${escapePdf(text)}) Tj ET`
+        );
+        y -= lineHeight;
+      }
+
+      function addBlock(text, kind, number) {
+        if (kind === 'heading') y -= 6;
+        if (kind === 'title') y -= 2;
+        const bold = kind === 'heading' || kind === 'title';
+        const centered = kind === 'chapter' || kind === 'title';
+        const prefix = kind === 'list' ? `${number}. ` : '';
+        const clean = pdfText(text).replace(/\s+/g, ' ').trim();
+        const words = `${prefix}${clean}`.split(' ');
+        let line = '';
+        measure.font = `${fontSize * 4 / 3}px "Times New Roman"`;
+        for (const word of words) {
+          const candidate = line ? `${line} ${word}` : word;
+          if (line && measure.measureText(candidate).width * 0.75 > maxWidth) {
+            addLine(line, bold, centered, kind === 'list' ? 12 : 0);
+            line = word;
+          } else {
+            line = candidate;
+          }
+        }
+        if (line) addLine(line, bold, centered, kind === 'list' ? 12 : 0);
+        y -= kind === 'heading' ? 2 : 7;
+      }
+
+      for (const element of document.body.children) {
+        if (element.id === 'download-pdf' || element.classList.contains('download-bar') || element.tagName === 'SCRIPT') continue;
+        if (element.tagName === 'OL') {
+          [...element.children].forEach((item, index) => addBlock(item.innerText, 'list', index + 1));
+        } else if (element.tagName === 'H1') {
+          addBlock(element.innerText, 'chapter');
+        } else if (element.tagName === 'H2') {
+          addBlock(element.innerText, 'heading');
+        } else if (element.classList.contains('chapter-title')) {
+          addBlock(element.innerText, 'title');
+        } else if (element.tagName === 'P') {
+          addBlock(element.innerText, 'paragraph');
+        }
+      }
+
+      const objects = [];
+      const pageRefs = pages.map((_, index) => `${3 + index * 2} 0 R`).join(' ');
+      objects.push('<< /Type /Catalog /Pages 2 0 R >>');
+      objects.push(`<< /Type /Pages /Kids [${pageRefs}] /Count ${pages.length} >>`);
+      pages.forEach((lines, index) => {
+        const pageRef = 3 + index * 2;
+        const contentRef = pageRef + 1;
+        const stream = lines.join('\n');
+        objects.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 ${3 + pages.length * 2} 0 R /F2 ${4 + pages.length * 2} 0 R >> >> /Contents ${contentRef} 0 R >>`);
+        objects.push(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
+      });
+      objects.push('<< /Type /Font /Subtype /Type1 /BaseFont /Times-Roman /Encoding /WinAnsiEncoding >>');
+      objects.push('<< /Type /Font /Subtype /Type1 /BaseFont /Times-Bold /Encoding /WinAnsiEncoding >>');
+
+      let pdf = '%PDF-1.4\n';
+      const offsets = [0];
+      objects.forEach((object, index) => {
+        offsets.push(pdf.length);
+        pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+      });
+      const xrefOffset = pdf.length;
+      pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+      offsets.slice(1).forEach(offset => { pdf += `${String(offset).padStart(10, '0')} 00000 n \n`; });
+      pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+
+      const link = document.createElement('a');
+      const pdfUrl = URL.createObjectURL(new Blob([pdf], { type: 'application/pdf' }));
+      link.href = pdfUrl;
+      link.download = 'chapter-one-opencampus.pdf';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(pdfUrl), 60000);
+    }
+
+    pdfButton.addEventListener('click', downloadPdf);
+  </script>
+</body>
+</html>

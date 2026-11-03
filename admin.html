@@ -306,29 +306,33 @@ tbody tr:hover{background:var(--card2)}
   <nav class="sidebar-nav">
     <div class="nav-section-label">Main</div>
     <button class="nav-item active" onclick="navigate('overview',this)">
-      <span class="nav-icon">📊</span> Overview
+      <span class="nav-icon">▣</span> Overview
     </button>
     <button class="nav-item" onclick="navigate('services',this)">
-      <span class="nav-icon">🛍️</span> Services
+      <span class="nav-icon">⊞</span> Services
     </button>
     <button class="nav-item" onclick="navigate('gigs',this)">
-      <span class="nav-icon">💼</span> Gigs &amp; Jobs
+      <span class="nav-icon">◈</span> Gigs &amp; Jobs
     </button>
+    <div class="nav-section-label">Shop</div>
+    <a href="shop.html" target="_blank" class="nav-item" style="display:flex;align-items:center;gap:.6rem">
+      <span class="nav-icon">◉</span> View Shop
+    </a>
     <div class="nav-section-label">Config</div>
     <button class="nav-item" onclick="navigate('categories',this)">
-      <span class="nav-icon">🏷️</span> Categories
+      <span class="nav-icon">◇</span> Categories
     </button>
     <button class="nav-item" onclick="navigate('settings',this)">
-      <span class="nav-icon">⚙️</span> Settings
+      <span class="nav-icon">⚙</span> Settings
     </button>
   </nav>
 
   <div class="sidebar-footer">
     <a href="home.html" target="_blank">
-      <span>🌐</span> View Live Site
+      <span>↗</span> View Live Site
     </a>
     <button class="logout-btn" onclick="if(confirm('Reset all data to defaults?'))resetData()">
-      <span>🔄</span> Reset Data
+      <span>↺</span> Reset Data
     </button>
   </div>
 </aside>

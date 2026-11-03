@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="campuslink.css" />
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
   <style>
     .dash-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem; }
     .stat-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; margin-bottom:1.5rem; }
@@ -31,18 +32,116 @@
   </style>
 </head>
 <body>
+<div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
 <header class="navbar">
   <div class="navbar-inner">
     <a href="home.html" class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></a>
-    <nav class="nav-links">
-      <a href="home.html"      class="nav-link">🏠 Home</a>
-      <a href="services.html"  class="nav-link">🛍️ Services</a>
-      <a href="gigs.html"      class="nav-link">💼 Gigs &amp; Jobs</a>
-      <a href="career.html"    class="nav-link">🤖 AI Career</a>
-      <a href="wallet.html"    class="nav-link">💳 Wallet</a>
-      <a href="dashboard.html" class="nav-link active">📊 Dashboard</a>
+    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()" aria-label="Open menu"><i class="ph ph-list"></i></button>
+    <nav class="nav-links" id="mainNav">
+      <div class="mobile-nav-head">
+        <div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div>
+        <button class="mobile-close-btn" onclick="closeMobileNav()"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="nav-wrap">
+        <a href="home.html" class="nav-link "><i class="ph ph-house-simple"></i> Home</a>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="services.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-storefront"></i> Services <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop">
+          <div class="drop-col">
+            <div class="drop-head">Campus Services</div>
+            <a href="services.html" class="drop-item"><i class="ph ph-printer"></i> Printing &amp; Copying</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-t-shirt"></i> Laundry</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-fork-knife"></i> Food Delivery</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-house"></i> Housing &amp; Rooms</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-book-open"></i> Academic Notes</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Logistics</div>
+            <a href="services.html" class="drop-item"><i class="ph ph-truck"></i> Room Moving</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-motorcycle"></i> Pickup &amp; Delivery</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-archive-box"></i> Luggage Storage</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-wrench"></i> Repairs &amp; Fixes</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-pencil-simple"></i> Essay Writing</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="shop.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-shopping-bag"></i> Shop <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop">
+          <div class="drop-col">
+            <div class="drop-head">Clothes</div>
+            <a href="shop.html" class="drop-item"><i class="ph ph-soccer-ball"></i> Men's Jerseys</a>
+            <a href="shop.html" class="drop-item"><i class="ph ph-person-simple"></i> Men's Clothing</a>
+            <a href="shop.html" class="drop-item"><i class="ph ph-dress"></i> Women's Clothing</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Food</div>
+            <a href="shop.html" class="drop-item"><i class="ph ph-shopping-cart"></i> Groceries</a>
+            <a href="shop.html" class="drop-item"><i class="ph ph-bowl-food"></i> Ready Meals</a>
+            <a href="shop.html" class="drop-item"><i class="ph ph-cookie"></i> Snacks</a>
+            <a href="shop.html" class="drop-item"><i class="ph ph-coffee"></i> Beverages</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="gigs.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-briefcase"></i> Gigs &amp; Jobs <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop">
+          <div class="drop-col">
+            <div class="drop-head">Find Work</div>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-graduation-cap"></i> Academic</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-code"></i> Tech &amp; Dev</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-palette"></i> Creative</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-clipboard-text"></i> Admin</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-barbell"></i> Physical</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Opportunities</div>
+            <a href="register.html" class="drop-item"><i class="ph ph-plus-circle"></i> Post a Gig</a>
+            <a href="gigs.html"     class="drop-item"><i class="ph ph-users"></i> Browse Talent</a>
+            <a href="gigs.html"     class="drop-item"><i class="ph ph-clock"></i> Part-time Jobs</a>
+            <a href="gigs.html"     class="drop-item"><i class="ph ph-student"></i> Internships</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="career.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-brain"></i> AI Career <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop" style="min-width:220px">
+          <div class="drop-col">
+            <div class="drop-head">Career Tools</div>
+            <a href="career.html" class="drop-item"><i class="ph ph-chart-bar"></i> Career Match</a>
+            <a href="career.html" class="drop-item"><i class="ph ph-target"></i> Skill Gap Analysis</a>
+            <a href="career.html" class="drop-item"><i class="ph ph-map-trifold"></i> 16-Week Roadmap</a>
+            <a href="career.html" class="drop-item"><i class="ph ph-file-text"></i> Resume Advice</a>
+            <a href="career.html" class="drop-item"><i class="ph ph-chat-circle-dots"></i> Interview Prep</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="wallet.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-wallet"></i> Wallet <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop">
+          <div class="drop-col">
+            <div class="drop-head">My Finances</div>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-currency-dollar"></i> My Balance</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-list-bullets"></i> Transaction History</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-chart-pie-slice"></i> Spending Analytics</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-trend-up"></i> Earnings Report</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Payments</div>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-device-mobile"></i> M-Pesa Top Up</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-paper-plane-tilt"></i> Send Money</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-credit-card"></i> Pay for Service</a>
+            <a href="wallet.html" class="drop-item"><i class="ph ph-crown"></i> Subscription Plans</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap">
+        <a href="dashboard.html" class="nav-link active"><i class="ph ph-gauge"></i> Dashboard</a>
+      </div>
     </nav>
     <div class="nav-actions">
+      <a href="admin.html" class="btn btn-ghost btn-sm" style="border-color:#f59e0b44;color:#f59e0b"><i class="ph ph-gear-six"></i> Admin</a>
       <a href="login.html" class="btn btn-ghost btn-sm">Sign in</a>
       <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
     </div>
@@ -149,5 +248,6 @@ chart.innerHTML = VALUES.map((v, i) => `
   </div>
 `).join('');
 </script>
+<script src="nav.js"></script>
 </body>
 </html>
