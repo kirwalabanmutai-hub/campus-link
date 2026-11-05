@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    open: '/home.html',   // the static CampusLink site
+  },
   resolve: {
     alias: {
       '@': '/src',

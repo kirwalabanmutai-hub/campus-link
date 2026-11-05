@@ -5,7 +5,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "CampusLink — Launch Chrome",
-            "url": "http://localhost:5173",
+            "url": "http://localhost:5173/home.html",
             "webRoot": "${workspaceFolder}/src",
             "preLaunchTask": "npm: dev",
             "sourceMapPathOverrides": {

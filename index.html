@@ -2,19 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="CampusLink — AI-Powered Campus Services & Opportunities Platform" />
     <title>CampusLink</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
+    <!-- The site lives in the static pages; send visitors to the home page. -->
+    <meta http-equiv="refresh" content="0; url=home.html" />
+    <link rel="canonical" href="home.html" />
+    <script>location.replace('home.html' + location.search + location.hash);</script>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <p><a href="home.html">Continue to CampusLink</a></p>
   </body>
 </html>
