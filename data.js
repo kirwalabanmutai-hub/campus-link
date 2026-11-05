@@ -5,7 +5,7 @@
   const DEFAULT = {
     settings: {
       siteName: 'CampusLink',
-      tagline: 'AI-Powered Campus Services & Opportunities Platform',
+      tagline: 'Campus services, work and payments in one place',
       email: 'simplykae2@gmail.com',
       phone: '+254 700 000 000',
       location: 'Nairobi, Kenya',
@@ -40,7 +40,7 @@
       { id:1, title:'Math Tutor Needed',    budget:'Ksh 2,000', posted:'2h ago',  cat:'Academic', applicants:3,  desc:'Need a patient tutor for calculus and linear algebra. 2 sessions/week.',       skills:['Mathematics','Teaching','Calculus'], poster:'AM' },
       { id:2, title:'Web Designer',         budget:'Ksh 3,800', posted:'5h ago',  cat:'Tech',     applicants:7,  desc:'Design a landing page for a student startup. Figma mockup required.',           skills:['Figma','HTML/CSS','UI Design'],      poster:'JK' },
       { id:3, title:'Data Entry Assistant', budget:'Ksh 800',   posted:'1d ago',  cat:'Admin',    applicants:2,  desc:'Enter research survey results into Excel. About 200 rows. One-time task.',       skills:['Excel','Data Entry','Accuracy'],     poster:'SK' },
-      { id:4, title:'Poster Design',        budget:'Ksh 800',   posted:'2d ago',  cat:'Creative', applicants:5,  desc:'Design an event poster for a CampusLink launch party. Bright, modern style.',    skills:['Canva','Illustrator','Design'],      poster:'MN' },
+      { id:4, title:'Poster Design',        budget:'Ksh 800',   posted:'2d ago',  cat:'Creative', applicants:5,  desc:'Design an A3 poster for a student society event next Friday. Brief and logo provided.',    skills:['Canva','Illustrator','Design'],      poster:'MN' },
       { id:5, title:'Python Tutor',         budget:'Ksh 1,500', posted:'3h ago',  cat:'Academic', applicants:4,  desc:'Help me understand OOP and data structures in Python. 3 sessions.',               skills:['Python','OOP','Algorithms'],         poster:'BM' },
       { id:6, title:'Content Writer',       budget:'Ksh 2,500', posted:'6h ago',  cat:'Creative', applicants:9,  desc:'Write 5 blog posts about campus life and entrepreneurship. SEO knowledge a plus.',skills:['Writing','SEO','Research'],         poster:'FK' },
       { id:7, title:'Furniture Mover',      budget:'Ksh 1,200', posted:'1d ago',  cat:'Physical', applicants:3,  desc:'Help move furniture from Block B to Block D. 2-hour job.',                       skills:['Physical Fitness','Teamwork'],       poster:'PM' },
@@ -77,6 +77,14 @@
     /* ── Settings ── */
     getSettings()       { return load().settings; },
     saveSettings(s)     { const d=load(); d.settings=s; save(d); },
+
+
+    /* ── Icons (Phosphor names) — used instead of emoji on public pages ── */
+    iconFor(cat) {
+      const map = { Printing:'printer', Laundry:'t-shirt', Academic:'book-open-text', Food:'bowl-food', Housing:'house-line',
+        Repairs:'wrench', Writing:'pen-nib', Movers:'truck', Tech:'code', Creative:'palette', Admin:'clipboard-text', Physical:'barbell' };
+      return map[cat] || 'storefront';
+    },
 
     /* ── Utils ── */
     reset()             { save(DEFAULT); },

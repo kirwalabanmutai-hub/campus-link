@@ -3,273 +3,326 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Career Coach — CampusLink</title>
+  <meta name="description" content="See which roles fit your skills, what to learn next, and a week-by-week plan to get there." />
+  <meta name="theme-color" content="#fbfaf7" />
+  <title>Careers — CampusLink</title>
   <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <link rel="stylesheet" href="campuslink.css" />
-  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
   <style>
-    .match-circle { position:relative; width:80px; height:80px; flex-shrink:0; }
-    .match-circle svg { transform:rotate(-90deg); }
-    .match-pct { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.1rem; color:var(--primary); }
-    .roadmap-step { display:flex; gap:1rem; padding:1.25rem 0; border-bottom:1px solid var(--border); }
-    .step-num { width:36px; height:36px; border-radius:50%; background:var(--primary-g); color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; }
-    .step-info h4 { font-weight:700; margin-bottom:0.25rem; }
-    .step-info p { color:var(--muted); font-size:0.875rem; }
-    .chat-bubble { padding:0.75rem 1rem; border-radius:var(--radius); max-width:85%; font-size:0.875rem; line-height:1.6; }
-    .chat-ai   { background:var(--card2); border:1px solid var(--border); align-self:flex-start; }
-    .chat-user { background:var(--primary-g); border:1px solid var(--primary); align-self:flex-end; }
-    .chat-area { display:flex; flex-direction:column; gap:0.75rem; max-height:320px; overflow-y:auto; padding:1rem; }
-    .chat-input-row { display:flex; gap:0.5rem; padding:0.75rem; border-top:1px solid var(--border); }
-    .chat-input { flex:1; background:var(--card2); border:1px solid var(--border); border-radius:var(--radius); padding:0.6rem 1rem; font-size:0.875rem; color:var(--text); font-family:var(--font); }
-    .chat-input:focus { outline:none; border-color:var(--primary); }
-    .gap-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem; font-size:0.875rem; }
-    .gap-bar-bg { height:6px; background:var(--border); border-radius:99px; margin-bottom:1rem; }
-    .gap-bar { height:6px; border-radius:99px; background:var(--primary); }
+    [id] { scroll-margin-top: calc(var(--nav-h) + 1rem); }
+    .block-title { font-size: 1.6rem; margin-bottom: .35rem; }
+    .block-sub { color: var(--muted); margin-bottom: 1.5rem; }
+    .block { margin-bottom: 3.5rem; }
+
+    .match-card { display: flex; gap: 1.1rem; align-items: center; }
+    .match-circle { position: relative; width: 76px; height: 76px; flex-shrink: 0; }
+    .match-circle svg { transform: rotate(-90deg); }
+    .match-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.05rem; }
+    .match-role { font-weight: 600; font-size: 1.02rem; }
+
+    .gap-row { display: flex; justify-content: space-between; margin-bottom: .45rem; font-size: .92rem; }
+    .gap-bar-bg { height: 6px; background: var(--bg2); border-radius: 99px; margin-bottom: 1.15rem; overflow: hidden; }
+    .gap-bar { height: 100%; border-radius: 99px; background: var(--primary); }
+    .gap-note { color: var(--muted); font-size: .86rem; border-top: 1px solid var(--border); padding-top: 1rem; margin-top: .25rem; }
+
+    .roadmap-step { display: flex; gap: 1rem; padding: 1.1rem 0; border-bottom: 1px solid var(--border); }
+    .roadmap-step:last-child { border-bottom: none; padding-bottom: 0; }
+    .step-num { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1; color: var(--primary); width: 2.2rem; flex-shrink: 0; }
+    .step-info h4 { font-weight: 600; margin-bottom: .2rem; }
+    .step-info p { color: var(--muted); font-size: .9rem; }
+
+    .chat-card { padding: 0; overflow: hidden; }
+    .chat-head { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .chat-head strong { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; }
+    .chat-area { display: flex; flex-direction: column; gap: .75rem; height: 320px; overflow-y: auto; padding: 1.25rem; background: var(--card2); }
+    .chat-bubble { padding: .7rem 1rem; border-radius: 12px; max-width: 80%; font-size: .92rem; line-height: 1.6; }
+    .chat-ai   { background: var(--card); border: 1px solid var(--border); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .chat-user { background: var(--primary); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .chat-typing { color: var(--dim); font-size: .85rem; align-self: flex-start; }
+    .chat-suggest { display: flex; gap: .4rem; flex-wrap: wrap; padding: .75rem 1.25rem 0; }
+    .chat-suggest button { font-size: .8rem; padding: .3rem .75rem; border: 1px solid var(--border2); border-radius: var(--pill); color: var(--muted); background: var(--card); }
+    .chat-suggest button:hover { border-color: var(--text); color: var(--text); }
+    .chat-input-row { display: flex; gap: .5rem; padding: .9rem 1.25rem 1.1rem; }
+    .chat-input-row .input { border-radius: var(--pill); }
   </style>
 </head>
 <body>
+
+<a class="skip-link" href="#main">Skip to content</a>
 <div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
 <header class="navbar">
   <div class="navbar-inner">
-    <a href="home.html" class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></a>
-    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()" aria-label="Open menu"><i class="ph ph-list"></i></button>
-    <nav class="nav-links" id="mainNav">
+    <a href="home.html" class="logo" aria-label="CampusLink home"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+    <nav class="nav-links" id="mainNav" aria-label="Main">
       <div class="mobile-nav-head">
-        <div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div>
-        <button class="mobile-close-btn" onclick="closeMobileNav()"><i class="ph ph-x"></i></button>
+        <a href="home.html" class="logo"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+        <button class="mobile-close-btn" onclick="closeMobileNav()" aria-label="Close menu"><i class="ph ph-x"></i></button>
       </div>
       <div class="nav-wrap">
-        <a href="home.html" class="nav-link "><i class="ph ph-house-simple"></i> Home</a>
+        <a href="home.html" class="nav-link"><i class="ph ph-house-simple"></i> Home</a>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="services.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-storefront"></i> Services <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop">
+        <a href="services.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-storefront"></i> Services <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
           <div class="drop-col">
-            <div class="drop-head">Campus Services</div>
-            <a href="services.html" class="drop-item"><i class="ph ph-printer"></i> Printing &amp; Copying</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-t-shirt"></i> Laundry</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-fork-knife"></i> Food Delivery</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-house"></i> Housing &amp; Rooms</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-book-open"></i> Academic Notes</a>
+            <div class="drop-head">Everyday</div>
+            <a href="services.html?cat=Printing" class="drop-item"><i class="ph ph-printer"></i> Printing</a>
+            <a href="services.html?cat=Laundry" class="drop-item"><i class="ph ph-t-shirt"></i> Laundry</a>
+            <a href="services.html?cat=Food" class="drop-item"><i class="ph ph-bowl-food"></i> Food delivery</a>
+            <a href="services.html?cat=Housing" class="drop-item"><i class="ph ph-house-line"></i> Housing &amp; cleaning</a>
           </div>
           <div class="drop-col">
-            <div class="drop-head">Logistics</div>
-            <a href="services.html" class="drop-item"><i class="ph ph-truck"></i> Room Moving</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-motorcycle"></i> Pickup &amp; Delivery</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-archive-box"></i> Luggage Storage</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-wrench"></i> Repairs &amp; Fixes</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-pencil-simple"></i> Essay Writing</a>
+            <div class="drop-head">Study &amp; moving</div>
+            <a href="services.html?cat=Academic" class="drop-item"><i class="ph ph-book-open-text"></i> Notes &amp; tutoring</a>
+            <a href="services.html?cat=Writing" class="drop-item"><i class="ph ph-pen-nib"></i> Writing help</a>
+            <a href="services.html?cat=Movers" class="drop-item"><i class="ph ph-truck"></i> Moving &amp; storage</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-squares-four"></i> All services</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="shop.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-shopping-bag"></i> Shop <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop">
+        <a href="shop.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-shopping-bag"></i> Shop <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
           <div class="drop-col">
-            <div class="drop-head">Clothes</div>
-            <a href="shop.html" class="drop-item"><i class="ph ph-soccer-ball"></i> Men's Jerseys</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-person-simple"></i> Men's Clothing</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-dress"></i> Women's Clothing</a>
+            <div class="drop-head">Clothing</div>
+            <a href="shop.html?dept=Clothes&amp;type=Jerseys" class="drop-item"><i class="ph ph-soccer-ball"></i> Jerseys</a>
+            <a href="shop.html?dept=Clothes&amp;gender=Men" class="drop-item"><i class="ph ph-t-shirt"></i> Men</a>
+            <a href="shop.html?dept=Clothes&amp;gender=Women" class="drop-item"><i class="ph ph-dress"></i> Women</a>
           </div>
           <div class="drop-col">
             <div class="drop-head">Food</div>
-            <a href="shop.html" class="drop-item"><i class="ph ph-shopping-cart"></i> Groceries</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-bowl-food"></i> Ready Meals</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-cookie"></i> Snacks</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-coffee"></i> Beverages</a>
+            <a href="shop.html?dept=Food&amp;sub=Groceries" class="drop-item"><i class="ph ph-basket"></i> Groceries</a>
+            <a href="shop.html?dept=Food&amp;sub=Ready%20Meals" class="drop-item"><i class="ph ph-bowl-food"></i> Ready meals</a>
+            <a href="shop.html?dept=Food&amp;sub=Snacks" class="drop-item"><i class="ph ph-cookie"></i> Snacks</a>
+            <a href="shop.html?dept=Food&amp;sub=Beverages" class="drop-item"><i class="ph ph-coffee"></i> Drinks</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="gigs.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-briefcase"></i> Gigs &amp; Jobs <i class="ph ph-caret-down nav-caret"></i></a>
+        <a href="gigs.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-briefcase"></i> Gigs <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
+          <div class="drop-col">
+            <div class="drop-head">Find work</div>
+            <a href="gigs.html?cat=Academic" class="drop-item"><i class="ph ph-graduation-cap"></i> Tutoring</a>
+            <a href="gigs.html?cat=Tech" class="drop-item"><i class="ph ph-code"></i> Tech</a>
+            <a href="gigs.html?cat=Creative" class="drop-item"><i class="ph ph-palette"></i> Creative</a>
+            <a href="gigs.html?cat=Admin" class="drop-item"><i class="ph ph-clipboard-text"></i> Admin</a>
+            <a href="gigs.html?cat=Physical" class="drop-item"><i class="ph ph-barbell"></i> Hands-on</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Hiring</div>
+            <a href="register.html?role=recruiter" class="drop-item"><i class="ph ph-plus-circle"></i> Post a gig</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-list-magnifying-glass"></i> All open gigs</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="career.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-compass"></i> Careers <i class="ph ph-caret-down nav-caret"></i></a>
         <div class="mega-drop">
           <div class="drop-col">
-            <div class="drop-head">Find Work</div>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-graduation-cap"></i> Academic</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-code"></i> Tech &amp; Dev</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-palette"></i> Creative</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-clipboard-text"></i> Admin</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-barbell"></i> Physical</a>
-          </div>
-          <div class="drop-col">
-            <div class="drop-head">Opportunities</div>
-            <a href="register.html" class="drop-item"><i class="ph ph-plus-circle"></i> Post a Gig</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-users"></i> Browse Talent</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-clock"></i> Part-time Jobs</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-student"></i> Internships</a>
+            <div class="drop-head">Plan your next step</div>
+            <a href="career.html#matches" class="drop-item"><i class="ph ph-chart-bar"></i> Career matches</a>
+            <a href="career.html#skills" class="drop-item"><i class="ph ph-target"></i> Skill gaps</a>
+            <a href="career.html#roadmap" class="drop-item"><i class="ph ph-map-trifold"></i> 16-week plan</a>
+            <a href="career.html#coach" class="drop-item"><i class="ph ph-chat-circle-text"></i> Ask the coach</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="career.html" class="nav-link active" onclick="handleDrop(event,this)"><i class="ph ph-brain"></i> AI Career <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop" style="min-width:220px">
-          <div class="drop-col">
-            <div class="drop-head">Career Tools</div>
-            <a href="career.html" class="drop-item"><i class="ph ph-chart-bar"></i> Career Match</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-target"></i> Skill Gap Analysis</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-map-trifold"></i> 16-Week Roadmap</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-file-text"></i> Resume Advice</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-chat-circle-dots"></i> Interview Prep</a>
-          </div>
-        </div>
-      </div>
-      <div class="nav-wrap has-drop">
-        <a href="wallet.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-wallet"></i> Wallet <i class="ph ph-caret-down nav-caret"></i></a>
+        <a href="wallet.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-wallet"></i> Wallet <i class="ph ph-caret-down nav-caret"></i></a>
         <div class="mega-drop">
           <div class="drop-col">
-            <div class="drop-head">My Finances</div>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-currency-dollar"></i> My Balance</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-list-bullets"></i> Transaction History</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-chart-pie-slice"></i> Spending Analytics</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-trend-up"></i> Earnings Report</a>
-          </div>
-          <div class="drop-col">
-            <div class="drop-head">Payments</div>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-device-mobile"></i> M-Pesa Top Up</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-paper-plane-tilt"></i> Send Money</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-credit-card"></i> Pay for Service</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-crown"></i> Subscription Plans</a>
+            <div class="drop-head">Your money</div>
+            <a href="wallet.html#balance" class="drop-item"><i class="ph ph-coins"></i> Balance</a>
+            <a href="wallet.html#transactions" class="drop-item"><i class="ph ph-list-bullets"></i> Transactions</a>
+            <a href="wallet.html#spending" class="drop-item"><i class="ph ph-chart-pie-slice"></i> Spending</a>
+            <a href="wallet.html#mpesa" class="drop-item"><i class="ph ph-device-mobile"></i> Top up with M-Pesa</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap">
-        <a href="dashboard.html" class="nav-link "><i class="ph ph-gauge"></i> Dashboard</a>
+        <a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i> Dashboard</a>
       </div>
     </nav>
     <div class="nav-actions">
-      <a href="admin.html" class="btn btn-ghost btn-sm" style="border-color:#f59e0b44;color:#f59e0b"><i class="ph ph-gear-six"></i> Admin</a>
       <a href="login.html" class="btn btn-ghost btn-sm">Sign in</a>
-      <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Join free</a>
     </div>
+    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()" aria-label="Open menu" aria-controls="mainNav" aria-expanded="false"><i class="ph ph-list"></i></button>
   </div>
 </header>
 
-<main class="section">
-  <div class="container">
-    <h1 class="section-title mb-2">AI Career Coach</h1>
-    <p class="text-muted mb-8">Personalised career matches, skill gap analysis, and roadmap — powered by AI.</p>
-
-    <!-- Career Matches -->
-    <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:1rem">Your Top Career Matches</h2>
-    <div class="grid-3 mb-8">
-      <div class="card flex gap-4 items-center">
-        <div class="match-circle">
-          <svg width="80" height="80" viewBox="0 0 80 80">
-            <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="8"/>
-            <circle cx="40" cy="40" r="34" fill="none" stroke="var(--primary)" stroke-width="8" stroke-dasharray="213.6" stroke-dashoffset="27.8" stroke-linecap="round"/>
-          </svg>
-          <div class="match-pct">87%</div>
-        </div>
-        <div><div style="font-weight:700">Frontend Developer</div><div class="text-muted text-sm">Job · Ksh 80k–120k</div><div class="text-dim text-xs mt-2">React, TypeScript, CSS</div></div>
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
+      <div>
+        <div class="crumbs"><a href="home.html">Home</a> / Careers</div>
+        <h1>Plan your next step</h1>
+        <p>Roles that fit the skills on your profile, the gaps worth closing first, and a realistic plan to get hired.</p>
       </div>
-      <div class="card flex gap-4 items-center">
-        <div class="match-circle">
-          <svg width="80" height="80" viewBox="0 0 80 80">
-            <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="8"/>
-            <circle cx="40" cy="40" r="34" fill="none" stroke="var(--accent)" stroke-width="8" stroke-dasharray="213.6" stroke-dashoffset="55.5" stroke-linecap="round"/>
-          </svg>
-          <div class="match-pct" style="color:var(--accent)">74%</div>
-        </div>
-        <div><div style="font-weight:700">Data Analyst</div><div class="text-muted text-sm">Internship · Ksh 30k</div><div class="text-dim text-xs mt-2">Python, SQL, Excel</div></div>
-      </div>
-      <div class="card flex gap-4 items-center">
-        <div class="match-circle">
-          <svg width="80" height="80" viewBox="0 0 80 80">
-            <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="8"/>
-            <circle cx="40" cy="40" r="34" fill="none" stroke="var(--warn)" stroke-width="8" stroke-dasharray="213.6" stroke-dashoffset="68.4" stroke-linecap="round"/>
-          </svg>
-          <div class="match-pct" style="color:var(--warn)">68%</div>
-        </div>
-        <div><div style="font-weight:700">UI/UX Designer</div><div class="text-muted text-sm">Gig · Ksh 5k/project</div><div class="text-dim text-xs mt-2">Figma, Prototyping</div></div>
-      </div>
+      <a href="#coach" class="btn btn-ghost"><i class="ph ph-chat-circle-text"></i> Ask the coach</a>
     </div>
+  </section>
 
-    <!-- Skill Gap -->
-    <div class="grid-2 mb-8">
-      <div class="card">
-        <h3 style="font-weight:700;margin-bottom:1rem">Skill Gap Analysis</h3>
-        <div class="gap-row"><span>React / JavaScript</span><span class="text-primary">92%</span></div>
-        <div class="gap-bar-bg"><div class="gap-bar" style="width:92%"></div></div>
-        <div class="gap-row"><span>TypeScript</span><span style="color:var(--accent)">68%</span></div>
-        <div class="gap-bar-bg"><div class="gap-bar" style="width:68%;background:var(--accent)"></div></div>
-        <div class="gap-row"><span>Node.js / Backend</span><span style="color:var(--warn)">45%</span></div>
-        <div class="gap-bar-bg"><div class="gap-bar" style="width:45%;background:var(--warn)"></div></div>
-        <div class="gap-row"><span>Docker / DevOps</span><span style="color:var(--danger)">22%</span></div>
-        <div class="gap-bar-bg"><div class="gap-bar" style="width:22%;background:var(--danger)"></div></div>
+  <section class="section-tight">
+    <div class="container">
+
+      <div class="block" id="matches">
+        <h2 class="block-title">Your closest matches</h2>
+        <p class="block-sub">Based on your courses, completed gigs and listed skills.</p>
+        <div class="grid-3">
+          <div class="card match-card">
+            <div class="match-circle">
+              <svg width="76" height="76" viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--bg2)" stroke-width="7"/><circle cx="40" cy="40" r="34" fill="none" stroke="var(--primary)" stroke-width="7" stroke-dasharray="213.6" stroke-dashoffset="27.8" stroke-linecap="round"/></svg>
+              <div class="match-pct">87%</div>
+            </div>
+            <div><div class="match-role">Frontend developer</div><div class="text-muted text-sm">Full-time · Ksh 80k–120k</div><div class="text-dim text-xs mt-2">React, TypeScript, CSS</div></div>
+          </div>
+          <div class="card match-card">
+            <div class="match-circle">
+              <svg width="76" height="76" viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--bg2)" stroke-width="7"/><circle cx="40" cy="40" r="34" fill="none" stroke="var(--accent)" stroke-width="7" stroke-dasharray="213.6" stroke-dashoffset="55.5" stroke-linecap="round"/></svg>
+              <div class="match-pct">74%</div>
+            </div>
+            <div><div class="match-role">Data analyst</div><div class="text-muted text-sm">Internship · Ksh 30k</div><div class="text-dim text-xs mt-2">Python, SQL, Excel</div></div>
+          </div>
+          <div class="card match-card">
+            <div class="match-circle">
+              <svg width="76" height="76" viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--bg2)" stroke-width="7"/><circle cx="40" cy="40" r="34" fill="none" stroke="var(--warn)" stroke-width="7" stroke-dasharray="213.6" stroke-dashoffset="68.4" stroke-linecap="round"/></svg>
+              <div class="match-pct">68%</div>
+            </div>
+            <div><div class="match-role">UI/UX designer</div><div class="text-muted text-sm">Freelance · Ksh 5k per project</div><div class="text-dim text-xs mt-2">Figma, prototyping</div></div>
+          </div>
+        </div>
       </div>
 
-      <!-- Roadmap -->
-      <div class="card">
-        <h3 style="font-weight:700;margin-bottom:0.5rem">Your 16-Week Roadmap</h3>
-        <div class="roadmap-step">
-          <div class="step-num">1</div>
-          <div class="step-info"><h4>Foundations (4 wks)</h4><p>Complete online courses, build 2 portfolio projects, set up GitHub</p></div>
+      <div class="grid-2 block">
+        <div class="card card-flat" id="skills">
+          <h2 class="block-title">Skill gaps</h2>
+          <p class="block-sub">For the frontend developer role.</p>
+          <div class="gap-row"><span>React / JavaScript</span><span class="text-primary">92%</span></div>
+          <div class="gap-bar-bg"><div class="gap-bar" style="width:92%"></div></div>
+          <div class="gap-row"><span>TypeScript</span><span style="color:var(--accent)">68%</span></div>
+          <div class="gap-bar-bg"><div class="gap-bar" style="width:68%;background:var(--accent)"></div></div>
+          <div class="gap-row"><span>Node.js / back end</span><span style="color:var(--warn)">45%</span></div>
+          <div class="gap-bar-bg"><div class="gap-bar" style="width:45%;background:var(--warn)"></div></div>
+          <div class="gap-row"><span>Docker / DevOps</span><span style="color:var(--danger)">22%</span></div>
+          <div class="gap-bar-bg"><div class="gap-bar" style="width:22%;background:var(--danger)"></div></div>
+          <p class="gap-note">Start with TypeScript. It shows up in most junior frontend listings in Nairobi and builds on what you already know.</p>
         </div>
-        <div class="roadmap-step">
-          <div class="step-num">2</div>
-          <div class="step-info"><h4>Specialisation (6 wks)</h4><p>Deep-dive into chosen stack, contribute to open source, start freelancing</p></div>
-        </div>
-        <div class="roadmap-step">
-          <div class="step-num">3</div>
-          <div class="step-info"><h4>Job Ready (4 wks)</h4><p>Polish resume, apply to 20 companies, prepare for technical interviews</p></div>
-        </div>
-        <div class="roadmap-step" style="border-bottom:none">
-          <div class="step-num">4</div>
-          <div class="step-info"><h4>Landing a Role (2 wks)</h4><p>Follow up with recruiters, negotiate offer, onboard at new role</p></div>
+
+        <div class="card card-flat" id="roadmap">
+          <h2 class="block-title">16-week plan</h2>
+          <p class="block-sub">Roughly 8–10 hours a week alongside classes.</p>
+          <div class="roadmap-step"><div class="step-num">1</div><div class="step-info"><h4>Foundations · weeks 1–4</h4><p>Finish one TypeScript course, ship two small portfolio projects, tidy up your GitHub.</p></div></div>
+          <div class="roadmap-step"><div class="step-num">2</div><div class="step-info"><h4>Go deeper · weeks 5–10</h4><p>Build one larger project end to end and take on a paid gig to get real feedback.</p></div></div>
+          <div class="roadmap-step"><div class="step-num">3</div><div class="step-info"><h4>Get ready · weeks 11–14</h4><p>Rewrite your CV around results, apply to 20 roles, and practise technical interviews.</p></div></div>
+          <div class="roadmap-step"><div class="step-num">4</div><div class="step-info"><h4>Land it · weeks 15–16</h4><p>Follow up on applications, compare offers and negotiate.</p></div></div>
         </div>
       </div>
+
+      <div class="card card-flat chat-card" id="coach">
+        <div class="chat-head">
+          <strong>Ask the career coach</strong>
+          <span class="text-dim text-xs">Answers are general guidance, not a job offer.</span>
+        </div>
+        <div class="chat-area" id="chatArea" aria-live="polite">
+          <div class="chat-bubble chat-ai">Hi. Ask me about a career path, interview prep, salary ranges in Kenya, or what to learn next.</div>
+        </div>
+        <div class="chat-suggest" id="chatSuggest">
+          <button type="button">What should I learn first?</button>
+          <button type="button">Junior developer salaries in Nairobi</button>
+          <button type="button">How do I prepare for interviews?</button>
+        </div>
+        <form class="chat-input-row" onsubmit="sendMsg(event)">
+          <label for="chatInput" class="sr-only">Your question</label>
+          <input class="input" id="chatInput" type="text" placeholder="Type your question" autocomplete="off" />
+          <button class="btn btn-primary" type="submit">Send</button>
+        </form>
+      </div>
+
     </div>
-
-    <!-- AI Chat -->
-    <div class="card" style="padding:0">
-      <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border);font-weight:700">💬 Ask Your AI Career Coach</div>
-      <div class="chat-area" id="chatArea">
-        <div class="chat-bubble chat-ai">👋 Hi! I'm your AI Career Coach. Ask me about career paths, interview tips, salary expectations, or skill recommendations!</div>
-      </div>
-      <div class="chat-input-row">
-        <input class="chat-input" id="chatInput" type="text" placeholder="Ask about your career…" onkeydown="if(event.key==='Enter')sendMsg()" />
-        <button class="btn btn-primary btn-sm" onclick="sendMsg()">Send</button>
-      </div>
-    </div>
-  </div>
+  </section>
 </main>
 
 <footer class="footer">
   <div class="footer-grid">
-    <div class="footer-brand"><div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div><p>AI-powered campus marketplace.</p></div>
-    <div class="footer-col"><h4>Platform</h4><ul><li><a href="services.html">Services</a></li><li><a href="gigs.html">Gigs</a></li><li><a href="career.html">AI Career</a></li></ul></div>
-    <div class="footer-col"><h4>Account</h4><ul><li><a href="register.html">Register</a></li><li><a href="login.html">Sign In</a></li></ul></div>
+    <div class="footer-brand">
+      <a href="home.html" class="logo"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+      <p>A marketplace for campus life: book services, buy essentials, find paid work and pay with M-Pesa. Built in Nairobi.</p>
+    </div>
+    <div class="footer-col"><h4>Explore</h4><ul>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="gigs.html">Gigs</a></li>
+      <li><a href="career.html">Careers</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Account</h4><ul>
+      <li><a href="register.html">Create account</a></li>
+      <li><a href="login.html">Sign in</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="wallet.html">Wallet</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul>
+      <li><a href="mailto:simplykae2@gmail.com">simplykae2@gmail.com</a></li>
+      <li><span>Nairobi, Kenya</span></li>
+      <li><a href="register.html?role=provider">List your service</a></li>
+    </ul></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 CampusLink</span></div>
+  <div class="footer-bottom">
+    <span>&copy; <span data-year>2026</span> CampusLink</span>
+    <a href="admin.html">Admin</a>
+  </div>
 </footer>
 
+<script src="nav.js"></script>
 <script>
 const RESPONSES = [
-  "Great question! Based on your profile, I recommend focusing on strengthening your TypeScript skills first — it's the #1 gap for Frontend Developer roles.",
-  "For Data Science roles in Kenya, Python and SQL are essential. I suggest the Google Data Analytics Certificate on Coursera — it takes about 6 months.",
-  "Salary ranges in Nairobi for junior developers typically start at Ksh 60,000–90,000/month. Senior roles go up to Ksh 200,000+.",
-  "For interview prep, practice STAR method (Situation, Task, Action, Result) for behavioural questions. I can generate practice questions for you!",
-  "Your portfolio is your best asset as a student. Aim for 3–5 projects that solve real problems. Show impact with numbers wherever possible.",
+  { k: /learn|skill|first|next/i, a: "Close the TypeScript gap first. It's listed in most junior frontend roles here, and you already know JavaScript, so it's a few weeks of work rather than months." },
+  { k: /salar|pay|earn|money/i,   a: "Junior developers in Nairobi usually start between Ksh 60,000 and 90,000 a month. With 3+ years and a solid portfolio, Ksh 150,000–200,000 is common." },
+  { k: /interview|prep/i,         a: "For behavioural questions, use the STAR format: situation, task, action, result. For technical rounds, practise explaining your own projects out loud. That's what most interviewers ask about." },
+  { k: /cv|resume|portfolio/i,    a: "Keep your CV to one page and lead each line with a result, e.g. “Cut page load time by 40%”. Three to five finished projects beat ten half-done ones." },
+  { k: /data|python|sql/i,        a: "For data roles, Python and SQL matter most. The Google Data Analytics certificate is a reasonable start, and pair it with one analysis project using Kenyan open data." },
 ];
-let rIdx = 0;
+const FALLBACK = "Good question. Tell me which role you're aiming for and I can suggest the skills and projects that matter most for it.";
 
-function sendMsg() {
-  const input = document.getElementById('chatInput');
-  const msg = input.value.trim();
-  if (!msg) return;
+function answer(q) { return (RESPONSES.find(r => r.k.test(q)) || { a: FALLBACK }).a; }
+
+function bubble(cls, text) {
   const area = document.getElementById('chatArea');
-  area.innerHTML += `<div class="chat-bubble chat-user">${msg}</div>`;
-  input.value = '';
-  setTimeout(() => {
-    area.innerHTML += `<div class="chat-bubble chat-ai">${RESPONSES[rIdx % RESPONSES.length]}</div>`;
-    rIdx++;
-    area.scrollTop = area.scrollHeight;
-  }, 600);
+  const d = document.createElement('div');
+  d.className = 'chat-bubble ' + cls;
+  d.textContent = text;
+  area.appendChild(d);
   area.scrollTop = area.scrollHeight;
+  return d;
 }
+
+function ask(q) {
+  bubble('chat-user', q);
+  const area = document.getElementById('chatArea');
+  const t = document.createElement('div');
+  t.className = 'chat-typing'; t.textContent = 'Typing…';
+  area.appendChild(t); area.scrollTop = area.scrollHeight;
+  setTimeout(() => { t.remove(); bubble('chat-ai', answer(q)); }, 650);
+}
+
+function sendMsg(e) {
+  e.preventDefault();
+  const input = document.getElementById('chatInput');
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = '';
+  ask(q);
+}
+
+document.getElementById('chatSuggest').addEventListener('click', e => {
+  if (e.target.tagName === 'BUTTON') ask(e.target.textContent);
+});
 </script>
-<script src="nav.js"></script>
 </body>
 </html>

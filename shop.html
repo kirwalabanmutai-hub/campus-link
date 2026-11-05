@@ -4,43 +4,45 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Shop — CampusLink</title>
-<link rel="icon" href="public/favicon.svg" type="image/svg+xml"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="campuslink.css"/>
-  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <link rel="stylesheet" href="campuslink.css" />
 <style>
 /* ── Shop-specific styles ── */
 .shop-layout{display:grid;grid-template-columns:220px 1fr;gap:1.5rem;align-items:start}
-.filter-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;position:sticky;top:80px}
+.filter-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;position:sticky;top:calc(var(--nav-h) + 1rem)}
 .filter-section{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
 .filter-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+#clothesFilters .filter-section:last-child,#foodFilters .filter-section:last-child{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
 .filter-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-bottom:.6rem}
 .filter-group{display:flex;flex-wrap:wrap;gap:.4rem}
-.f-btn{padding:.32rem .75rem;border-radius:var(--radius);font-size:.8rem;font-weight:500;border:1px solid var(--border);color:var(--muted);background:var(--bg2);cursor:pointer;transition:all .18s;white-space:nowrap}
+.f-btn{padding:.32rem .8rem;border-radius:var(--pill);font-size:.8rem;font-weight:500;border:1px solid var(--border);color:var(--muted);background:var(--bg2);cursor:pointer;transition:all .18s;white-space:nowrap}
 .f-btn:hover{border-color:var(--border2);color:var(--text)}
-.f-btn.active{background:var(--primary);color:#000;border-color:var(--primary);font-weight:700}
-.f-btn.active-gender-m{background:#3b82f6;color:#fff;border-color:#3b82f6;font-weight:700}
-.f-btn.active-gender-f{background:#ec4899;color:#fff;border-color:#ec4899;font-weight:700}
+.f-btn.active{background:var(--text);color:#fff;border-color:var(--text);font-weight:600}
+.f-btn.active-gender-m,.f-btn.active-gender-f{background:var(--text);color:#fff;border-color:var(--text);font-weight:600}
 
 /* ── Product grid ── */
 .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
 .product-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .2s;display:flex;flex-direction:column}
-.product-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.product-card:hover{border-color:var(--border2);box-shadow:var(--shadow)}
 .product-img{
-  background:var(--bg2);border-bottom:1px solid var(--border);
-  height:140px;display:flex;align-items:center;justify-content:center;
-  font-size:3.5rem;position:relative;
+  background:var(--tint,var(--bg2));
+  height:150px;display:flex;align-items:center;justify-content:center;
+  font-size:2.6rem;color:var(--text);position:relative;
 }
-.product-badge{position:absolute;top:.5rem;right:.5rem;background:var(--primary);color:#000;font-size:.65rem;font-weight:700;padding:.18rem .5rem;border-radius:.4rem;text-transform:uppercase}
+.product-badge{position:absolute;top:.6rem;left:.6rem;background:var(--card);color:var(--text);font-size:.65rem;font-weight:700;padding:.18rem .5rem;border-radius:.4rem;text-transform:uppercase}
 .product-body{padding:.9rem;flex:1;display:flex;flex-direction:column}
 .product-name{font-weight:700;font-size:.9rem;margin-bottom:.2rem;line-height:1.3}
 .product-meta{color:var(--muted);font-size:.75rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.35rem;flex-wrap:wrap}
 .meta-tag{background:var(--bg2);border:1px solid var(--border);border-radius:.35rem;padding:.1rem .4rem;font-size:.68rem}
-.product-price{font-weight:800;font-size:1rem;color:var(--primary);margin-bottom:.75rem;margin-top:auto}
+.product-price{font-weight:600;font-size:1rem;color:var(--text);margin-bottom:.75rem;margin-top:auto}
 .add-cart-btn{
-  width:100%;padding:.5rem;border-radius:var(--radius);
-  background:var(--primary);color:#000;font-weight:700;font-size:.82rem;
+  width:100%;padding:.5rem;border-radius:var(--pill);
+  background:var(--primary);color:#fff;font-weight:700;font-size:.82rem;
   cursor:pointer;border:none;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:.4rem;
 }
 .add-cart-btn:hover{background:var(--primary-d)}
@@ -50,9 +52,9 @@
 #cartBtn{
   position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;
   width:56px;height:56px;border-radius:50%;
-  background:var(--primary);color:#000;font-size:1.4rem;
+  background:var(--primary);color:#fff;font-size:1.4rem;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;border:none;box-shadow:0 4px 20px rgba(16,185,129,.4);
+  cursor:pointer;border:none;box-shadow:var(--shadow-lg);
   transition:transform .2s;
 }
 #cartBtn:hover{transform:scale(1.1)}
@@ -76,19 +78,19 @@
 .cart-close:hover{background:rgba(239,68,68,.1);color:var(--danger)}
 .cart-items{flex:1;overflow-y:auto;padding:.75rem}
 .cart-item{display:flex;gap:.75rem;padding:.75rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.5rem}
-.cart-item-icon{font-size:1.8rem;flex-shrink:0;width:44px;height:44px;background:var(--bg2);border-radius:.5rem;display:flex;align-items:center;justify-content:center}
+.cart-item-icon{font-size:1.4rem;flex-shrink:0;width:44px;height:44px;background:var(--bg2);border-radius:.5rem;display:flex;align-items:center;justify-content:center}
 .cart-item-info{flex:1;min-width:0}
 .cart-item-name{font-weight:600;font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cart-item-price{color:var(--primary);font-weight:700;font-size:.85rem}
 .qty-controls{display:flex;align-items:center;gap:.4rem;margin-top:.35rem}
 .qty-btn{width:24px;height:24px;border-radius:.4rem;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all .18s;font-weight:700}
-.qty-btn:hover{background:var(--primary);color:#000;border-color:var(--primary)}
+.qty-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
 .qty-val{font-size:.85rem;font-weight:700;min-width:18px;text-align:center}
 .cart-remove{width:24px;height:24px;border-radius:.4rem;background:transparent;border:1px solid rgba(239,68,68,.2);color:var(--danger);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.8rem;transition:all .18s;margin-left:auto}
 .cart-remove:hover{background:rgba(239,68,68,.15)}
 .cart-footer{padding:1rem 1.1rem;border-top:1px solid var(--border);background:var(--card)}
 .cart-total-row{display:flex;justify-content:space-between;margin-bottom:.75rem;font-weight:700;font-size:1rem}
-.checkout-btn{width:100%;padding:.7rem;background:var(--primary);color:#000;font-weight:800;font-size:.9rem;border:none;border-radius:var(--radius);cursor:pointer;transition:all .18s}
+.checkout-btn{width:100%;padding:.7rem;background:var(--primary);color:#fff;font-weight:800;font-size:.9rem;border:none;border-radius:var(--radius);cursor:pointer;transition:all .18s}
 .checkout-btn:hover{background:var(--primary-d)}
 .cart-empty{text-align:center;padding:2rem;color:var(--muted);font-size:.875rem}
 
@@ -104,12 +106,12 @@
 .dept-tabs{display:flex;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
 .dept-tab{
   display:flex;align-items:center;gap:.4rem;
-  padding:.45rem 1rem;border-radius:var(--radius);
+  padding:.45rem 1rem;border-radius:var(--pill);
   font-size:.875rem;font-weight:600;border:1px solid var(--border);
   color:var(--muted);background:var(--card);cursor:pointer;transition:all .18s;
 }
 .dept-tab:hover{border-color:var(--border2);color:var(--text)}
-.dept-tab.active{background:var(--primary);color:#000;border-color:var(--primary)}
+.dept-tab.active{background:var(--text);color:#fff;border-color:var(--text)}
 
 /* ── No-results ── */
 .no-results{grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted)}
@@ -120,146 +122,141 @@
   .filter-panel{position:static}
   #cartPanel{width:100vw}
 }
+@media(max-width:600px){
+  .shop-toolbar .search-wrap{flex:1 1 100%!important;max-width:none!important}
+}
 @media(max-width:480px){
   .product-grid{grid-template-columns:repeat(2,1fr)}
-  .product-img{height:110px;font-size:2.5rem}
+  .product-img{height:110px;font-size:2rem}
 }
 </style>
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
 <div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
 <header class="navbar">
   <div class="navbar-inner">
-    <a href="home.html" class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></a>
-    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()" aria-label="Open menu"><i class="ph ph-list"></i></button>
-    <nav class="nav-links" id="mainNav">
+    <a href="home.html" class="logo" aria-label="CampusLink home"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+    <nav class="nav-links" id="mainNav" aria-label="Main">
       <div class="mobile-nav-head">
-        <div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div>
-        <button class="mobile-close-btn" onclick="closeMobileNav()"><i class="ph ph-x"></i></button>
+        <a href="home.html" class="logo"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+        <button class="mobile-close-btn" onclick="closeMobileNav()" aria-label="Close menu"><i class="ph ph-x"></i></button>
       </div>
       <div class="nav-wrap">
-        <a href="home.html" class="nav-link "><i class="ph ph-house-simple"></i> Home</a>
+        <a href="home.html" class="nav-link"><i class="ph ph-house-simple"></i> Home</a>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="services.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-storefront"></i> Services <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop">
+        <a href="services.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-storefront"></i> Services <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
           <div class="drop-col">
-            <div class="drop-head">Campus Services</div>
-            <a href="services.html" class="drop-item"><i class="ph ph-printer"></i> Printing &amp; Copying</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-t-shirt"></i> Laundry</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-fork-knife"></i> Food Delivery</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-house"></i> Housing &amp; Rooms</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-book-open"></i> Academic Notes</a>
+            <div class="drop-head">Everyday</div>
+            <a href="services.html?cat=Printing" class="drop-item"><i class="ph ph-printer"></i> Printing</a>
+            <a href="services.html?cat=Laundry" class="drop-item"><i class="ph ph-t-shirt"></i> Laundry</a>
+            <a href="services.html?cat=Food" class="drop-item"><i class="ph ph-bowl-food"></i> Food delivery</a>
+            <a href="services.html?cat=Housing" class="drop-item"><i class="ph ph-house-line"></i> Housing &amp; cleaning</a>
           </div>
           <div class="drop-col">
-            <div class="drop-head">Logistics</div>
-            <a href="services.html" class="drop-item"><i class="ph ph-truck"></i> Room Moving</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-motorcycle"></i> Pickup &amp; Delivery</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-archive-box"></i> Luggage Storage</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-wrench"></i> Repairs &amp; Fixes</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-pencil-simple"></i> Essay Writing</a>
+            <div class="drop-head">Study &amp; moving</div>
+            <a href="services.html?cat=Academic" class="drop-item"><i class="ph ph-book-open-text"></i> Notes &amp; tutoring</a>
+            <a href="services.html?cat=Writing" class="drop-item"><i class="ph ph-pen-nib"></i> Writing help</a>
+            <a href="services.html?cat=Movers" class="drop-item"><i class="ph ph-truck"></i> Moving &amp; storage</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-squares-four"></i> All services</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="shop.html" class="nav-link active" onclick="handleDrop(event,this)"><i class="ph ph-shopping-bag"></i> Shop <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop">
+        <a href="shop.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-shopping-bag"></i> Shop <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
           <div class="drop-col">
-            <div class="drop-head">Clothes</div>
-            <a href="shop.html" class="drop-item"><i class="ph ph-soccer-ball"></i> Men's Jerseys</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-person-simple"></i> Men's Clothing</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-dress"></i> Women's Clothing</a>
+            <div class="drop-head">Clothing</div>
+            <a href="shop.html?dept=Clothes&amp;type=Jerseys" class="drop-item"><i class="ph ph-soccer-ball"></i> Jerseys</a>
+            <a href="shop.html?dept=Clothes&amp;gender=Men" class="drop-item"><i class="ph ph-t-shirt"></i> Men</a>
+            <a href="shop.html?dept=Clothes&amp;gender=Women" class="drop-item"><i class="ph ph-dress"></i> Women</a>
           </div>
           <div class="drop-col">
             <div class="drop-head">Food</div>
-            <a href="shop.html" class="drop-item"><i class="ph ph-shopping-cart"></i> Groceries</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-bowl-food"></i> Ready Meals</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-cookie"></i> Snacks</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-coffee"></i> Beverages</a>
+            <a href="shop.html?dept=Food&amp;sub=Groceries" class="drop-item"><i class="ph ph-basket"></i> Groceries</a>
+            <a href="shop.html?dept=Food&amp;sub=Ready%20Meals" class="drop-item"><i class="ph ph-bowl-food"></i> Ready meals</a>
+            <a href="shop.html?dept=Food&amp;sub=Snacks" class="drop-item"><i class="ph ph-cookie"></i> Snacks</a>
+            <a href="shop.html?dept=Food&amp;sub=Beverages" class="drop-item"><i class="ph ph-coffee"></i> Drinks</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="gigs.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-briefcase"></i> Gigs &amp; Jobs <i class="ph ph-caret-down nav-caret"></i></a>
+        <a href="gigs.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-briefcase"></i> Gigs <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
+          <div class="drop-col">
+            <div class="drop-head">Find work</div>
+            <a href="gigs.html?cat=Academic" class="drop-item"><i class="ph ph-graduation-cap"></i> Tutoring</a>
+            <a href="gigs.html?cat=Tech" class="drop-item"><i class="ph ph-code"></i> Tech</a>
+            <a href="gigs.html?cat=Creative" class="drop-item"><i class="ph ph-palette"></i> Creative</a>
+            <a href="gigs.html?cat=Admin" class="drop-item"><i class="ph ph-clipboard-text"></i> Admin</a>
+            <a href="gigs.html?cat=Physical" class="drop-item"><i class="ph ph-barbell"></i> Hands-on</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Hiring</div>
+            <a href="register.html?role=recruiter" class="drop-item"><i class="ph ph-plus-circle"></i> Post a gig</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-list-magnifying-glass"></i> All open gigs</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="career.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-compass"></i> Careers <i class="ph ph-caret-down nav-caret"></i></a>
         <div class="mega-drop">
           <div class="drop-col">
-            <div class="drop-head">Find Work</div>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-graduation-cap"></i> Academic</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-code"></i> Tech &amp; Dev</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-palette"></i> Creative</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-clipboard-text"></i> Admin</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-barbell"></i> Physical</a>
-          </div>
-          <div class="drop-col">
-            <div class="drop-head">Opportunities</div>
-            <a href="register.html" class="drop-item"><i class="ph ph-plus-circle"></i> Post a Gig</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-users"></i> Browse Talent</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-clock"></i> Part-time Jobs</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-student"></i> Internships</a>
+            <div class="drop-head">Plan your next step</div>
+            <a href="career.html#matches" class="drop-item"><i class="ph ph-chart-bar"></i> Career matches</a>
+            <a href="career.html#skills" class="drop-item"><i class="ph ph-target"></i> Skill gaps</a>
+            <a href="career.html#roadmap" class="drop-item"><i class="ph ph-map-trifold"></i> 16-week plan</a>
+            <a href="career.html#coach" class="drop-item"><i class="ph ph-chat-circle-text"></i> Ask the coach</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="career.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-brain"></i> AI Career <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop" style="min-width:220px">
-          <div class="drop-col">
-            <div class="drop-head">Career Tools</div>
-            <a href="career.html" class="drop-item"><i class="ph ph-chart-bar"></i> Career Match</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-target"></i> Skill Gap Analysis</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-map-trifold"></i> 16-Week Roadmap</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-file-text"></i> Resume Advice</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-chat-circle-dots"></i> Interview Prep</a>
-          </div>
-        </div>
-      </div>
-      <div class="nav-wrap has-drop">
-        <a href="wallet.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-wallet"></i> Wallet <i class="ph ph-caret-down nav-caret"></i></a>
+        <a href="wallet.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-wallet"></i> Wallet <i class="ph ph-caret-down nav-caret"></i></a>
         <div class="mega-drop">
           <div class="drop-col">
-            <div class="drop-head">My Finances</div>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-currency-dollar"></i> My Balance</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-list-bullets"></i> Transaction History</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-chart-pie-slice"></i> Spending Analytics</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-trend-up"></i> Earnings Report</a>
-          </div>
-          <div class="drop-col">
-            <div class="drop-head">Payments</div>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-device-mobile"></i> M-Pesa Top Up</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-paper-plane-tilt"></i> Send Money</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-credit-card"></i> Pay for Service</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-crown"></i> Subscription Plans</a>
+            <div class="drop-head">Your money</div>
+            <a href="wallet.html#balance" class="drop-item"><i class="ph ph-coins"></i> Balance</a>
+            <a href="wallet.html#transactions" class="drop-item"><i class="ph ph-list-bullets"></i> Transactions</a>
+            <a href="wallet.html#spending" class="drop-item"><i class="ph ph-chart-pie-slice"></i> Spending</a>
+            <a href="wallet.html#mpesa" class="drop-item"><i class="ph ph-device-mobile"></i> Top up with M-Pesa</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap">
-        <a href="dashboard.html" class="nav-link "><i class="ph ph-gauge"></i> Dashboard</a>
+        <a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i> Dashboard</a>
       </div>
     </nav>
     <div class="nav-actions">
-      <a href="admin.html" class="btn btn-ghost btn-sm" style="border-color:#f59e0b44;color:#f59e0b"><i class="ph ph-gear-six"></i> Admin</a>
       <a href="login.html" class="btn btn-ghost btn-sm">Sign in</a>
-      <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Join free</a>
     </div>
+    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()" aria-label="Open menu" aria-controls="mainNav" aria-expanded="false"><i class="ph ph-list"></i></button>
   </div>
 </header>
 
-<main class="section">
-  <div class="container">
-
-    <!-- Page header -->
-    <div class="flex items-center justify-between mb-6" style="flex-wrap:wrap;gap:1rem">
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
       <div>
-        <h1 class="section-title" style="margin-bottom:.25rem">Campus Shop</h1>
-        <p class="text-muted">Clothes, food, groceries &amp; more — delivered to your hostel</p>
+        <div class="crumbs"><a href="home.html">Home</a> / Shop</div>
+        <h1>Campus shop</h1>
+        <p>Clothing, groceries, meals and snacks, delivered to your hostel.</p>
       </div>
+      <button class="btn btn-ghost" onclick="toggleCart()"><i class="ph ph-shopping-cart"></i> View cart</button>
     </div>
+  </section>
+
+  <section class="section-tight">
+  <div class="container">
 
     <!-- Department tabs -->
     <div class="dept-tabs" id="deptTabs">
-      <button class="dept-tab active" onclick="setDept(this,'All')">🏪 All</button>
-      <button class="dept-tab"        onclick="setDept(this,'Clothes')">👕 Clothes</button>
-      <button class="dept-tab"        onclick="setDept(this,'Food')">🥦 Food &amp; Groceries</button>
+      <button class="dept-tab active" onclick="setDept(this,'All')">All</button>
+      <button class="dept-tab"        onclick="setDept(this,'Clothes')">Clothing</button>
+      <button class="dept-tab"        onclick="setDept(this,'Food')">Food &amp; groceries</button>
     </div>
 
     <div class="shop-layout">
@@ -270,26 +267,26 @@
         <!-- Clothes filters (shown only when dept = Clothes or All) -->
         <div id="clothesFilters">
           <div class="filter-section">
-            <div class="filter-label">👕 Gender</div>
+            <div class="filter-label">Gender</div>
             <div class="filter-group">
               <button class="f-btn active" onclick="setGender(this,'All')">All</button>
-              <button class="f-btn" onclick="setGender(this,'Men')" style="">👨 Men</button>
-              <button class="f-btn" onclick="setGender(this,'Women')">👩 Women</button>
+              <button class="f-btn" onclick="setGender(this,'Men')">Men</button>
+              <button class="f-btn" onclick="setGender(this,'Women')">Women</button>
             </div>
           </div>
 
           <div class="filter-section">
-            <div class="filter-label">🏷️ Clothing Type</div>
+            <div class="filter-label">Clothing Type</div>
             <div class="filter-group" id="typeGroup">
               <button class="f-btn active" onclick="setType(this,'All')">All Types</button>
-              <button class="f-btn" onclick="setType(this,'Jerseys')">⚽ Jerseys</button>
-              <button class="f-btn" onclick="setType(this,'T-Shirts')">👕 T-Shirts</button>
-              <button class="f-btn" onclick="setType(this,'Jeans')">👖 Jeans</button>
-              <button class="f-btn" onclick="setType(this,'Hoodies')">🧥 Hoodies</button>
-              <button class="f-btn" onclick="setType(this,'Dresses')">👗 Dresses</button>
-              <button class="f-btn" onclick="setType(this,'Blouses')">👚 Blouses</button>
-              <button class="f-btn" onclick="setType(this,'Skirts')">🩱 Skirts</button>
-              <button class="f-btn" onclick="setType(this,'Shorts')">🩳 Shorts</button>
+              <button class="f-btn" onclick="setType(this,'Jerseys')">Jerseys</button>
+              <button class="f-btn" onclick="setType(this,'T-Shirts')">T-Shirts</button>
+              <button class="f-btn" onclick="setType(this,'Jeans')">Jeans</button>
+              <button class="f-btn" onclick="setType(this,'Hoodies')">Hoodies</button>
+              <button class="f-btn" onclick="setType(this,'Dresses')">Dresses</button>
+              <button class="f-btn" onclick="setType(this,'Blouses')">Blouses</button>
+              <button class="f-btn" onclick="setType(this,'Skirts')">Skirts</button>
+              <button class="f-btn" onclick="setType(this,'Shorts')">Shorts</button>
             </div>
           </div>
         </div>
@@ -297,20 +294,20 @@
         <!-- Food filters -->
         <div id="foodFilters">
           <div class="filter-section">
-            <div class="filter-label">🥦 Food Category</div>
+            <div class="filter-label">Food Category</div>
             <div class="filter-group">
               <button class="f-btn active" onclick="setSubcat(this,'All')">All</button>
-              <button class="f-btn" onclick="setSubcat(this,'Groceries')">🛒 Groceries</button>
-              <button class="f-btn" onclick="setSubcat(this,'Ready Meals')">🍛 Ready Meals</button>
-              <button class="f-btn" onclick="setSubcat(this,'Snacks')">🍟 Snacks</button>
-              <button class="f-btn" onclick="setSubcat(this,'Beverages')">☕ Beverages</button>
+              <button class="f-btn" onclick="setSubcat(this,'Groceries')">Groceries</button>
+              <button class="f-btn" onclick="setSubcat(this,'Ready Meals')">Ready Meals</button>
+              <button class="f-btn" onclick="setSubcat(this,'Snacks')">Snacks</button>
+              <button class="f-btn" onclick="setSubcat(this,'Beverages')">Beverages</button>
             </div>
           </div>
         </div>
 
         <!-- Price range -->
         <div class="filter-section">
-          <div class="filter-label">💰 Max Price</div>
+          <div class="filter-label">Max Price</div>
           <input type="range" id="priceRange" min="0" max="5000" step="100" value="5000"
             oninput="document.getElementById('priceVal').textContent='Ksh '+Number(this.value).toLocaleString();renderProducts()"
             style="width:100%;accent-color:var(--primary)"/>
@@ -318,7 +315,7 @@
         </div>
 
         <button class="btn btn-ghost w-full" style="margin-top:.25rem;justify-content:center" onclick="resetFilters()">
-          ↺ Reset Filters
+          Reset filters
         </button>
       </aside>
 
@@ -326,15 +323,15 @@
       <div>
         <div class="shop-toolbar">
           <div class="search-wrap" style="flex:1;max-width:340px">
-            <span class="search-icon">🔍</span>
-            <input class="search-input" id="shopSearch" type="text" placeholder="Search products…" oninput="renderProducts()"/>
+            <span class="search-icon"><i class="ph ph-magnifying-glass"></i></span>
+            <input class="search-input" id="shopSearch" type="text" placeholder="Search products" aria-label="Search products" oninput="renderProducts()"/>
           </div>
           <div class="results-pill" id="resultsPill">Loading…</div>
-          <select id="sortSelect" onchange="renderProducts()"
-            style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:.4rem .75rem;color:var(--text);font-size:.82rem;cursor:pointer">
+          <select id="sortSelect" onchange="renderProducts()" aria-label="Sort products"
+            style="background:var(--card);border:1px solid var(--border2);border-radius:var(--pill);padding:.55rem .9rem;color:var(--text);font-size:.85rem;cursor:pointer;font-family:inherit">
             <option value="default">Default order</option>
-            <option value="price-asc">Price: Low → High</option>
-            <option value="price-desc">Price: High → Low</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
             <option value="name">Name A–Z</option>
           </select>
         </div>
@@ -344,55 +341,67 @@
 
     </div>
   </div>
+  </section>
 </main>
 
 <!-- Cart overlay -->
 <div id="cartOverlay" onclick="closeCart()"></div>
 
 <!-- Cart button -->
-<button id="cartBtn" onclick="toggleCart()">
-  🛒
+<button id="cartBtn" onclick="toggleCart()" aria-label="Open cart">
+  <i class="ph ph-shopping-cart"></i>
   <div id="cartCount">0</div>
 </button>
 
 <!-- Cart panel -->
-<div id="cartPanel">
+<div id="cartPanel" role="dialog" aria-label="Your cart">
   <div class="cart-header">
-    🛒 Your Cart
-    <button class="cart-close" onclick="closeCart()">✕</button>
+    <span class="serif" style="font-size:1.25rem">Your cart</span>
+    <button class="cart-close" onclick="closeCart()" aria-label="Close cart"><i class="ph ph-x"></i></button>
   </div>
   <div class="cart-items" id="cartItems">
-    <div class="cart-empty">Your cart is empty.<br/>Add items to get started!</div>
+    <div class="cart-empty">Your cart is empty.</div>
   </div>
   <div class="cart-footer" id="cartFooter" style="display:none">
     <div class="cart-total-row">
       <span>Total</span>
       <span id="cartTotal" style="color:var(--primary)">Ksh 0</span>
     </div>
-    <button class="checkout-btn" onclick="checkout()">🚀 Place Order</button>
+    <button class="checkout-btn" onclick="checkout()">Place order</button>
   </div>
 </div>
 
-<!-- Footer -->
 <footer class="footer">
   <div class="footer-grid">
-    <div class="footer-brand"><div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div><p>AI-powered campus marketplace for students in Africa.</p></div>
-    <div class="footer-col"><h4>Shop</h4><ul>
-      <li><a href="shop.html" onclick="setDept(document.querySelector('[onclick*=Clothes]'),\'Clothes\')">Clothes</a></li>
-      <li><a href="shop.html">Food &amp; Groceries</a></li>
-    </ul></div>
-    <div class="footer-col"><h4>Platform</h4><ul>
+    <div class="footer-brand">
+      <a href="home.html" class="logo"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+      <p>A marketplace for campus life: book services, buy essentials, find paid work and pay with M-Pesa. Built in Nairobi.</p>
+    </div>
+    <div class="footer-col"><h4>Explore</h4><ul>
       <li><a href="services.html">Services</a></li>
-      <li><a href="gigs.html">Gigs &amp; Jobs</a></li>
-      <li><a href="career.html">AI Career</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="gigs.html">Gigs</a></li>
+      <li><a href="career.html">Careers</a></li>
     </ul></div>
     <div class="footer-col"><h4>Account</h4><ul>
-      <li><a href="register.html">Register</a></li>
-      <li><a href="login.html">Sign In</a></li>
+      <li><a href="register.html">Create account</a></li>
+      <li><a href="login.html">Sign in</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="wallet.html">Wallet</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul>
+      <li><a href="mailto:simplykae2@gmail.com">simplykae2@gmail.com</a></li>
+      <li><span>Nairobi, Kenya</span></li>
+      <li><a href="register.html?role=provider">List your service</a></li>
     </ul></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 CampusLink</span><span>Made with ❤️ for African students</span></div>
+  <div class="footer-bottom">
+    <span>&copy; <span data-year>2026</span> CampusLink</span>
+    <a href="admin.html">Admin</a>
+  </div>
 </footer>
+
+<script src="nav.js"></script>
 
 <script>
 /* ════════════════════════════════════════
@@ -404,81 +413,98 @@
 ════════════════════════════════════════ */
 const PRODUCTS = [
   /* ── Men Jerseys ── */
-  {id:1,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Liverpool FC Home Jersey',       price:2500, badge:'Best Seller'},
-  {id:2,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Manchester United Away Jersey',  price:2800, badge:null},
-  {id:3,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Chelsea Home Jersey 2024/25',    price:2600, badge:'New'},
-  {id:4,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Real Madrid Training Jersey',    price:2400, badge:null},
-  {id:5,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Barcelona FC Away Jersey',       price:2700, badge:null},
-  {id:6,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'🇰🇪', name:'Kenya National Team Jersey',     price:1800, badge:'Local'},
-  {id:7,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'🏀', name:'NBA Lakers Jersey #23',          price:3200, badge:null},
-  {id:8,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         emoji:'⚽', name:'Arsenal Home Jersey 2024/25',   price:2550, badge:null},
+  {id:1,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Liverpool FC Home Jersey',       price:2500, badge:'Best Seller'},
+  {id:2,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Manchester United Away Jersey',  price:2800, badge:null},
+  {id:3,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Chelsea Home Jersey 2024/25',    price:2600, badge:'New'},
+  {id:4,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Real Madrid Training Jersey',    price:2400, badge:null},
+  {id:5,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Barcelona FC Away Jersey',       price:2700, badge:null},
+  {id:6,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Kenya National Team Jersey',     price:1800, badge:'Local'},
+  {id:7,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'NBA Lakers Jersey #23',          price:3200, badge:null},
+  {id:8,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Arsenal Home Jersey 2024/25',   price:2550, badge:null},
   /* ── Men T-Shirts ── */
-  {id:9,  dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         emoji:'👕', name:'Campus Graphic Oversized Tee',  price:800,  badge:null},
-  {id:10, dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         emoji:'👕', name:'Plain White Essential Tee',     price:600,  badge:null},
-  {id:11, dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         emoji:'👕', name:'Black Streetwear Tee',           price:750,  badge:'Trending'},
+  {id:9,  dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         name:'Campus Graphic Oversized Tee',  price:800,  badge:null},
+  {id:10, dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         name:'Plain White Essential Tee',     price:600,  badge:null},
+  {id:11, dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         name:'Black Streetwear Tee',           price:750,  badge:'Trending'},
   /* ── Men Jeans ── */
-  {id:12, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         emoji:'👖', name:'Slim Fit Dark Wash Jeans',      price:1500, badge:null},
-  {id:13, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         emoji:'👖', name:'Cargo Pants — Olive Green',     price:1200, badge:null},
-  {id:14, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         emoji:'👖', name:'Khaki Slim Chinos',             price:1350, badge:null},
+  {id:12, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         name:'Slim Fit Dark Wash Jeans',      price:1500, badge:null},
+  {id:13, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         name:'Cargo Pants — Olive Green',     price:1200, badge:null},
+  {id:14, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         name:'Khaki Slim Chinos',             price:1350, badge:null},
   /* ── Men Hoodies ── */
-  {id:15, dept:'Clothes', gender:'Men',   type:'Hoodies',  subcat:null,         emoji:'🧥', name:'Campus Zip-Up Hoodie',          price:1800, badge:null},
-  {id:16, dept:'Clothes', gender:'Men',   type:'Hoodies',  subcat:null,         emoji:'🧥', name:'Oversized Pullover Hoodie',     price:1600, badge:'Popular'},
+  {id:15, dept:'Clothes', gender:'Men',   type:'Hoodies',  subcat:null,         name:'Campus Zip-Up Hoodie',          price:1800, badge:null},
+  {id:16, dept:'Clothes', gender:'Men',   type:'Hoodies',  subcat:null,         name:'Oversized Pullover Hoodie',     price:1600, badge:'Popular'},
   /* ── Men Shorts ── */
-  {id:17, dept:'Clothes', gender:'Men',   type:'Shorts',   subcat:null,         emoji:'🩳', name:'Sport Running Shorts',          price:650,  badge:null},
-  {id:18, dept:'Clothes', gender:'Men',   type:'Shorts',   subcat:null,         emoji:'🩳', name:'Denim Shorts',                  price:900,  badge:null},
+  {id:17, dept:'Clothes', gender:'Men',   type:'Shorts',   subcat:null,         name:'Sport Running Shorts',          price:650,  badge:null},
+  {id:18, dept:'Clothes', gender:'Men',   type:'Shorts',   subcat:null,         name:'Denim Shorts',                  price:900,  badge:null},
   /* ── Women Dresses ── */
-  {id:19, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         emoji:'👗', name:'Floral Summer Dress',           price:1200, badge:'Popular'},
-  {id:20, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         emoji:'👗', name:'Casual Midi Dress',             price:1500, badge:null},
-  {id:21, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         emoji:'👗', name:'Office Shift Dress',            price:1800, badge:null},
-  {id:22, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         emoji:'👗', name:'Mini Party Dress — Black',      price:1100, badge:'Trending'},
+  {id:19, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Floral Summer Dress',           price:1200, badge:'Popular'},
+  {id:20, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Casual Midi Dress',             price:1500, badge:null},
+  {id:21, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Office Shift Dress',            price:1800, badge:null},
+  {id:22, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Mini Party Dress — Black',      price:1100, badge:'Trending'},
   /* ── Women Blouses ── */
-  {id:23, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         emoji:'👚', name:'White Ruffle Blouse',           price:900,  badge:null},
-  {id:24, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         emoji:'👚', name:'Striped Button-Down Blouse',    price:850,  badge:null},
-  {id:25, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         emoji:'👚', name:'Flowy Chiffon Blouse',          price:950,  badge:'New'},
+  {id:23, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         name:'White Ruffle Blouse',           price:900,  badge:null},
+  {id:24, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         name:'Striped Button-Down Blouse',    price:850,  badge:null},
+  {id:25, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         name:'Flowy Chiffon Blouse',          price:950,  badge:'New'},
   /* ── Women Jeans ── */
-  {id:26, dept:'Clothes', gender:'Women', type:'Jeans',    subcat:null,         emoji:'👖', name:'High-Waist Skinny Jeans',       price:1400, badge:'Best Seller'},
-  {id:27, dept:'Clothes', gender:'Women', type:'Jeans',    subcat:null,         emoji:'👖', name:'Mom Jeans — Light Blue',        price:1300, badge:null},
+  {id:26, dept:'Clothes', gender:'Women', type:'Jeans',    subcat:null,         name:'High-Waist Skinny Jeans',       price:1400, badge:'Best Seller'},
+  {id:27, dept:'Clothes', gender:'Women', type:'Jeans',    subcat:null,         name:'Mom Jeans — Light Blue',        price:1300, badge:null},
   /* ── Women Skirts ── */
-  {id:28, dept:'Clothes', gender:'Women', type:'Skirts',   subcat:null,         emoji:'🩱', name:'Pleated Mini Skirt — Beige',    price:700,  badge:null},
-  {id:29, dept:'Clothes', gender:'Women', type:'Skirts',   subcat:null,         emoji:'🩱', name:'Maxi Wrap Skirt — Floral',      price:1000, badge:'New'},
+  {id:28, dept:'Clothes', gender:'Women', type:'Skirts',   subcat:null,         name:'Pleated Mini Skirt — Beige',    price:700,  badge:null},
+  {id:29, dept:'Clothes', gender:'Women', type:'Skirts',   subcat:null,         name:'Maxi Wrap Skirt — Floral',      price:1000, badge:'New'},
   /* ── Women Hoodies ── */
-  {id:30, dept:'Clothes', gender:'Women', type:'Hoodies',  subcat:null,         emoji:'🧥', name:'Cropped Campus Hoodie',         price:1400, badge:null},
+  {id:30, dept:'Clothes', gender:'Women', type:'Hoodies',  subcat:null,         name:'Cropped Campus Hoodie',         price:1400, badge:null},
 
   /* ── Food: Groceries ── */
-  {id:31, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🍚', name:'Basmati Rice 2kg',              price:220,  badge:null},
-  {id:32, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🫙', name:'Cooking Oil 1L',                price:280,  badge:null},
-  {id:33, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🍬', name:'Sugar 1kg',                     price:160,  badge:null},
-  {id:34, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🌾', name:'Wheat Flour 2kg',               price:180,  badge:null},
-  {id:35, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🍅', name:'Fresh Tomatoes 500g',           price:60,   badge:null},
-  {id:36, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🧅', name:'Onions 1kg',                    price:80,   badge:null},
-  {id:37, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🍞', name:'White Bread Loaf',              price:65,   badge:null},
-  {id:38, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🥚', name:'Eggs — Tray of 30',             price:420,  badge:'Value'},
-  {id:39, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🥛', name:'Fresh Milk 1L',                 price:65,   badge:null},
-  {id:40, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🍝', name:'Pasta 500g',                    price:120,  badge:null},
-  {id:41, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🫘', name:'Dry Beans 1kg',                 price:180,  badge:null},
-  {id:42, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🥔', name:'Potatoes 1kg',                  price:90,   badge:null},
-  {id:43, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🧂', name:'Table Salt 500g',               price:40,   badge:null},
-  {id:44, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🥫', name:'Canned Tomatoes 400g',          price:85,   badge:null},
-  {id:45, dept:'Food', gender:null, type:null, subcat:'Groceries',    emoji:'🧈', name:'Blueband Margarine 500g',       price:150,  badge:null},
+  {id:31, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Basmati Rice 2kg',              price:220,  badge:null},
+  {id:32, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Cooking Oil 1L',                price:280,  badge:null},
+  {id:33, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Sugar 1kg',                     price:160,  badge:null},
+  {id:34, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Wheat Flour 2kg',               price:180,  badge:null},
+  {id:35, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Fresh Tomatoes 500g',           price:60,   badge:null},
+  {id:36, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Onions 1kg',                    price:80,   badge:null},
+  {id:37, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'White Bread Loaf',              price:65,   badge:null},
+  {id:38, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Eggs — Tray of 30',             price:420,  badge:'Value'},
+  {id:39, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Fresh Milk 1L',                 price:65,   badge:null},
+  {id:40, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Pasta 500g',                    price:120,  badge:null},
+  {id:41, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Dry Beans 1kg',                 price:180,  badge:null},
+  {id:42, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Potatoes 1kg',                  price:90,   badge:null},
+  {id:43, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Table Salt 500g',               price:40,   badge:null},
+  {id:44, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Canned Tomatoes 400g',          price:85,   badge:null},
+  {id:45, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Blueband Margarine 500g',       price:150,  badge:null},
   /* ── Food: Ready Meals ── */
-  {id:46, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  emoji:'🍛', name:'Rice & Beans (1 serving)',      price:150,  badge:'Popular'},
-  {id:47, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  emoji:'🍚', name:'Pilau — Large Portion',         price:200,  badge:null},
-  {id:48, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  emoji:'🫓', name:'Chapati & Stew (3 pcs)',        price:180,  badge:null},
-  {id:49, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  emoji:'🌿', name:'Ugali & Sukuma Wiki',           price:120,  badge:'Value'},
-  {id:50, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  emoji:'🍗', name:'Chicken & Chips',               price:350,  badge:null},
+  {id:46, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Rice & Beans (1 serving)',      price:150,  badge:'Popular'},
+  {id:47, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Pilau — Large Portion',         price:200,  badge:null},
+  {id:48, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Chapati & Stew (3 pcs)',        price:180,  badge:null},
+  {id:49, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Ugali & Sukuma Wiki',           price:120,  badge:'Value'},
+  {id:50, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Chicken & Chips',               price:350,  badge:null},
   /* ── Food: Snacks ── */
-  {id:51, dept:'Food', gender:null, type:null, subcat:'Snacks',       emoji:'🍩', name:'Mandazi — 5 pieces',            price:50,   badge:null},
-  {id:52, dept:'Food', gender:null, type:null, subcat:'Snacks',       emoji:'🥟', name:'Samosa — 3 pieces',             price:60,   badge:'Popular'},
-  {id:53, dept:'Food', gender:null, type:null, subcat:'Snacks',       emoji:'🍟', name:'Fries — Large Portion',         price:150,  badge:null},
-  {id:54, dept:'Food', gender:null, type:null, subcat:'Snacks',       emoji:'🍪', name:'Biscuit Pack (Digestive)',      price:80,   badge:null},
-  {id:55, dept:'Food', gender:null, type:null, subcat:'Snacks',       emoji:'🥜', name:'Roasted Groundnuts (200g)',     price:70,   badge:null},
+  {id:51, dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Mandazi — 5 pieces',            price:50,   badge:null},
+  {id:52, dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Samosa — 3 pieces',             price:60,   badge:'Popular'},
+  {id:53, dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Fries — Large Portion',         price:150,  badge:null},
+  {id:54, dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Biscuit Pack (Digestive)',      price:80,   badge:null},
+  {id:55, dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Roasted Groundnuts (200g)',     price:70,   badge:null},
   /* ── Food: Beverages ── */
-  {id:56, dept:'Food', gender:null, type:null, subcat:'Beverages',    emoji:'☕', name:'Masala Tea (cup)',              price:30,   badge:null},
-  {id:57, dept:'Food', gender:null, type:null, subcat:'Beverages',    emoji:'☕', name:'Black Coffee (cup)',            price:50,   badge:null},
-  {id:58, dept:'Food', gender:null, type:null, subcat:'Beverages',    emoji:'🧃', name:'Fresh Fruit Juice (300ml)',     price:80,   badge:null},
-  {id:59, dept:'Food', gender:null, type:null, subcat:'Beverages',    emoji:'🥤', name:'Soda — Coca-Cola 500ml',        price:70,   badge:null},
-  {id:60, dept:'Food', gender:null, type:null, subcat:'Beverages',    emoji:'🧋', name:'Mango Smoothie (400ml)',        price:120,  badge:'New'},
+  {id:56, dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Masala Tea (cup)',              price:30,   badge:null},
+  {id:57, dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Black Coffee (cup)',            price:50,   badge:null},
+  {id:58, dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Fresh Fruit Juice (300ml)',     price:80,   badge:null},
+  {id:59, dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Soda — Coca-Cola 500ml',        price:70,   badge:null},
+  {id:60, dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Mango Smoothie (400ml)',        price:120,  badge:'New'},
 ];
+
+/* ── Icons for product tiles (replaces emoji) ── */
+const TYPE_ICON = { Jerseys:'soccer-ball', 'T-Shirts':'t-shirt', Jeans:'pants', Hoodies:'coat-hanger', Dresses:'dress', Blouses:'t-shirt', Skirts:'dress', Shorts:'pants' };
+const SUB_ICON  = { Groceries:'basket', 'Ready Meals':'bowl-food', Snacks:'cookie', Beverages:'coffee' };
+function iconForProduct(p) {
+  if (/lakers|nba/i.test(p.name)) return 'basketball';
+  if (/egg/i.test(p.name)) return 'egg';
+  if (/bread|chapati/i.test(p.name)) return 'bread';
+  if (/juice|smoothie|soda/i.test(p.name)) return 'brandy';
+  if (/chicken/i.test(p.name)) return 'hamburger';
+  if (/tomato|onion|potato|sukuma/i.test(p.name)) return 'carrot';
+  return p.dept === 'Clothes' ? (TYPE_ICON[p.type] || 'coat-hanger') : (SUB_ICON[p.subcat] || 'basket');
+}
+function tintFor(p) {
+  if (p.dept === 'Clothes') return p.gender === 'Women' ? '#f4ece6' : '#e9eef3';
+  return { Groceries:'#ecf1e8', 'Ready Meals':'#f5eee2', Snacks:'#f3ece4', Beverages:'#ebeae6' }[p.subcat] || '#f3f1ec';
+}
 
 /* ── Filter State ── */
 let state = { dept:'All', gender:'All', type:'All', subcat:'All' };
@@ -529,7 +555,7 @@ function updateTypeButtons(gender) {
   const womenOnly = ['Dresses','Blouses','Skirts'];
   const menOnly   = ['Jerseys','Shorts'];
   document.querySelectorAll('#typeGroup .f-btn').forEach(btn => {
-    const t = btn.textContent.replace(/[⚽👕👖🧥👗👚🩱🩳]/g,'').trim();
+    const t = btn.textContent.trim();
     if (gender==='Men'    && womenOnly.includes(t)) btn.style.display='none';
     else if (gender==='Women' && menOnly.includes(t))   btn.style.display='none';
     else btn.style.display='';
@@ -586,10 +612,10 @@ function renderProducts() {
   const grid = document.getElementById('productGrid');
   if (!items.length) {
     grid.innerHTML = `<div class="no-results">
-      <div style="font-size:3rem;margin-bottom:.75rem">🔍</div>
+      <i class="ph ph-magnifying-glass" style="font-size:2rem;color:var(--dim)"></i>
       <div style="font-weight:700;margin-bottom:.35rem">No products found</div>
       <div style="color:var(--muted);font-size:.875rem">Try adjusting your filters or search term.</div>
-      <button class="btn btn-ghost" style="margin-top:1rem" onclick="resetFilters()">↺ Reset Filters</button>
+      <button class="btn btn-ghost" style="margin-top:1rem" onclick="resetFilters()">Reset filters</button>
     </div>`;
     return;
   }
@@ -598,8 +624,8 @@ function renderProducts() {
     const inCart = cart.find(c=>c.id===p.id);
     return `
     <div class="product-card">
-      <div class="product-img">
-        ${p.emoji}
+      <div class="product-img" style="--tint:${tintFor(p)}">
+        <i class="ph ph-${iconForProduct(p)}"></i>
         ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
       </div>
       <div class="product-body">
@@ -610,7 +636,7 @@ function renderProducts() {
         </div>
         <div class="product-price">Ksh ${p.price.toLocaleString()}</div>
         <button class="add-cart-btn ${inCart?'added':''}" onclick="addToCart(${p.id})">
-          ${inCart ? `✓ In Cart (${inCart.qty})` : '🛒 Add to Cart'}
+          ${inCart ? `<i class="ph ph-check"></i> In cart (${inCart.qty})` : 'Add to cart'}
         </button>
       </div>
     </div>`;
@@ -657,7 +683,7 @@ function updateCart() {
   const footerEl = document.getElementById('cartFooter');
 
   if (!cart.length) {
-    itemsEl.innerHTML  = '<div class="cart-empty">Your cart is empty.<br/>Add items to get started!</div>';
+    itemsEl.innerHTML  = '<div class="cart-empty">Your cart is empty.</div>';
     footerEl.style.display = 'none';
     return;
   }
@@ -667,7 +693,7 @@ function updateCart() {
 
   itemsEl.innerHTML = cart.map(c=>`
     <div class="cart-item">
-      <div class="cart-item-icon">${c.emoji}</div>
+      <div class="cart-item-icon"><i class="ph ph-${iconForProduct(c)}"></i></div>
       <div class="cart-item-info">
         <div class="cart-item-name">${c.name}</div>
         <div class="cart-item-price">Ksh ${(c.price*c.qty).toLocaleString()}</div>
@@ -675,7 +701,7 @@ function updateCart() {
           <button class="qty-btn" onclick="changeQty(${c.id},-1)">−</button>
           <span class="qty-val">${c.qty}</span>
           <button class="qty-btn" onclick="changeQty(${c.id},+1)">+</button>
-          <button class="cart-remove" onclick="removeFromCart(${c.id})">✕</button>
+          <button class="cart-remove" onclick="removeFromCart(${c.id})" aria-label="Remove"><i class="ph ph-trash"></i></button>
         </div>
       </div>
     </div>
@@ -694,11 +720,22 @@ function closeCart() {
 function checkout() {
   if (!cart.length) return;
   const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
-  alert(`✅ Order placed!\n\nTotal: Ksh ${total.toLocaleString()}\nItems: ${cart.reduce((s,c)=>s+c.qty,0)}\n\nPayment via M-Pesa coming soon!`);
+  notify('Order placed: ' + cart.reduce((s,c)=>s+c.qty,0) + ' items, Ksh ' + total.toLocaleString() + '. Pay from your wallet on delivery.', 'package');
   cart = [];
   updateCart();
   closeCart();
   renderProducts();
+}
+
+/* ── Deep links: shop.html?dept=Food&sub=Snacks · ?dept=Clothes&gender=Women · &type=Jerseys ── */
+function applyUrlFilters() {
+  const dept = qs('dept'), gender = qs('gender'), type = qs('type'), sub = qs('sub'), q = qs('q');
+  const findBtn = (sel, val) => [...document.querySelectorAll(sel)].find(b => (b.getAttribute('onclick') || '').includes("'" + val + "'"));
+  if (dept) { const b = findBtn('.dept-tab', dept); if (b) setDept(b, dept); }
+  if (gender) { const b = findBtn('#clothesFilters .f-btn', gender); if (b) setGender(b, gender); }
+  if (type) { const b = findBtn('#typeGroup .f-btn', type); if (b) setType(b, type); }
+  if (sub) { const b = findBtn('#foodFilters .f-btn', sub); if (b) setSubcat(b, sub); }
+  if (q) { document.getElementById('shopSearch').value = q; renderProducts(); }
 }
 
 /* ── Init ── */
@@ -706,7 +743,7 @@ document.getElementById('cartCount').style.display='none';
 document.getElementById('clothesFilters').style.display='';
 document.getElementById('foodFilters').style.display='';
 renderProducts();
+applyUrlFilters();
 </script>
-<script src="nav.js"></script>
 </body>
 </html>

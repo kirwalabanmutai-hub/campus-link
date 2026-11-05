@@ -3,251 +3,279 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Your CampusLink dashboard: earnings, applications, bookings and recent activity." />
+  <meta name="theme-color" content="#fbfaf7" />
   <title>Dashboard — CampusLink</title>
   <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <link rel="stylesheet" href="campuslink.css" />
-  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
   <style>
-    .dash-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem; }
-    .stat-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; margin-bottom:1.5rem; }
-    .stat-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem; }
-    .stat-icon { width:40px; height:40px; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:0.75rem; }
-    .stat-val { font-size:1.6rem; font-weight:900; margin-bottom:.15rem; }
-    .stat-lbl { color:var(--muted); font-size:0.8rem; }
-    .stat-trend { font-size:0.78rem; margin-top:.3rem; }
-    .up { color:var(--success); } .down { color:var(--danger); }
-    .bar-chart { display:flex; align-items:flex-end; gap:.5rem; height:120px; padding-top:.5rem; }
-    .bar-col { display:flex; flex-direction:column; align-items:center; gap:.25rem; flex:1; }
-    .bar { width:100%; border-radius:4px 4px 0 0; background:var(--primary); transition:height .3s; min-height:4px; }
-    .bar-lbl { font-size:.68rem; color:var(--dim); }
-    .activity-item { display:flex; gap:.75rem; padding:.65rem 0; border-bottom:1px solid var(--border); }
-    .activity-item:last-child { border-bottom:none; }
-    .act-dot { width:8px; height:8px; border-radius:50%; background:var(--primary); flex-shrink:0; margin-top:6px; }
-    .act-text { font-size:.875rem; flex:1; }
-    .act-time { color:var(--dim); font-size:.78rem; flex-shrink:0; }
-    .dash-layout { display:grid; grid-template-columns:1fr 320px; gap:1.25rem; }
-    @media(max-width:900px) { .dash-layout { grid-template-columns:1fr !important; } }
+    .stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; display: block; transition: border-color .15s; }
+    a.stat-card:hover { border-color: var(--border2); }
+    .stat-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; color: var(--muted); font-size: .85rem; }
+    .stat-top i { font-size: 1.2rem; color: var(--dim); }
+    .stat-val { font-family: var(--font-serif); font-size: 1.9rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+    .stat-trend { font-size: .8rem; margin-top: .4rem; color: var(--muted); }
+    .up { color: var(--success); } .down { color: var(--danger); }
+
+    .card-title { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600; }
+    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.1rem; gap: 1rem; }
+
+    .bar-chart { display: flex; align-items: flex-end; gap: .75rem; height: 160px; }
+    .bar-col { display: flex; flex-direction: column; align-items: center; gap: .4rem; flex: 1; height: 100%; justify-content: flex-end; }
+    .bar { width: 100%; max-width: 44px; border-radius: 4px 4px 0 0; background: #1f5c4533; min-height: 4px; }
+    .bar-col:last-child .bar { background: var(--primary); }
+    .bar-lbl { font-size: .75rem; color: var(--dim); }
+
+    .activity-item { display: flex; gap: .75rem; padding: .75rem 0; border-bottom: 1px solid var(--border); }
+    .activity-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .act-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; margin-top: 8px; }
+    .act-text { font-size: .9rem; flex: 1; }
+    .act-time { color: var(--dim); font-size: .78rem; flex-shrink: 0; }
+
+    .dash-layout { display: grid; grid-template-columns: 1fr 340px; gap: 1.25rem; align-items: start; }
+    .table-wrap { overflow-x: auto; }
+    @media (max-width: 1000px) { .stat-cards { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 900px)  { .dash-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 420px)  { .stat-cards { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
+
+<a class="skip-link" href="#main">Skip to content</a>
 <div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
 <header class="navbar">
   <div class="navbar-inner">
-    <a href="home.html" class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></a>
-    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()" aria-label="Open menu"><i class="ph ph-list"></i></button>
-    <nav class="nav-links" id="mainNav">
+    <a href="home.html" class="logo" aria-label="CampusLink home"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+    <nav class="nav-links" id="mainNav" aria-label="Main">
       <div class="mobile-nav-head">
-        <div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div>
-        <button class="mobile-close-btn" onclick="closeMobileNav()"><i class="ph ph-x"></i></button>
+        <a href="home.html" class="logo"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+        <button class="mobile-close-btn" onclick="closeMobileNav()" aria-label="Close menu"><i class="ph ph-x"></i></button>
       </div>
       <div class="nav-wrap">
-        <a href="home.html" class="nav-link "><i class="ph ph-house-simple"></i> Home</a>
+        <a href="home.html" class="nav-link"><i class="ph ph-house-simple"></i> Home</a>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="services.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-storefront"></i> Services <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop">
+        <a href="services.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-storefront"></i> Services <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
           <div class="drop-col">
-            <div class="drop-head">Campus Services</div>
-            <a href="services.html" class="drop-item"><i class="ph ph-printer"></i> Printing &amp; Copying</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-t-shirt"></i> Laundry</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-fork-knife"></i> Food Delivery</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-house"></i> Housing &amp; Rooms</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-book-open"></i> Academic Notes</a>
+            <div class="drop-head">Everyday</div>
+            <a href="services.html?cat=Printing" class="drop-item"><i class="ph ph-printer"></i> Printing</a>
+            <a href="services.html?cat=Laundry" class="drop-item"><i class="ph ph-t-shirt"></i> Laundry</a>
+            <a href="services.html?cat=Food" class="drop-item"><i class="ph ph-bowl-food"></i> Food delivery</a>
+            <a href="services.html?cat=Housing" class="drop-item"><i class="ph ph-house-line"></i> Housing &amp; cleaning</a>
           </div>
           <div class="drop-col">
-            <div class="drop-head">Logistics</div>
-            <a href="services.html" class="drop-item"><i class="ph ph-truck"></i> Room Moving</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-motorcycle"></i> Pickup &amp; Delivery</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-archive-box"></i> Luggage Storage</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-wrench"></i> Repairs &amp; Fixes</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-pencil-simple"></i> Essay Writing</a>
+            <div class="drop-head">Study &amp; moving</div>
+            <a href="services.html?cat=Academic" class="drop-item"><i class="ph ph-book-open-text"></i> Notes &amp; tutoring</a>
+            <a href="services.html?cat=Writing" class="drop-item"><i class="ph ph-pen-nib"></i> Writing help</a>
+            <a href="services.html?cat=Movers" class="drop-item"><i class="ph ph-truck"></i> Moving &amp; storage</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-squares-four"></i> All services</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="shop.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-shopping-bag"></i> Shop <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop">
+        <a href="shop.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-shopping-bag"></i> Shop <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
           <div class="drop-col">
-            <div class="drop-head">Clothes</div>
-            <a href="shop.html" class="drop-item"><i class="ph ph-soccer-ball"></i> Men's Jerseys</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-person-simple"></i> Men's Clothing</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-dress"></i> Women's Clothing</a>
+            <div class="drop-head">Clothing</div>
+            <a href="shop.html?dept=Clothes&amp;type=Jerseys" class="drop-item"><i class="ph ph-soccer-ball"></i> Jerseys</a>
+            <a href="shop.html?dept=Clothes&amp;gender=Men" class="drop-item"><i class="ph ph-t-shirt"></i> Men</a>
+            <a href="shop.html?dept=Clothes&amp;gender=Women" class="drop-item"><i class="ph ph-dress"></i> Women</a>
           </div>
           <div class="drop-col">
             <div class="drop-head">Food</div>
-            <a href="shop.html" class="drop-item"><i class="ph ph-shopping-cart"></i> Groceries</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-bowl-food"></i> Ready Meals</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-cookie"></i> Snacks</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-coffee"></i> Beverages</a>
+            <a href="shop.html?dept=Food&amp;sub=Groceries" class="drop-item"><i class="ph ph-basket"></i> Groceries</a>
+            <a href="shop.html?dept=Food&amp;sub=Ready%20Meals" class="drop-item"><i class="ph ph-bowl-food"></i> Ready meals</a>
+            <a href="shop.html?dept=Food&amp;sub=Snacks" class="drop-item"><i class="ph ph-cookie"></i> Snacks</a>
+            <a href="shop.html?dept=Food&amp;sub=Beverages" class="drop-item"><i class="ph ph-coffee"></i> Drinks</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="gigs.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-briefcase"></i> Gigs &amp; Jobs <i class="ph ph-caret-down nav-caret"></i></a>
+        <a href="gigs.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-briefcase"></i> Gigs <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
+          <div class="drop-col">
+            <div class="drop-head">Find work</div>
+            <a href="gigs.html?cat=Academic" class="drop-item"><i class="ph ph-graduation-cap"></i> Tutoring</a>
+            <a href="gigs.html?cat=Tech" class="drop-item"><i class="ph ph-code"></i> Tech</a>
+            <a href="gigs.html?cat=Creative" class="drop-item"><i class="ph ph-palette"></i> Creative</a>
+            <a href="gigs.html?cat=Admin" class="drop-item"><i class="ph ph-clipboard-text"></i> Admin</a>
+            <a href="gigs.html?cat=Physical" class="drop-item"><i class="ph ph-barbell"></i> Hands-on</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Hiring</div>
+            <a href="register.html?role=recruiter" class="drop-item"><i class="ph ph-plus-circle"></i> Post a gig</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-list-magnifying-glass"></i> All open gigs</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="career.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-compass"></i> Careers <i class="ph ph-caret-down nav-caret"></i></a>
         <div class="mega-drop">
           <div class="drop-col">
-            <div class="drop-head">Find Work</div>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-graduation-cap"></i> Academic</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-code"></i> Tech &amp; Dev</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-palette"></i> Creative</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-clipboard-text"></i> Admin</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-barbell"></i> Physical</a>
-          </div>
-          <div class="drop-col">
-            <div class="drop-head">Opportunities</div>
-            <a href="register.html" class="drop-item"><i class="ph ph-plus-circle"></i> Post a Gig</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-users"></i> Browse Talent</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-clock"></i> Part-time Jobs</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-student"></i> Internships</a>
+            <div class="drop-head">Plan your next step</div>
+            <a href="career.html#matches" class="drop-item"><i class="ph ph-chart-bar"></i> Career matches</a>
+            <a href="career.html#skills" class="drop-item"><i class="ph ph-target"></i> Skill gaps</a>
+            <a href="career.html#roadmap" class="drop-item"><i class="ph ph-map-trifold"></i> 16-week plan</a>
+            <a href="career.html#coach" class="drop-item"><i class="ph ph-chat-circle-text"></i> Ask the coach</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="career.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-brain"></i> AI Career <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop" style="min-width:220px">
-          <div class="drop-col">
-            <div class="drop-head">Career Tools</div>
-            <a href="career.html" class="drop-item"><i class="ph ph-chart-bar"></i> Career Match</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-target"></i> Skill Gap Analysis</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-map-trifold"></i> 16-Week Roadmap</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-file-text"></i> Resume Advice</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-chat-circle-dots"></i> Interview Prep</a>
-          </div>
-        </div>
-      </div>
-      <div class="nav-wrap has-drop">
-        <a href="wallet.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-wallet"></i> Wallet <i class="ph ph-caret-down nav-caret"></i></a>
+        <a href="wallet.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-wallet"></i> Wallet <i class="ph ph-caret-down nav-caret"></i></a>
         <div class="mega-drop">
           <div class="drop-col">
-            <div class="drop-head">My Finances</div>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-currency-dollar"></i> My Balance</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-list-bullets"></i> Transaction History</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-chart-pie-slice"></i> Spending Analytics</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-trend-up"></i> Earnings Report</a>
-          </div>
-          <div class="drop-col">
-            <div class="drop-head">Payments</div>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-device-mobile"></i> M-Pesa Top Up</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-paper-plane-tilt"></i> Send Money</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-credit-card"></i> Pay for Service</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-crown"></i> Subscription Plans</a>
+            <div class="drop-head">Your money</div>
+            <a href="wallet.html#balance" class="drop-item"><i class="ph ph-coins"></i> Balance</a>
+            <a href="wallet.html#transactions" class="drop-item"><i class="ph ph-list-bullets"></i> Transactions</a>
+            <a href="wallet.html#spending" class="drop-item"><i class="ph ph-chart-pie-slice"></i> Spending</a>
+            <a href="wallet.html#mpesa" class="drop-item"><i class="ph ph-device-mobile"></i> Top up with M-Pesa</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap">
-        <a href="dashboard.html" class="nav-link active"><i class="ph ph-gauge"></i> Dashboard</a>
+        <a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i> Dashboard</a>
       </div>
     </nav>
     <div class="nav-actions">
-      <a href="admin.html" class="btn btn-ghost btn-sm" style="border-color:#f59e0b44;color:#f59e0b"><i class="ph ph-gear-six"></i> Admin</a>
       <a href="login.html" class="btn btn-ghost btn-sm">Sign in</a>
-      <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Join free</a>
     </div>
+    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()" aria-label="Open menu" aria-controls="mainNav" aria-expanded="false"><i class="ph ph-list"></i></button>
   </div>
 </header>
 
-<main class="section">
-  <div class="container">
-    <div class="dash-header">
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
       <div>
-        <h1 class="section-title" style="margin-bottom:.25rem">Dashboard</h1>
-        <p class="text-muted">Welcome back! Here's your activity overview.</p>
+        <div class="crumbs"><a href="home.html">Home</a> / Dashboard</div>
+        <h1 id="greeting">Good day</h1>
+        <p>Here's how your month is going.</p>
       </div>
-      <span class="badge badge-primary">Pro Plan ✓</span>
-    </div>
-
-    <!-- Stats -->
-    <div class="stat-cards">
-      <div class="stat-card">
-        <div class="stat-icon" style="background:#10b98122">💰</div>
-        <div class="stat-val text-primary">Ksh 28,500</div>
-        <div class="stat-lbl">Earnings this month</div>
-        <div class="stat-trend up">↑ +18% from last month</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background:#3b82f622">💼</div>
-        <div class="stat-val" style="color:var(--accent)">7</div>
-        <div class="stat-lbl">Active gig applications</div>
-        <div class="stat-trend up">↑ 3 new this week</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background:#f59e0b22">⭐</div>
-        <div class="stat-val" style="color:var(--warn)">4.8</div>
-        <div class="stat-lbl">Reputation score</div>
-        <div class="stat-trend up">↑ 2 new reviews</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background:#8b5cf622">🛍️</div>
-        <div class="stat-val" style="color:#8b5cf6">12</div>
-        <div class="stat-lbl">Services booked</div>
-        <div class="stat-trend down">↓ −2 from last month</div>
+      <div class="flex gap-2 flex-wrap">
+        <a href="gigs.html" class="btn btn-ghost"><i class="ph ph-magnifying-glass"></i> Find gigs</a>
+        <a href="wallet.html#mpesa" class="btn btn-primary"><i class="ph ph-plus"></i> Top up wallet</a>
       </div>
     </div>
+  </section>
 
-    <div class="dash-layout">
-      <div>
-        <!-- Income chart -->
-        <div class="card mb-4">
-          <div style="font-weight:700;margin-bottom:1rem">Monthly Earnings (Ksh)</div>
-          <div class="bar-chart" id="barChart"></div>
+  <section class="section-tight">
+    <div class="container">
+      <div class="stat-cards">
+        <a href="wallet.html#transactions" class="stat-card">
+          <div class="stat-top">Earned this month <i class="ph ph-coins"></i></div>
+          <div class="stat-val">Ksh 28,500</div>
+          <div class="stat-trend"><span class="up">+18%</span> on last month</div>
+        </a>
+        <a href="gigs.html" class="stat-card">
+          <div class="stat-top">Open applications <i class="ph ph-briefcase"></i></div>
+          <div class="stat-val" id="appCount">7</div>
+          <div class="stat-trend"><span class="up">3 new</span> this week</div>
+        </a>
+        <div class="stat-card">
+          <div class="stat-top">Your rating <i class="ph ph-star"></i></div>
+          <div class="stat-val">4.8</div>
+          <div class="stat-trend">2 new reviews</div>
+        </div>
+        <a href="services.html" class="stat-card">
+          <div class="stat-top">Services booked <i class="ph ph-calendar-check"></i></div>
+          <div class="stat-val">12</div>
+          <div class="stat-trend"><span class="down">−2</span> on last month</div>
+        </a>
+      </div>
+
+      <div class="dash-layout">
+        <div>
+          <div class="card card-flat mb-4">
+            <div class="card-head"><h2 class="card-title">Monthly earnings</h2><span class="text-dim text-xs">Ksh, Jan–Jun</span></div>
+            <div class="bar-chart" id="barChart" role="img" aria-label="Monthly earnings from January to June"></div>
+          </div>
+
+          <div class="card card-flat">
+            <div class="card-head"><h2 class="card-title">Gig applications</h2><a href="gigs.html" class="see-all">Find more <i class="ph ph-arrow-right"></i></a></div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead><tr><th>Gig</th><th>Budget</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Web designer</td><td>Ksh 3,800</td><td><span class="badge badge-accent">Applied</span></td></tr>
+                  <tr><td>Maths tutor</td><td>Ksh 2,000</td><td><span class="badge badge-primary">Shortlisted</span></td></tr>
+                  <tr><td>Content writer</td><td>Ksh 2,500</td><td><span class="badge badge-warn">Pending</span></td></tr>
+                  <tr><td>Poster design</td><td>Ksh 800</td><td><span class="badge badge-success">Accepted</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <!-- Recent gigs -->
-        <div class="card">
-          <div style="font-weight:700;margin-bottom:1rem">Recent Gig Applications</div>
-          <table style="width:100%;border-collapse:collapse;font-size:.875rem">
-            <thead><tr style="border-bottom:1px solid var(--border)">
-              <th style="text-align:left;padding:.5rem 0;color:var(--muted);font-weight:600">Gig</th>
-              <th style="text-align:left;padding:.5rem 0;color:var(--muted);font-weight:600">Budget</th>
-              <th style="text-align:left;padding:.5rem 0;color:var(--muted);font-weight:600">Status</th>
-            </tr></thead>
-            <tbody>
-              <tr style="border-bottom:1px solid var(--border)"><td style="padding:.6rem 0">Web Designer</td><td>Ksh 3,800</td><td><span class="badge badge-accent">Applied</span></td></tr>
-              <tr style="border-bottom:1px solid var(--border)"><td style="padding:.6rem 0">Math Tutor</td><td>Ksh 2,000</td><td><span class="badge badge-success">Shortlisted</span></td></tr>
-              <tr style="border-bottom:1px solid var(--border)"><td style="padding:.6rem 0">Content Writer</td><td>Ksh 2,500</td><td><span class="badge badge-warn">Pending</span></td></tr>
-              <tr><td style="padding:.6rem 0">Poster Design</td><td>Ksh 800</td><td><span class="badge badge-success" style="background:rgba(34,197,94,.12);color:var(--success)">Accepted</span></td></tr>
-            </tbody>
-          </table>
+        <div class="card card-flat">
+          <div class="card-head"><h2 class="card-title">Recent activity</h2></div>
+          <div class="activity-item"><div class="act-dot"></div><div class="act-text">You booked <strong>Laundry Service</strong></div><div class="act-time">2h</div></div>
+          <div class="activity-item"><div class="act-dot" style="background:var(--success)"></div><div class="act-text">Received <strong>Ksh 3,800</strong> for the web design gig</div><div class="act-time">5h</div></div>
+          <div class="activity-item"><div class="act-dot" style="background:var(--accent)"></div><div class="act-text">New gig posted: <strong>Social Media Manager</strong></div><div class="act-time">1d</div></div>
+          <div class="activity-item"><div class="act-dot" style="background:var(--warn)"></div><div class="act-text"><strong>Jane K.</strong> left you a 5-star review</div><div class="act-time">2d</div></div>
+          <div class="activity-item"><div class="act-dot" style="background:var(--dim)"></div><div class="act-text">Applied to <strong>Python Tutor</strong></div><div class="act-time">2d</div></div>
+          <div class="activity-item"><div class="act-dot"></div><div class="act-text">Topped up <strong>Ksh 5,000</strong> via M-Pesa</div><div class="act-time">3d</div></div>
         </div>
       </div>
-
-      <!-- Activity feed -->
-      <div class="card" style="height:fit-content">
-        <div style="font-weight:700;margin-bottom:1rem">Recent Activity</div>
-        <div class="activity-item"><div class="act-dot"></div><div class="act-text">You booked <strong>Laundry Service</strong></div><div class="act-time">2h ago</div></div>
-        <div class="activity-item"><div class="act-dot" style="background:var(--success)"></div><div class="act-text">Received <strong>Ksh 3,800</strong> for web design gig</div><div class="act-time">5h ago</div></div>
-        <div class="activity-item"><div class="act-dot" style="background:var(--accent)"></div><div class="act-text">New gig: <strong>Social Media Manager</strong></div><div class="act-time">1d ago</div></div>
-        <div class="activity-item"><div class="act-dot" style="background:var(--warn)"></div><div class="act-text"><strong>Jane K.</strong> left you a 5-star review</div><div class="act-time">2d ago</div></div>
-        <div class="activity-item"><div class="act-dot" style="background:var(--danger)"></div><div class="act-text">Applied to <strong>Python Tutor</strong> gig</div><div class="act-time">2d ago</div></div>
-        <div class="activity-item"><div class="act-dot"></div><div class="act-text">Wallet topped up via <strong>M-Pesa</strong> — Ksh 5,000</div><div class="act-time">3d ago</div></div>
-      </div>
     </div>
-  </div>
+  </section>
 </main>
 
 <footer class="footer">
   <div class="footer-grid">
-    <div class="footer-brand"><div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div><p>AI-powered campus marketplace.</p></div>
-    <div class="footer-col"><h4>Platform</h4><ul><li><a href="services.html">Services</a></li><li><a href="gigs.html">Gigs</a></li><li><a href="career.html">AI Career</a></li></ul></div>
-    <div class="footer-col"><h4>Account</h4><ul><li><a href="register.html">Register</a></li><li><a href="login.html">Sign In</a></li></ul></div>
+    <div class="footer-brand">
+      <a href="home.html" class="logo"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+      <p>A marketplace for campus life: book services, buy essentials, find paid work and pay with M-Pesa. Built in Nairobi.</p>
+    </div>
+    <div class="footer-col"><h4>Explore</h4><ul>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="gigs.html">Gigs</a></li>
+      <li><a href="career.html">Careers</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Account</h4><ul>
+      <li><a href="register.html">Create account</a></li>
+      <li><a href="login.html">Sign in</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="wallet.html">Wallet</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul>
+      <li><a href="mailto:simplykae2@gmail.com">simplykae2@gmail.com</a></li>
+      <li><span>Nairobi, Kenya</span></li>
+      <li><a href="register.html?role=provider">List your service</a></li>
+    </ul></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 CampusLink</span></div>
+  <div class="footer-bottom">
+    <span>&copy; <span data-year>2026</span> CampusLink</span>
+    <a href="admin.html">Admin</a>
+  </div>
 </footer>
 
-<script>
-const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun'];
-const VALUES = [8200, 12400, 9800, 16000, 22000, 28500];
-const max = Math.max(...VALUES);
-const chart = document.getElementById('barChart');
-chart.innerHTML = VALUES.map((v, i) => `
-  <div class="bar-col">
-    <div class="bar" style="height:${Math.round((v/max)*100)}px" title="Ksh ${v.toLocaleString()}"></div>
-    <div class="bar-lbl">${MONTHS[i]}</div>
-  </div>
-`).join('');
-</script>
 <script src="nav.js"></script>
+<script>
+(function () {
+  const h = new Date().getHours();
+  document.getElementById('greeting').textContent = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+
+  const applied = JSON.parse(localStorage.getItem('campuslink_applied') || '[]').length;
+  if (applied) document.getElementById('appCount').textContent = 7 + applied;
+
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+  const VALUES = [8200, 12400, 9800, 16000, 22000, 28500];
+  const max = Math.max(...VALUES);
+  document.getElementById('barChart').innerHTML = VALUES.map((v, i) => `
+    <div class="bar-col">
+      <div class="bar" style="height:${Math.round((v / max) * 82)}%" title="${MONTHS[i]}: Ksh ${v.toLocaleString()}"></div>
+      <div class="bar-lbl">${MONTHS[i]}</div>
+    </div>`).join('');
+})();
+</script>
 </body>
 </html>

@@ -3,248 +3,283 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Book printing, laundry, cleaning, moving help and study notes from rated campus providers." />
+  <meta name="theme-color" content="#fbfaf7" />
   <title>Services — CampusLink</title>
   <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <link rel="stylesheet" href="campuslink.css" />
-  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
   <style>
-    .page-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem; }
-    .results-count { color:var(--muted); font-size:0.875rem; margin-bottom:1rem; }
-    .svc-card-inner { display:flex; flex-direction:column; height:100%; }
-    .svc-emoji-wrap { position:relative; font-size:2.4rem; margin-bottom:0.75rem; }
-    .svc-emoji-wrap .badge { position:absolute; top:0; right:0; }
-    .svc-name { font-weight:700; font-size:1rem; }
-    .svc-provider { color:var(--muted); font-size:0.82rem; margin-bottom:0.4rem; }
-    .svc-meta { display:flex; align-items:center; gap:0.75rem; font-size:0.8rem; margin-bottom:0.35rem; }
-    .svc-meta .stars { color:var(--warn); }
-    .svc-loc, .svc-hours { color:var(--muted); font-size:0.78rem; display:flex; align-items:center; gap:0.3rem; margin-bottom:0.25rem; }
-    .svc-footer { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:0.75rem; border-top:1px solid var(--border); }
-    .svc-price { font-weight:700; color:var(--primary); font-size:0.9rem; }
-    .filter-btn { display:flex; align-items:center; gap:0.4rem; }
+    .toolbar { display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .toolbar .search-wrap { flex: 1; max-width: 460px; min-width: 220px; }
+    .results-count { color: var(--muted); font-size: .9rem; }
+    .svc-card { display: flex; flex-direction: column; }
+    .svc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .svc-name { font-family: var(--font); letter-spacing: 0; font-weight: 600; font-size: 1.02rem; line-height: 1.35; }
+    .svc-provider { color: var(--muted); font-size: .86rem; margin-bottom: .55rem; }
+    .svc-meta { display: flex; flex-direction: column; gap: .3rem; color: var(--muted); font-size: .82rem; margin: .6rem 0 0; }
+    .svc-meta span { display: flex; align-items: center; gap: .4rem; }
+    .svc-meta i { color: var(--dim); }
+    .svc-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .svc-card .svc-footer { margin-top: 1.1rem; }
+    .svc-price { font-weight: 600; font-size: .95rem; }
+    .empty { text-align: center; padding: 4rem 1rem; color: var(--muted); }
+    .empty i { font-size: 2rem; color: var(--dim); display: block; margin-bottom: .5rem; }
+    .provider-cta { margin-top: 3rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap; padding: 1.75rem 2rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
+    .provider-cta h2 { font-size: 1.4rem; margin-bottom: .25rem; }
+    .provider-cta p { color: var(--muted); }
+    @media (max-width: 520px) { #svcGrid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
+
+<a class="skip-link" href="#main">Skip to content</a>
 <div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
 <header class="navbar">
   <div class="navbar-inner">
-    <a href="home.html" class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></a>
-    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()" aria-label="Open menu"><i class="ph ph-list"></i></button>
-    <nav class="nav-links" id="mainNav">
+    <a href="home.html" class="logo" aria-label="CampusLink home"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+    <nav class="nav-links" id="mainNav" aria-label="Main">
       <div class="mobile-nav-head">
-        <div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div>
-        <button class="mobile-close-btn" onclick="closeMobileNav()"><i class="ph ph-x"></i></button>
+        <a href="home.html" class="logo"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+        <button class="mobile-close-btn" onclick="closeMobileNav()" aria-label="Close menu"><i class="ph ph-x"></i></button>
       </div>
       <div class="nav-wrap">
-        <a href="home.html" class="nav-link "><i class="ph ph-house-simple"></i> Home</a>
+        <a href="home.html" class="nav-link"><i class="ph ph-house-simple"></i> Home</a>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="services.html" class="nav-link active" onclick="handleDrop(event,this)"><i class="ph ph-storefront"></i> Services <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop">
+        <a href="services.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-storefront"></i> Services <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
           <div class="drop-col">
-            <div class="drop-head">Campus Services</div>
-            <a href="services.html" class="drop-item"><i class="ph ph-printer"></i> Printing &amp; Copying</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-t-shirt"></i> Laundry</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-fork-knife"></i> Food Delivery</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-house"></i> Housing &amp; Rooms</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-book-open"></i> Academic Notes</a>
+            <div class="drop-head">Everyday</div>
+            <a href="services.html?cat=Printing" class="drop-item"><i class="ph ph-printer"></i> Printing</a>
+            <a href="services.html?cat=Laundry" class="drop-item"><i class="ph ph-t-shirt"></i> Laundry</a>
+            <a href="services.html?cat=Food" class="drop-item"><i class="ph ph-bowl-food"></i> Food delivery</a>
+            <a href="services.html?cat=Housing" class="drop-item"><i class="ph ph-house-line"></i> Housing &amp; cleaning</a>
           </div>
           <div class="drop-col">
-            <div class="drop-head">Logistics</div>
-            <a href="services.html" class="drop-item"><i class="ph ph-truck"></i> Room Moving</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-motorcycle"></i> Pickup &amp; Delivery</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-archive-box"></i> Luggage Storage</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-wrench"></i> Repairs &amp; Fixes</a>
-            <a href="services.html" class="drop-item"><i class="ph ph-pencil-simple"></i> Essay Writing</a>
+            <div class="drop-head">Study &amp; moving</div>
+            <a href="services.html?cat=Academic" class="drop-item"><i class="ph ph-book-open-text"></i> Notes &amp; tutoring</a>
+            <a href="services.html?cat=Writing" class="drop-item"><i class="ph ph-pen-nib"></i> Writing help</a>
+            <a href="services.html?cat=Movers" class="drop-item"><i class="ph ph-truck"></i> Moving &amp; storage</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-squares-four"></i> All services</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="shop.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-shopping-bag"></i> Shop <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop">
+        <a href="shop.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-shopping-bag"></i> Shop <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
           <div class="drop-col">
-            <div class="drop-head">Clothes</div>
-            <a href="shop.html" class="drop-item"><i class="ph ph-soccer-ball"></i> Men's Jerseys</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-person-simple"></i> Men's Clothing</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-dress"></i> Women's Clothing</a>
+            <div class="drop-head">Clothing</div>
+            <a href="shop.html?dept=Clothes&amp;type=Jerseys" class="drop-item"><i class="ph ph-soccer-ball"></i> Jerseys</a>
+            <a href="shop.html?dept=Clothes&amp;gender=Men" class="drop-item"><i class="ph ph-t-shirt"></i> Men</a>
+            <a href="shop.html?dept=Clothes&amp;gender=Women" class="drop-item"><i class="ph ph-dress"></i> Women</a>
           </div>
           <div class="drop-col">
             <div class="drop-head">Food</div>
-            <a href="shop.html" class="drop-item"><i class="ph ph-shopping-cart"></i> Groceries</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-bowl-food"></i> Ready Meals</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-cookie"></i> Snacks</a>
-            <a href="shop.html" class="drop-item"><i class="ph ph-coffee"></i> Beverages</a>
+            <a href="shop.html?dept=Food&amp;sub=Groceries" class="drop-item"><i class="ph ph-basket"></i> Groceries</a>
+            <a href="shop.html?dept=Food&amp;sub=Ready%20Meals" class="drop-item"><i class="ph ph-bowl-food"></i> Ready meals</a>
+            <a href="shop.html?dept=Food&amp;sub=Snacks" class="drop-item"><i class="ph ph-cookie"></i> Snacks</a>
+            <a href="shop.html?dept=Food&amp;sub=Beverages" class="drop-item"><i class="ph ph-coffee"></i> Drinks</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="gigs.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-briefcase"></i> Gigs &amp; Jobs <i class="ph ph-caret-down nav-caret"></i></a>
+        <a href="gigs.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-briefcase"></i> Gigs <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
+          <div class="drop-col">
+            <div class="drop-head">Find work</div>
+            <a href="gigs.html?cat=Academic" class="drop-item"><i class="ph ph-graduation-cap"></i> Tutoring</a>
+            <a href="gigs.html?cat=Tech" class="drop-item"><i class="ph ph-code"></i> Tech</a>
+            <a href="gigs.html?cat=Creative" class="drop-item"><i class="ph ph-palette"></i> Creative</a>
+            <a href="gigs.html?cat=Admin" class="drop-item"><i class="ph ph-clipboard-text"></i> Admin</a>
+            <a href="gigs.html?cat=Physical" class="drop-item"><i class="ph ph-barbell"></i> Hands-on</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Hiring</div>
+            <a href="register.html?role=recruiter" class="drop-item"><i class="ph ph-plus-circle"></i> Post a gig</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-list-magnifying-glass"></i> All open gigs</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="career.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-compass"></i> Careers <i class="ph ph-caret-down nav-caret"></i></a>
         <div class="mega-drop">
           <div class="drop-col">
-            <div class="drop-head">Find Work</div>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-graduation-cap"></i> Academic</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-code"></i> Tech &amp; Dev</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-palette"></i> Creative</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-clipboard-text"></i> Admin</a>
-            <a href="gigs.html" class="drop-item"><i class="ph ph-barbell"></i> Physical</a>
-          </div>
-          <div class="drop-col">
-            <div class="drop-head">Opportunities</div>
-            <a href="register.html" class="drop-item"><i class="ph ph-plus-circle"></i> Post a Gig</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-users"></i> Browse Talent</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-clock"></i> Part-time Jobs</a>
-            <a href="gigs.html"     class="drop-item"><i class="ph ph-student"></i> Internships</a>
+            <div class="drop-head">Plan your next step</div>
+            <a href="career.html#matches" class="drop-item"><i class="ph ph-chart-bar"></i> Career matches</a>
+            <a href="career.html#skills" class="drop-item"><i class="ph ph-target"></i> Skill gaps</a>
+            <a href="career.html#roadmap" class="drop-item"><i class="ph ph-map-trifold"></i> 16-week plan</a>
+            <a href="career.html#coach" class="drop-item"><i class="ph ph-chat-circle-text"></i> Ask the coach</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap has-drop">
-        <a href="career.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-brain"></i> AI Career <i class="ph ph-caret-down nav-caret"></i></a>
-        <div class="mega-drop" style="min-width:220px">
-          <div class="drop-col">
-            <div class="drop-head">Career Tools</div>
-            <a href="career.html" class="drop-item"><i class="ph ph-chart-bar"></i> Career Match</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-target"></i> Skill Gap Analysis</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-map-trifold"></i> 16-Week Roadmap</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-file-text"></i> Resume Advice</a>
-            <a href="career.html" class="drop-item"><i class="ph ph-chat-circle-dots"></i> Interview Prep</a>
-          </div>
-        </div>
-      </div>
-      <div class="nav-wrap has-drop">
-        <a href="wallet.html" class="nav-link " onclick="handleDrop(event,this)"><i class="ph ph-wallet"></i> Wallet <i class="ph ph-caret-down nav-caret"></i></a>
+        <a href="wallet.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-wallet"></i> Wallet <i class="ph ph-caret-down nav-caret"></i></a>
         <div class="mega-drop">
           <div class="drop-col">
-            <div class="drop-head">My Finances</div>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-currency-dollar"></i> My Balance</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-list-bullets"></i> Transaction History</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-chart-pie-slice"></i> Spending Analytics</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-trend-up"></i> Earnings Report</a>
-          </div>
-          <div class="drop-col">
-            <div class="drop-head">Payments</div>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-device-mobile"></i> M-Pesa Top Up</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-paper-plane-tilt"></i> Send Money</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-credit-card"></i> Pay for Service</a>
-            <a href="wallet.html" class="drop-item"><i class="ph ph-crown"></i> Subscription Plans</a>
+            <div class="drop-head">Your money</div>
+            <a href="wallet.html#balance" class="drop-item"><i class="ph ph-coins"></i> Balance</a>
+            <a href="wallet.html#transactions" class="drop-item"><i class="ph ph-list-bullets"></i> Transactions</a>
+            <a href="wallet.html#spending" class="drop-item"><i class="ph ph-chart-pie-slice"></i> Spending</a>
+            <a href="wallet.html#mpesa" class="drop-item"><i class="ph ph-device-mobile"></i> Top up with M-Pesa</a>
           </div>
         </div>
       </div>
       <div class="nav-wrap">
-        <a href="dashboard.html" class="nav-link "><i class="ph ph-gauge"></i> Dashboard</a>
+        <a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i> Dashboard</a>
       </div>
     </nav>
     <div class="nav-actions">
-      <a href="admin.html" class="btn btn-ghost btn-sm" style="border-color:#f59e0b44;color:#f59e0b"><i class="ph ph-gear-six"></i> Admin</a>
       <a href="login.html" class="btn btn-ghost btn-sm">Sign in</a>
-      <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Join free</a>
     </div>
+    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()" aria-label="Open menu" aria-controls="mainNav" aria-expanded="false"><i class="ph ph-list"></i></button>
   </div>
 </header>
 
-<main class="section">
-  <div class="container">
-    <div class="page-header">
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
       <div>
-        <h1 class="section-title">Campus Services</h1>
-        <p class="text-muted">Find and book trusted campus services near you</p>
+        <div class="crumbs"><a href="home.html">Home</a> / Services</div>
+        <h1>Campus services</h1>
+        <p>Rated providers for the everyday things: printing, laundry, cleaning, moving and study help.</p>
       </div>
-      <div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center">
-        <a href="shop.html" class="btn btn-primary" style="display:flex;align-items:center;gap:.4rem">
-          🛒 Open Shop
-          <span style="font-size:.72rem;opacity:.8;font-weight:500">Clothes &amp; Groceries</span>
-        </a>
-        <button class="btn btn-ghost filter-btn">⚙️ Filters ▾</button>
+      <a href="shop.html" class="btn btn-ghost"><i class="ph ph-shopping-bag"></i> Looking for groceries or clothes?</a>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="search-icon"><i class="ph ph-magnifying-glass"></i></span>
+          <label for="svcSearch" class="sr-only">Search services</label>
+          <input class="search-input" id="svcSearch" type="search" placeholder="Search by service or provider" oninput="render()" />
+        </div>
+        <p class="results-count" id="resultCount" aria-live="polite"></p>
+      </div>
+
+      <div class="cat-tabs" id="catTabs" role="tablist" aria-label="Filter by category"></div>
+
+      <div class="grid-4" id="svcGrid"></div>
+      <div id="emptyState" class="empty hidden">
+        <i class="ph ph-magnifying-glass"></i>
+        Nothing matches that search. <button class="btn-link" onclick="clearFilters()">Clear filters</button>
+      </div>
+
+      <div class="provider-cta">
+        <div>
+          <h2>Run a service on campus?</h2>
+          <p>List it on CampusLink and take bookings and M-Pesa payments in one place.</p>
+        </div>
+        <a href="register.html?role=provider" class="btn btn-primary">List your service</a>
       </div>
     </div>
-
-    <div class="search-wrap mb-4" style="max-width:540px">
-      <span class="search-icon">🔍</span>
-      <input class="search-input" id="svcSearch" type="text" placeholder="Search services…" oninput="filterServices()" />
-    </div>
-
-    <div class="cat-tabs" id="catTabs">
-      <button class="cat-tab active" onclick="setTab(this,'All')">All</button>
-      <button class="cat-tab" onclick="setTab(this,'Printing')">Printing</button>
-      <button class="cat-tab" onclick="setTab(this,'Laundry')">Laundry</button>
-      <button class="cat-tab" onclick="setTab(this,'Academic')">Academic</button>
-      <button class="cat-tab" onclick="setTab(this,'Food')">Food</button>
-      <button class="cat-tab" onclick="setTab(this,'Housing')">Housing</button>
-      <button class="cat-tab" onclick="setTab(this,'Repairs')">Repairs</button>
-      <button class="cat-tab" onclick="setTab(this,'Writing')">Writing</button>
-      <button class="cat-tab" onclick="setTab(this,'Movers')">Movers</button>
-    </div>
-
-    <p class="results-count" id="resultCount">14 services found</p>
-    <div class="grid-4" id="svcGrid"></div>
-    <div id="emptyState" class="hidden text-center" style="padding:3rem 0;color:var(--muted)">No services match your search.</div>
-  </div>
+  </section>
 </main>
 
 <footer class="footer">
   <div class="footer-grid">
-    <div class="footer-brand"><div class="logo"><div class="logo-mark">CL</div><span>Campus<span class="logo-accent">Link</span></span></div><p>AI-powered campus marketplace.</p></div>
-    <div class="footer-col"><h4>Platform</h4><ul><li><a href="services.html">Services</a></li><li><a href="gigs.html">Gigs</a></li><li><a href="career.html">AI Career</a></li></ul></div>
-    <div class="footer-col"><h4>Account</h4><ul><li><a href="register.html">Register</a></li><li><a href="login.html">Sign In</a></li></ul></div>
+    <div class="footer-brand">
+      <a href="home.html" class="logo"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+      <p>A marketplace for campus life: book services, buy essentials, find paid work and pay with M-Pesa. Built in Nairobi.</p>
+    </div>
+    <div class="footer-col"><h4>Explore</h4><ul>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="gigs.html">Gigs</a></li>
+      <li><a href="career.html">Careers</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Account</h4><ul>
+      <li><a href="register.html">Create account</a></li>
+      <li><a href="login.html">Sign in</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="wallet.html">Wallet</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul>
+      <li><a href="mailto:simplykae2@gmail.com">simplykae2@gmail.com</a></li>
+      <li><span>Nairobi, Kenya</span></li>
+      <li><a href="register.html?role=provider">List your service</a></li>
+    </ul></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 CampusLink</span></div>
+  <div class="footer-bottom">
+    <span>&copy; <span data-year>2026</span> CampusLink</span>
+    <a href="admin.html">Admin</a>
+  </div>
 </footer>
 
+<script src="nav.js"></script>
 <script src="data.js"></script>
 <script>
-/* Services are loaded live from localStorage so admin changes appear here instantly */
-let SERVICES = CampusData.getServices();
-
-/* Rebuild category tabs dynamically from stored categories */
-(function buildTabs() {
-  const cats = ['All', ...CampusData.getCategories().map(c => c.name)];
-  const tabsEl = document.getElementById('catTabs');
-  tabsEl.innerHTML = cats.map((c, i) =>
-    `<button class="cat-tab${i===0?' active':''}" onclick="setTab(this,'${c}')">${c}</button>`
-  ).join('');
-})();
-
 let activeTab = 'All';
 
-function setTab(el, cat) {
-  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  activeTab = cat;
-  render();
+function buildTabs() {
+  const cats = ['All', ...CampusData.getCategories().map(c => c.name)];
+  if (!cats.includes(activeTab)) activeTab = 'All';
+  document.getElementById('catTabs').innerHTML = cats.map(c =>
+    `<button class="cat-tab${c === activeTab ? ' active' : ''}" role="tab" aria-selected="${c === activeTab}" data-cat="${esc(c)}">${esc(c)}</button>`
+  ).join('');
 }
 
-function filterServices() { render(); }
+document.getElementById('catTabs').addEventListener('click', e => {
+  const b = e.target.closest('.cat-tab');
+  if (!b) return;
+  activeTab = b.dataset.cat;
+  buildTabs();
+  render();
+  history.replaceState(null, '', activeTab === 'All' ? 'services.html' : 'services.html?cat=' + encodeURIComponent(activeTab));
+});
+
+function clearFilters() {
+  activeTab = 'All';
+  document.getElementById('svcSearch').value = '';
+  buildTabs(); render();
+  history.replaceState(null, '', 'services.html');
+}
+
+function book(id) {
+  const s = CampusData.getServices().find(x => x.id === id);
+  if (s) notify('Booking request sent to ' + s.provider + '. They will confirm shortly.');
+}
 
 function render() {
-  SERVICES = CampusData.getServices(); // always fresh from storage
-  const q = document.getElementById('svcSearch').value.toLowerCase();
-  const filtered = SERVICES.filter(s => {
-    const matchCat = activeTab === 'All' || s.cat === activeTab;
-    const matchQ = s.name.toLowerCase().includes(q) || s.provider.toLowerCase().includes(q);
-    return matchCat && matchQ;
-  });
-  document.getElementById('resultCount').textContent = filtered.length + ' service' + (filtered.length !== 1 ? 's' : '') + ' found';
-  const grid = document.getElementById('svcGrid');
-  grid.innerHTML = filtered.map(s => `
-    <div class="card">
-      <div class="svc-emoji-wrap">
-        <span style="font-size:2.2rem">${s.emoji}</span>
-        ${s.badge ? `<span class="badge badge-primary" style="position:absolute;top:0;right:0">${s.badge}</span>` : ''}
+  const q = document.getElementById('svcSearch').value.trim().toLowerCase();
+  const list = CampusData.getServices().filter(s =>
+    (activeTab === 'All' || s.cat === activeTab) &&
+    (!q || s.name.toLowerCase().includes(q) || s.provider.toLowerCase().includes(q) || (s.cat || '').toLowerCase().includes(q))
+  );
+  document.getElementById('resultCount').textContent = list.length + ' service' + (list.length !== 1 ? 's' : '');
+  document.getElementById('svcGrid').innerHTML = list.map(s => `
+    <article class="card svc-card">
+      <div class="svc-top">
+        <span class="icon-tile"><i class="ph ph-${CampusData.iconFor(s.cat)}"></i></span>
+        ${s.badge ? `<span class="badge badge-primary">${esc(s.badge)}</span>` : ''}
       </div>
-      <div class="svc-name">${s.name}</div>
-      <div class="svc-provider">${s.provider}</div>
-      <div class="svc-meta"><span class="stars">★ ${s.rating}</span><span class="text-dim text-xs">(${s.reviews})</span></div>
-      <div class="svc-loc">📍 ${s.location}</div>
-      <div class="svc-hours">🕐 ${s.hours}</div>
-      <div class="svc-footer"><span class="svc-price">${s.price}</span><button class="btn btn-primary btn-sm">Book Now</button></div>
-    </div>
-  `).join('');
-  document.getElementById('emptyState').classList.toggle('hidden', filtered.length > 0);
-  grid.classList.toggle('hidden', filtered.length === 0);
+      <h3 class="svc-name">${esc(s.name)}</h3>
+      <div class="svc-provider">${esc(s.provider)}</div>
+      <div class="stars">★ ${esc(s.rating)} <span>(${esc(s.reviews)} reviews)</span></div>
+      <div class="svc-meta">
+        <span><i class="ph ph-map-pin"></i>${esc(s.location)}</span>
+        <span><i class="ph ph-clock"></i>${esc(s.hours)}</span>
+      </div>
+      <div class="svc-footer"><span class="svc-price">${esc(s.price)}</span><button class="btn btn-primary btn-sm" onclick="book(${Number(s.id)})">Book</button></div>
+    </article>`).join('');
+  document.getElementById('emptyState').classList.toggle('hidden', list.length > 0);
 }
 
-render();
+/* Deep links: services.html?cat=Laundry  or  services.html?q=print */
+(function init() {
+  const cat = qs('cat'), q = qs('q');
+  if (cat) activeTab = cat;
+  if (q) document.getElementById('svcSearch').value = q;
+  buildTabs();
+  render();
+})();
 </script>
-<script src="nav.js"></script>
 </body>
 </html>

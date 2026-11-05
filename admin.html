@@ -6,16 +6,18 @@
 <title>Admin — CampusLink</title>
 <link rel="icon" href="public/favicon.svg" type="image/svg+xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600&display=swap"/>
+<meta name="robots" content="noindex"/>
 <style>
 /* ── Tokens ── */
 :root{
-  --bg:#080d19;--bg2:#0d1526;--card:#111827;--card2:#1a2235;
-  --border:#1f2e47;--border2:#263550;
-  --primary:#10b981;--primary-d:#059669;--primary-g:#10b98122;
-  --accent:#3b82f6;--warn:#f59e0b;--danger:#ef4444;--success:#22c55e;
-  --text:#f1f5f9;--muted:#8da4c4;--dim:#4b6187;
-  --font:'Inter',-apple-system,sans-serif;
+  --bg:#fbfaf7;--bg2:#f3f1ec;--card:#ffffff;--card2:#f7f5f0;
+  --border:#e7e3da;--border2:#d5cfc3;
+  --primary:#1f5c45;--primary-d:#164634;--primary-g:#1f5c4514;
+  --accent:#2f5d8a;--warn:#a86a12;--danger:#b42318;--success:#2f7d4f;
+  --text:#1c1b19;--muted:#5e5a52;--dim:#8b867b;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--font-serif:'Source Serif 4',Georgia,serif;
   --radius:.75rem;--sidebar:240px;--topbar:60px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -37,7 +39,7 @@ input,select,textarea{font-family:inherit}
   padding:0 1.1rem;border-bottom:1px solid var(--border);flex-shrink:0;
   font-weight:800;font-size:1rem;
 }
-.logo-mark{background:var(--primary);color:#000;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:900;flex-shrink:0}
+.logo-mark{background:var(--primary);color:#fff;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:900;flex-shrink:0}
 .logo-accent{color:var(--primary)}
 .sidebar-nav{padding:.75rem .6rem;flex:1}
 .nav-section-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);padding:.5rem .6rem;margin-top:.5rem}
@@ -61,7 +63,7 @@ input,select,textarea{font-family:inherit}
 .sidebar-footer .logout-btn:hover{background:rgba(239,68,68,.1);color:var(--danger)}
 
 /* ── Overlay (mobile) ── */
-#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:199;backdrop-filter:blur(2px)}
+#overlay{display:none;position:fixed;inset:0;background:rgba(28,27,25,.35);z-index:199;backdrop-filter:blur(2px)}
 #overlay.show{display:block}
 
 /* ── Main wrap ── */
@@ -104,7 +106,7 @@ input,select,textarea{font-family:inherit}
 .panel{display:none}
 .panel.active{display:block}
 .panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem}
-.panel-title{font-size:1.3rem;font-weight:800}
+.panel-title{font-family:var(--font-serif);font-size:1.6rem;font-weight:600;letter-spacing:-.01em}
 .panel-sub{color:var(--muted);font-size:.875rem}
 
 /* ── Stat cards ── */
@@ -117,7 +119,7 @@ input,select,textarea{font-family:inherit}
 
 /* ── Buttons ── */
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:var(--radius);font-size:.85rem;font-weight:600;transition:all .18s;cursor:pointer}
-.btn-primary{background:var(--primary);color:#000}
+.btn-primary{background:var(--primary);color:#fff}
 .btn-primary:hover{background:var(--primary-d)}
 .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border2)}
 .btn-ghost:hover{background:var(--card2)}
@@ -192,7 +194,7 @@ tbody tr:hover{background:var(--card2)}
 
 /* ── Modal ── */
 .modal-overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);
+  display:none;position:fixed;inset:0;background:rgba(28,27,25,.4);
   z-index:500;align-items:center;justify-content:center;padding:1rem;
   backdrop-filter:blur(4px);
 }

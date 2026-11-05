@@ -1,67 +1,92 @@
-/* CampusLink shared navbar logic — touch + hover mega-dropdown */
+/* CampusLink — shared site script
+   - header dropdowns (hover on desktop, tap on touch)
+   - mobile drawer
+   - window.notify(msg)      small toast message
+   - window.qs(name)         read a ?query param (used for deep links)  */
 (function () {
   function closeAllDrops() {
-    document.querySelectorAll('.nav-wrap.open').forEach(function (w) {
-      w.classList.remove('open');
-    });
+    document.querySelectorAll('.nav-wrap.open').forEach(function (w) { w.classList.remove('open'); });
   }
 
-  /* handleDrop — called on click of a nav-link inside a .has-drop wrapper.
-     Desktop (hover capable): let CSS :hover show the dropdown; click navigates.
-     Touch (no hover):        first tap opens dropdown, second tap navigates. */
+  /* Desktop: hover opens the menu and a click navigates.
+     Touch:   first tap opens the menu, second tap navigates. */
   window.handleDrop = function (e, link) {
     var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     var wrap = link.closest('.nav-wrap');
-    if (canHover) {
-      /* Desktop — close other open dropdowns, let this link navigate */
-      closeAllDrops();
-      return;
-    }
-    /* Touch / coarse pointer */
+    if (canHover) { closeAllDrops(); return; }
     if (!wrap.classList.contains('open')) {
       e.preventDefault();
       closeAllDrops();
       wrap.classList.add('open');
+      link.setAttribute('aria-expanded', 'true');
     }
-    /* If already open, fall through and navigate */
   };
 
-  /* Mobile drawer */
+  function setDrawer(open) {
+    var nav = document.getElementById('mainNav');
+    var overlay = document.getElementById('navOverlay');
+    var btn = document.getElementById('mobileToggle');
+    if (!nav) return;
+    nav.classList.toggle('open', open);
+    if (overlay) overlay.classList.toggle('show', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (!open) closeAllDrops();
+  }
   window.toggleMobileNav = function () {
     var nav = document.getElementById('mainNav');
-    var overlay = document.getElementById('navOverlay');
-    var btn = document.getElementById('mobileToggle');
-    nav.classList.toggle('open');
-    overlay.classList.toggle('show');
-    if (btn) {
-      btn.innerHTML = nav.classList.contains('open')
-        ? '<i class="ph ph-x"></i>'
-        : '<i class="ph ph-list"></i>';
-    }
+    setDrawer(!(nav && nav.classList.contains('open')));
   };
+  window.closeMobileNav = function () { setDrawer(false); };
 
-  window.closeMobileNav = function () {
-    var nav = document.getElementById('mainNav');
-    var overlay = document.getElementById('navOverlay');
-    var btn = document.getElementById('mobileToggle');
-    if (nav) nav.classList.remove('open');
-    if (overlay) overlay.classList.remove('show');
-    if (btn) btn.innerHTML = '<i class="ph ph-list"></i>';
-    closeAllDrops();
-  };
-
-  /* Close open dropdown when clicking / touching outside */
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.nav-wrap')) closeAllDrops();
   });
-  document.addEventListener('touchstart', function (e) {
-    if (!e.target.closest('.nav-wrap') && !e.target.closest('#mainNav')) {
-      closeAllDrops();
-    }
-  }, { passive: true });
-
-  /* Close mobile nav on ESC */
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') window.closeMobileNav();
   });
+  /* Close the drawer when a link inside it is followed (same-page #anchors) */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('#mainNav .drop-item');
+    if (a) setDrawer(false);
+  });
+
+  /* Mark the current page in the header, whatever file name it was opened under */
+  var page = (location.pathname.split('/').pop() || 'home.html').toLowerCase();
+  document.querySelectorAll('.nav-links > .nav-wrap > .nav-link').forEach(function (a) {
+    var href = (a.getAttribute('href') || '').split(/[?#]/)[0].toLowerCase();
+    if (href === page) { a.classList.add('active'); a.setAttribute('aria-current', 'page'); }
+  });
+
+  /* Footer year */
+  document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
+
+  /* ── Helpers shared by pages ── */
+  window.qs = function (name) {
+    return new URLSearchParams(location.search).get(name);
+  };
+
+  var stack;
+  window.notify = function (msg, icon) {
+    if (!stack) {
+      stack = document.createElement('div');
+      stack.className = 'toast-stack';
+      stack.setAttribute('role', 'status');
+      stack.setAttribute('aria-live', 'polite');
+      document.body.appendChild(stack);
+    }
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.innerHTML = '<i class="ph ph-' + (icon || 'check-circle') + '"></i><span></span>';
+    t.querySelector('span').textContent = msg;
+    stack.appendChild(t);
+    setTimeout(function () { t.remove(); }, 3200);
+  };
+
+  /* Escape text before putting user/localStorage data into innerHTML */
+  window.esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  };
 })();
