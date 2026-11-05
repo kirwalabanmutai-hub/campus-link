@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chapter Two - Open Campus</title>
+  <style>
+    @page { size: A4; margin: 25mm 25mm 25mm 30mm; }
+    * { box-sizing: border-box; }
+    body {
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 24px;
+      color: #111;
+      background: #fff;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12pt;
+      line-height: 1.5;
+    }
+    h1, h2, h3 { font-size: 12pt; line-height: 1.5; }
+    h1, .chapter-title { text-align: center; font-weight: bold; }
+    h1 { margin: 0 0 1em; text-transform: uppercase; }
+    h2 { margin: 1em 0 0.25em; font-weight: bold; }
+    h3 { margin: 0.6em 0 0.2em; font-weight: bold; }
+    p { margin: 0 0 0.65em; text-align: justify; }
+    .subtitle { text-align: center; margin-bottom: 1.5em; }
+    .caption { text-align: center; font-weight: bold; margin: 0.8em 0 0.3em; }
+    .source { font-size: 11pt; text-align: left; }
+    table { width: 100%; border-collapse: collapse; margin: 0.3em 0 0.6em; font-size: 11pt; line-height: 1.3; }
+    th, td { border: 1px solid #111; padding: 4px 6px; vertical-align: top; text-align: left; }
+    th { font-weight: bold; }
+    figure { margin: 0.6em 0; }
+    figure svg { display: block; width: 100%; height: auto; }
+    .refs p { font-size: 12pt; text-align: left; padding-left: 0.5in; text-indent: -0.5in; }
+    .print-bar { position: sticky; top: 0; display: flex; flex-wrap: wrap; gap: 0.5em; justify-content: flex-end; padding: 0.5em 0; background: #fff; }
+    .print-btn { display: inline-block; text-decoration: none; border: 0; border-radius: 4px; padding: 0.65em 1em; color: #fff; background: #12664f; font: 600 10pt Arial, sans-serif; cursor: pointer; }
+    .print-btn:hover { background: #0b4e3c; }
+    @media print {
+      body { max-width: none; padding: 0; }
+      .print-bar { display: none; }
+      h2, h3, .caption { break-after: avoid; }
+      table, figure { break-inside: avoid; }
+      p { orphans: 3; widows: 3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="print-bar">
+    <a class="print-btn" href="chapter-two-opencampus.docx" download>Download Word (.docx)</a>
+    <a class="print-btn" href="chapter-two-opencampus.pdf" download>Download PDF</a>
+    <button class="print-btn" type="button" onclick="window.print()">Print</button>
+  </div>
+  <h1>Chapter Two</h1>
+  <p class="chapter-title">Literature Review</p>
+  <p class="subtitle"><strong>Study title:</strong> Design and Evaluation of Open Campus (CampusLink), an Integrated Campus Services and Opportunities Platform for Students at a Selected Institution in Nairobi County, Kenya</p>
+
+  <h2>2.1 Introduction</h2>
+  <p>This chapter reviews literature relevant to the design and evaluation of Open Campus (CampusLink), an integrated platform for discovering campus services, short-term work opportunities, and career-support resources. It begins with a theoretical review of four theories that guide the study: the Technology Acceptance Model, the Unified Theory of Acceptance and Use of Technology, the DeLone and McLean Information Systems Success Model, and two-sided platform theory. It then presents an empirical review organized according to the four specific objectives of the study, namely information-access channels and challenges, the design of integrated service and opportunity platforms, usability evaluation, and perceived usefulness and intention to use. For each objective, the chapter outlines what earlier researchers did, the methods they used, what they found, and what remains unknown. The chapter then presents the research gaps in a table of existing systems, followed by the conceptual framework that shows how the proposed system is expected to work, and closes with a summary of the reviewed literature and its implications for the present study.</p>
+
+  <h2>2.2 Theoretical Review</h2>
+  <p>A theoretical review positions a study within established explanations of the phenomenon being investigated. This study is concerned with whether students and campus service providers will find an integrated platform easy to use and useful, whether the system delivers the quality its users need, and whether a platform that serves two groups of users at once can attract enough participation from both sides to be valuable. The four theories below address these concerns from complementary angles, and together they inform the choice of variables, the design of the prototype, and the instruments used in its evaluation.</p>
+
+  <h3>2.2.1 Technology Acceptance Model</h3>
+  <p>The Technology Acceptance Model (TAM) was proposed by Fred Davis in 1989, building on the Theory of Reasoned Action developed by Fishbein and Ajzen. Davis (1989) argued that a person's intention to use an information system is determined mainly by two beliefs. Perceived usefulness is the degree to which a person believes that using a particular system would improve his or her performance, while perceived ease of use is the degree to which a person believes that using the system would be free of effort. In the model, perceived ease of use influences perceived usefulness, and both shape attitude toward use and behavioural intention, which in turn predicts actual use. External variables, such as system features and training, are assumed to act on intention only through these two beliefs.</p>
+  <p>TAM has received wide empirical support. Granić and Marangunić (2019), in a systematic review of TAM studies in educational settings, concluded that the model remains a valid and robust framework for explaining technology acceptance by students and teachers, and Scherer et al. (2019) confirmed through meta-analytic structural equation modelling that perceived usefulness and perceived ease of use are significant predictors of intention to use technology among teachers. Al-Emran and Granić (2021) further showed through bibliometric analysis that TAM continued to dominate technology-acceptance research between 2010 and 2020. Critics, however, argue that the model is parsimonious to the point of offering limited practical guidance, since it says little about which design features make a system useful or easy to use. It also relies heavily on self-reported intention, which does not always translate into sustained use, and it gives little attention to social influence, cost, trust, and contextual constraints such as connectivity, which are important in developing-country settings.</p>
+  <p>TAM is relevant to this study because Objective Four measures participants' perceived usefulness of the Open Campus prototype and their intention to use it, and these constructs are drawn directly from the model. Perceived ease of use connects TAM to Objective Three, where usability is measured through task completion and the System Usability Scale. The criticism that TAM does not explain what makes a system useful also justifies Objectives One and Two, which ground the prototype's features in requirements gathered from actual students and providers rather than assuming them.</p>
+
+  <h3>2.2.2 Unified Theory of Acceptance and Use of Technology</h3>
+  <p>The Unified Theory of Acceptance and Use of Technology (UTAUT) was developed by Venkatesh, Morris, Davis and Davis in 2003 by consolidating eight earlier acceptance models, including TAM, the Theory of Planned Behaviour, and Innovation Diffusion Theory. The theory proposes four core determinants of behavioural intention and use: performance expectancy, which is the belief that the system will help the user achieve gains; effort expectancy, which is the ease associated with using it; social influence, which is the extent to which important others are believed to expect the user to adopt it; and facilitating conditions, which are the organizational and technical resources that support use (Venkatesh et al., 2003). Gender, age, experience, and voluntariness of use moderate these relationships. Venkatesh, Thong and Xu (2012) later extended the model to consumer contexts as UTAUT2 by adding hedonic motivation, price value, and habit.</p>
+  <p>Supporters note that UTAUT explains more variance in intention than the individual models it replaced and that its constructs are well validated. In a systematic review of 650 studies that cited UTAUT2, Tamilmani et al. (2021) found that researchers frequently applied, integrated, or extended the model in different ways, and their theory evaluation judged UTAUT2 to be robust on most dimensions except parsimony, because of its complex structure. Dwivedi et al. (2019) similarly re-examined UTAUT and argued that attitude, which the original model excluded, plays an important mediating role and that the moderators are frequently omitted in practice. Critics also observe that the large number of constructs and moderators makes the full model demanding for small-sample studies such as student projects.</p>
+  <p>UTAUT informs this study in two ways. First, its facilitating-conditions construct draws attention to device availability, internet access, and data costs, which the study records during evaluation so that access barriers are not mistaken for poor usability. Second, social influence is relevant to a campus platform whose value depends on peers and providers also using it. Because of the sample-size concerns noted above, the study will not test the full UTAUT model; instead it uses UTAUT to interpret contextual factors alongside the TAM constructs measured in Objective Four.</p>
+
+  <h3>2.2.3 DeLone and McLean Information Systems Success Model</h3>
+  <p>The Information Systems Success Model was proposed by William DeLone and Ephraim McLean in 1992 and updated by the same authors in 2003. The updated model holds that information quality, system quality, and service quality influence intention to use, actual use, and user satisfaction, which in turn produce net benefits for individuals and organizations; these benefits then feed back into further use and satisfaction (DeLone &amp; McLean, 2003). Information quality concerns whether the content a system provides is accurate, complete, current, and relevant. System quality concerns technical characteristics such as reliability, response time, and ease of navigation. Service quality concerns the support provided to users.</p>
+  <p>The model is valued because it treats success as multidimensional rather than as a single outcome such as use, and because it links design qualities to user outcomes in a way that guides evaluation. Its critics argue that the relationships among the dimensions are not consistently supported across contexts, that "use" is a weak measure of success where use is voluntary or brief, and that net benefits are difficult to measure in the short term. The model also gives limited guidance for multi-sided platforms, where the quality of information depends on contributions made by other users rather than on the system owner alone.</p>
+  <p>The model is relevant to this study because the usefulness of Open Campus depends on information quality: listings that are outdated, unverified, or irrelevant will reduce trust regardless of how well the interface is designed. System quality corresponds to the usability evaluation under Objective Three, and the study's decision not to claim net benefits such as income or employment reflects the model's warning that such benefits require long-term measurement. The model therefore helps the study separate what a prototype evaluation can show from what it cannot.</p>
+
+  <h3>2.2.4 Two-Sided Platform Theory</h3>
+  <p>Two-sided platform theory, associated with Jean-Charles Rochet and Jean Tirole (2003), explains markets in which a platform enables interactions between two distinct groups of users, each of whom benefits from the participation of the other. Examples include payment systems, online marketplaces, and job boards. The central argument is that such platforms exhibit cross-side network effects: a platform becomes more valuable to service seekers when more providers list on it, and more valuable to providers when more seekers visit it (Rochet &amp; Tirole, 2003). Parker, Van Alstyne and Choudary (2016) extended these ideas to digital platforms, emphasizing that a platform must solve the initial "chicken-and-egg" problem of attracting both sides and must manage trust between users who do not know each other.</p>
+  <p>The theory is supported by the rapid growth of digital labour platforms and marketplaces documented by the International Labour Organization (ILO, 2021). Its critics note that it was developed mainly from an economic perspective concerned with pricing and competition between large platforms, and that it says little about small, closed communities such as a single campus, where users may already know each other and where informal channels compete with the platform. Research on reputation systems also shows that the ratings platforms use to build trust can be inflated and uninformative, which limits their value as a trust mechanism (Tadelis, 2016).</p>
+  <p>This theory guides the study because Open Campus serves at least two groups: students who seek services and work, and providers or opportunity posters who offer them. Objective One therefore collects data from both groups, and Objective Two designs features such as provider listings, reviews, and ratings that address both sides and the trust between them. The theory also cautions that a prototype evaluated with sample data cannot demonstrate network effects, which is why the study limits its claims to usability, perceived usefulness, and intention to use.</p>
+
+  <h2>2.3 Empirical Review</h2>
+  <p>This section reviews empirical studies related to each of the four specific objectives of the study. The review is organized so that each objective forms a subheading: information-access channels and challenges, the design of integrated platforms, usability evaluation, and perceived usefulness and intention to use. For each objective, the review identifies the work done by earlier researchers, the methods they used, such as surveys, systematic reviews, meta-analyses, and mixed-methods studies, and the main findings they reported. Findings from different studies are compared to show where they agree and where they differ. Each subsection then identifies what remains unknown, whether in scope, methodology, or theory, and explains how the present study seeks to address that gap.</p>
+
+  <h3>2.3.1 Channels and Information-Access Challenges in Finding Campus Services and Work Opportunities</h3>
+  <p>The first objective concerns the channels students and providers use and the difficulties they face when finding or offering campus services and work. A growing body of research describes how young people find flexible and online work. The ILO (2021), in its <em>World Employment and Social Outlook</em> report on digital labour platforms, drew on surveys and interviews with some 12,000 workers and representatives of 85 businesses around the world. It found that the number of digital labour platforms increased fivefold worldwide over the preceding decade and that working conditions on these platforms are largely set by the platforms' own terms of service, leaving workers with limited information and few protections. Datta et al. (2023), in a World Bank study that combined data-science methods, website-traffic data, and surveys across 17 countries in 12 languages, estimated that between 154 million and 435 million people, or 4.4 to 12.5 percent of the global labour force, undertake online gig work. They found that most online gig workers are under 30 years of age and that many take up gig work for income, skill-building, or flexibility alongside study or other jobs, but warned that people without internet access risk being excluded.</p>
+  <p>In Kenya, research on the gig economy has focused mainly on national platforms rather than on campuses. Mercy Corps (2019) estimated that Kenya's online gig economy was worth about 109 million US dollars in 2019 and employed 36,573 gig workers, while noting that research on the size and impact of the sector remained limited; although this study is older than five years, it remains one of the few attempts to size the Kenyan gig economy. More recently, Fairwork (2023) assessed 12 ride-hailing and delivery platforms operating in Kenya against five principles of fair work: fair pay, fair conditions, fair contracts, fair management, and fair representation. It found that most of the platforms failed to ensure minimum standards of fair work and that workers were generally classed as self-employed, which denied them employee benefits, showing that the availability of a platform does not by itself guarantee fair or trustworthy access to work. Rani and Furrer (2021), using a survey of 675 workers on five global platforms across 27 developing countries, further showed that platform design and algorithmic management determine how work is assigned, monitored, and evaluated, affecting workers' access to tasks, pay, and working-time flexibility.</p>
+  <p>Access to digital channels is also uneven. The GSMA (2023) reported that Sub-Saharan Africa has the largest mobile internet coverage and usage gaps of any region, with a usage gap of 59 percent, representing about 680 million people who live within mobile broadband coverage but do not use mobile internet, and that the region still has the least affordable data on average. At the same time, mobile money is widely used in Kenya; Suri and Jack (2016), using a household panel survey, found that access to M-Pesa increased consumption and was associated with an estimated two percent of Kenyan households moving out of extreme poverty. These findings suggest that Kenyan students are likely to be familiar with mobile transactions but may still face data-cost and device constraints when using web platforms.</p>
+  <p>Research on students specifically shows that combining study and work is common but carries trade-offs. Neyt et al. (2019), in a review of the literature on student employment, concluded that the effect of working while studying on academic outcomes depends on the intensity and type of work, with heavy workloads associated with poorer outcomes. This implies that students need ways to find flexible, nearby, and short-term work that fits around their studies, which is the type of opportunity a campus platform is intended to surface. However, the reviewed studies were conducted at national or global level, used general populations of platform workers, and did not examine how students and providers within a single institution exchange information about services such as printing, food, laundry, repairs, or tutoring. Informal channels such as messaging groups, notice boards, and word of mouth are frequently mentioned in practice but have rarely been measured. This represents a knowledge void at the campus scope, which the present study addresses by documenting the channels and challenges of both students and providers at the selected institution.</p>
+
+  <h3>2.3.2 Design of Integrated Platforms for Services, Opportunities and Career Support</h3>
+  <p>The second objective concerns designing a prototype that consolidates service discovery, gigs and opportunities, and career support. Information systems research increasingly uses design science, in which a researcher builds an artefact to solve an identified problem and then evaluates it. Hevner et al. (2004) set out guidelines requiring that the artefact address a relevant problem, be rigorously evaluated, and contribute knowledge beyond the artefact itself, while Peffers et al. (2007) proposed a design science research methodology with six activities: problem identification, definition of objectives, design and development, demonstration, evaluation, and communication. Although these sources are older than five years, they remain the standard methodological references for artefact-based studies and justify the sequence of Objectives One to Four in this study, which moves from problem identification to design and then to evaluation.</p>
+  <p>Studies of digital labour platforms provide evidence about the features that matter to users of opportunity platforms. The ILO (2021) found that working conditions on digital labour platforms are largely determined by the platforms' terms of service, which places the burden of clarity and fairness on platform design. Rani and Furrer (2021) showed that the way platforms assign, monitor, and evaluate work directly shapes workers' access to tasks and pay. Datta et al. (2023) highlighted risks of low pay, harassment, and challenges in managing data security and privacy, and warned that users without reliable internet access may be excluded. Fairwork (2023) assessed platforms against principles that include fair contracts and fair management, which require clear terms, transparent decision-making, and accessible ways to appeal or complain. Together, these studies suggest that an opportunity platform should include clear listing information, transparent reviews, payment records, and a way to report problems, which informs the design of the gigs, reputation, wallet, and admin features in the Open Campus prototype.</p>
+  <p>Career support is a further design requirement. The Organisation for Economic Co-operation and Development, using longitudinal data from several countries, found that young people who explore careers, take part in work-related activities, and connect their education to their career plans while still in education tend to have better employment outcomes as young adults (Covacevich et al., 2021). This evidence supports including career guidance alongside work opportunities rather than treating them as separate services. Research on trust in online marketplaces adds that information quality is central to design: Odusanya et al. (2022), using a survey of 207 respondents in Sub-Saharan Africa analysed with partial least squares structural equation modelling, found that information quality, perceived usefulness, hedonic motivation, and perceived risk significantly influenced consumers' trust in electronic retail platforms. This suggests that accurate, verified listings and clear provider information are design requirements, not optional extras.</p>
+  <p>The reviewed studies show that existing platforms tend to specialize. Job boards and freelancing platforms focus on work; classified-advert sites focus on goods and services; career services focus on guidance; and few combine these functions for a defined campus community. The design studies cited were also largely carried out with large commercial platforms or national programmes and did not derive requirements from students and campus providers in Kenya. Moreover, much design literature reports the artefact without reporting how requirements were gathered from users, which is a methodological gap. The present study addresses these gaps by deriving the prototype's requirements from the participants surveyed under Objective One and documenting how each requirement is reflected in the design.</p>
+
+  <h3>2.3.3 Usability Evaluation Using Task Completion and the System Usability Scale</h3>
+  <p>The third objective is to assess the prototype's usability through task completion and System Usability Scale (SUS) scores. ISO 9241-11 (International Organization for Standardization [ISO], 2018) defines usability as the extent to which a system can be used by specified users to achieve specified goals with effectiveness, efficiency, and satisfaction in a specified context of use. Task completion rate is a common measure of effectiveness, while questionnaires such as the SUS capture perceived satisfaction and ease. The SUS was developed by Brooke (1996) as a ten-item questionnaire with five-point response options, producing a score from 0 to 100.</p>
+  <p>Empirical studies support the SUS as a reliable and practical instrument. Lewis (2018), reviewing several decades of SUS research, reported that the scale has high internal reliability, remains sensitive with relatively small samples, and can be applied to a wide range of products, with an average score of about 68 across published studies. Bangor et al. (2009), analysing a large set of SUS responses, proposed an adjective rating scale that allows scores to be described as, for example, "good" or "excellent", which makes results easier to interpret. Lewis and Sauro (2018) developed item-level benchmarks that allow designers to see which individual aspects of usability perform below average. More recently, Hyzy et al. (2022), in a meta-analysis of 117 SUS scores for 114 digital health applications collected between 2011 and 2021, found a mean of 68.05 once physical-activity applications were excluded and concluded that the standard benchmark of 68 is suitable for judging the usability of such applications.</p>
+  <p>Usability evaluation literature also shows the value of combining measures. Sauro and Lewis (2016) recommend pairing performance measures, such as task completion and errors, with attitudinal measures, such as SUS, because users sometimes rate a system favourably even when they fail tasks, or the reverse. Nielsen's (1994) usability heuristics are frequently used alongside user testing to explain why particular tasks fail. In the context of this study, connectivity and device limitations noted by the GSMA (2023) mean that task failures could be caused by network problems rather than design; studies conducted in high-connectivity settings seldom account for this.</p>
+  <p>Most of the usability studies reviewed were conducted in health, commercial, or enterprise software contexts, often in high-income countries, and few evaluated campus service or opportunity platforms in Kenya. Several studies also reported SUS scores without task-based data, making it difficult to identify specific design problems. This methodological gap is addressed in the present study by using predefined tasks drawn from the requirements in Objective Two, recording task completion and interruptions caused by connectivity, and interpreting SUS scores against published benchmarks.</p>
+
+  <h3>2.3.4 Perceived Usefulness and Intention to Use</h3>
+  <p>The fourth objective is to measure participants' perceived usefulness of the prototype and their intention to use it. Research grounded in TAM and UTAUT consistently identifies perceived usefulness, or performance expectancy, as one of the strongest predictors of intention. Granić (2022), in a systematic review of educational technology adoption studies, summarized the technology acceptance theories used in educational research and identified computer anxiety, system accessibility, and technological complexity as the most frequent predictive factors of adoption. These findings indicate that a system's usefulness is unlikely to be recognized if users find it inaccessible or complex, which links the usability measures of Objective Three to the usefulness and intention measures of Objective Four.</p>
+  <p>In consumer and mobile contexts, Tamilmani et al. (2021) found in their review of 650 studies that UTAUT2 is frequently integrated with other theories or extended with additional constructs to suit particular settings, which shows that acceptance factors are context-dependent and that constructs such as price value and facilitating conditions may matter more where cost and access are constraints. Trust is a further factor for platforms involving transactions between users who do not know each other. Odusanya et al. (2022) found that perceived usefulness and information quality were significant drivers of consumers' trust in electronic retail platforms in Sub-Saharan Africa, demonstrating that usefulness and trust are closely linked in the regional context. This is directly relevant to a platform that connects students with service providers they may not have dealt with before.</p>
+  <p>The literature also shows methodological limitations. Most acceptance studies use cross-sectional questionnaires that measure intention at one point in time, and intention does not always lead to use. Studies also typically evaluate established, fully operational systems rather than prototypes, so their results reflect users' experience over time rather than a first encounter. Few studies measured usefulness for a combined service, gig, and career platform, and none of the reviewed studies examined such a platform among students and campus providers in Nairobi County.</p>
+  <p>The present study addresses these gaps by measuring perceived usefulness and intention to use immediately after participants have completed the usability tasks, so that responses are based on direct experience with the prototype. Items will be adapted from validated TAM scales (Davis, 1989), and the study will explicitly treat intention as an early indicator rather than proof of adoption. Trust and facilitating conditions will be recorded as contextual factors, consistent with the theoretical review, so that their influence can be discussed when interpreting usefulness and intention scores.</p>
+
+  <h2>2.4 Research Gaps</h2>
+  <p>A research gap is an area where existing studies or systems do not fully answer the problem under investigation. To identify the gaps relevant to this study, the researcher reviewed existing systems that offer some of the functions proposed for Open Campus, namely career and job platforms, freelance marketplaces, national youth-employment programmes, classified-advert sites, and the informal channels commonly used on campuses. Table 1 summarizes these systems together with their strengths and weaknesses in relation to the needs of students and service providers at a single Kenyan campus. The systems were selected because they are widely used by students or are relevant to the Kenyan context, and they are assessed against the three functions that Open Campus seeks to integrate: service discovery, short-term work opportunities, and career support.</p>
+  <p class="caption">Table 1: Existing System Gaps</p>
+  <table>
+    <thead>
+      <tr><th>Author</th><th>Name of System</th><th>Strength of System</th><th>Weakness of System</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Handshake (n.d.)</td><td>Handshake</td><td>Connects students with employers and university career services; supports campus-specific job postings and events.</td><td>Primarily serves institutions in North America and Europe; does not cover everyday campus services such as printing, food, or repairs.</td></tr>
+      <tr><td>LinkedIn (n.d.)</td><td>LinkedIn</td><td>Large professional network with job listings, profiles, and learning content.</td><td>Oriented to formal employment; offers little for short-term campus gigs or local services; not scoped to a single campus community.</td></tr>
+      <tr><td>Upwork (n.d.); Fiverr (n.d.)</td><td>Upwork and Fiverr</td><td>Global freelance marketplaces with reviews, contracts, and payment protection.</td><td>Intense global competition and service fees disadvantage new student workers; no campus-based or in-person services.</td></tr>
+      <tr><td>Government of Kenya (n.d.)</td><td>Ajira Digital Programme</td><td>National initiative providing training and guidance for young people seeking online work.</td><td>Focuses on training and linkage to external platforms; does not provide a campus marketplace for services or local gigs.</td></tr>
+      <tr><td>BrighterMonday Kenya (n.d.); Fuzu (n.d.)</td><td>BrighterMonday and Fuzu</td><td>Kenyan job boards with career advice and listings relevant to the local labour market.</td><td>Emphasize full-time and graduate roles; limited short-term or part-time campus work; no service-discovery function.</td></tr>
+      <tr><td>Jiji Kenya (n.d.)</td><td>Jiji</td><td>Widely used classifieds site for goods and services with local payment familiarity.</td><td>Not campus-specific; trust relies largely on user caution rather than verified campus identity; no career support.</td></tr>
+      <tr><td>Not applicable (informal practice)</td><td>Messaging groups and notice boards</td><td>Free, familiar, and fast for reaching students on campus.</td><td>Information is fragmented, quickly buried, unverified, and not searchable; no reviews or records.</td></tr>
+    </tbody>
+  </table>
+  <p class="source">Source: Researcher (2026), compiled from the publicly available descriptions of each system.</p>
+  <p>The table shows that existing systems address parts of the problem but none combines campus-service discovery, short-term work opportunities, and career support for a defined campus community. This represents a <strong>knowledge void</strong>: the reviewed literature on digital labour platforms (Datta et al., 2023; ILO, 2021; Mercy Corps, 2019) is national or global in scope and has not examined how students and providers within a Kenyan institution find and offer services and work. There is also a <strong>methodological gap</strong>, because usability and acceptance studies frequently report questionnaire scores without task-based evidence or without accounting for connectivity constraints (Hyzy et al., 2022; Lewis, 2018), and design studies often present artefacts without showing how requirements were gathered from users. Finally, there is a <strong>contextual gap</strong> in theory: TAM, UTAUT, and two-sided platform theory have been tested mainly on established systems in large markets, and less is known about how usefulness, trust, and facilitating conditions operate for a prototype serving a single campus. The present study addresses these gaps by gathering requirements from both sides of the campus market, designing a prototype that integrates the three functions, and evaluating it using combined task-based and questionnaire measures.</p>
+
+  <h2>2.5 Conceptual Framework</h2>
+  <p>A conceptual framework is the researcher's own representation of the problem and of how the proposed solution is expected to work. It unpacks the study title by showing who uses the system, what the system does, what it produces, and how its success will be judged. The conceptual framework in Figure 1 presents the researcher's view of how the proposed Open Campus (CampusLink) system should work and how it will be evaluated. It draws together the theories reviewed in Section 2.2, the empirical findings reviewed in Section 2.3, and the gaps identified in Section 2.4. The framework is designed to be self-explanatory, with arrows showing the flow from users through the platform's functions to the outcomes measured in the study.</p>
+  <figure aria-labelledby="fig1">
+    <svg viewBox="0 0 640 520" role="img" aria-label="Conceptual framework of the Open Campus system" font-family="Times New Roman, Times, serif" font-size="12">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#111"/>
+        </marker>
+      </defs>
+      <g fill="none" stroke="#111" stroke-width="1.2">
+        <rect x="10" y="40" width="150" height="250"/>
+        <rect x="200" y="40" width="240" height="250"/>
+        <rect x="480" y="40" width="150" height="250"/>
+        <rect x="200" y="350" width="240" height="150"/>
+        <rect x="10" y="350" width="150" height="150" stroke-dasharray="5 3"/>
+        <rect x="480" y="350" width="150" height="150" stroke-dasharray="5 3"/>
+      </g>
+      <g fill="#111" font-weight="bold" text-anchor="middle">
+        <text x="85" y="28">INPUTS (USERS)</text>
+        <text x="320" y="28">PROCESSES (CAMPUSLINK)</text>
+        <text x="555" y="28">OUTPUTS</text>
+        <text x="320" y="370">EVALUATION OUTCOMES</text>
+        <text x="85" y="370">CONTEXT</text>
+        <text x="555" y="370">GUIDING THEORIES</text>
+      </g>
+      <g fill="#111">
+        <text x="20" y="70">Students</text>
+        <text x="28" y="88" font-size="11">profiles, searches,</text>
+        <text x="28" y="103" font-size="11">applications</text>
+        <text x="20" y="133">Service providers</text>
+        <text x="28" y="151" font-size="11">service listings,</text>
+        <text x="28" y="166" font-size="11">prices, availability</text>
+        <text x="20" y="196">Opportunity posters</text>
+        <text x="28" y="214" font-size="11">gigs and jobs</text>
+        <text x="20" y="244">Administrator</text>
+        <text x="28" y="262" font-size="11">verification and</text>
+        <text x="28" y="277" font-size="11">moderation rules</text>
+
+        <text x="212" y="70">1. Registration and login</text>
+        <text x="212" y="100">2. Service discovery (search, filter,</text>
+        <text x="224" y="116">categories, shop)</text>
+        <text x="212" y="146">3. Gigs and jobs (post, browse, apply)</text>
+        <text x="212" y="176">4. Career support (career matches,</text>
+        <text x="224" y="192">guidance)</text>
+        <text x="212" y="222">5. Reviews, ratings and reputation</text>
+        <text x="212" y="252">6. Wallet and transaction records</text>
+        <text x="212" y="280">7. Admin dashboard and moderation</text>
+
+        <text x="490" y="70">Services found and</text>
+        <text x="490" y="86">booked</text>
+        <text x="490" y="116">Gig applications</text>
+        <text x="490" y="132">submitted</text>
+        <text x="490" y="162">Career guidance</text>
+        <text x="490" y="178">accessed</text>
+        <text x="490" y="208">Ratings and reviews</text>
+        <text x="490" y="224">recorded</text>
+        <text x="490" y="254">Transaction and</text>
+        <text x="490" y="270">activity records</text>
+
+        <text x="212" y="398">Task completion rate (Objective 3)</text>
+        <text x="212" y="424">SUS usability score (Objective 3)</text>
+        <text x="212" y="450">Perceived usefulness (Objective 4)</text>
+        <text x="212" y="476">Intention to use (Objective 4)</text>
+
+        <text x="20" y="398" font-size="11">Device and internet</text>
+        <text x="20" y="413" font-size="11">access</text>
+        <text x="20" y="438" font-size="11">Trust in providers</text>
+        <text x="20" y="463" font-size="11">Data costs and digital</text>
+        <text x="20" y="478" font-size="11">skills</text>
+
+        <text x="490" y="398" font-size="11">TAM</text>
+        <text x="490" y="420" font-size="11">UTAUT</text>
+        <text x="490" y="442" font-size="11">DeLone and McLean</text>
+        <text x="490" y="457" font-size="11">IS Success Model</text>
+        <text x="490" y="479" font-size="11">Two-sided platform</text>
+        <text x="490" y="494" font-size="11">theory</text>
+      </g>
+      <g stroke="#111" stroke-width="1.4" fill="none" marker-end="url(#arrow)">
+        <line x1="160" y1="165" x2="198" y2="165"/>
+        <line x1="440" y1="165" x2="478" y2="165"/>
+        <path d="M555,290 L555,320 L320,320 L320,348"/>
+        <line x1="160" y1="425" x2="198" y2="425"/>
+        <line x1="480" y1="425" x2="442" y2="425"/>
+        <path d="M260,350 L260,305 L85,305 L85,292" stroke-dasharray="4 3"/>
+      </g>
+      <text x="100" y="320" font-size="10" fill="#111">feedback / refinement of design</text>
+    </svg>
+    <figcaption class="caption" id="fig1">Figure 1: Conceptual Framework of the Open Campus (CampusLink) System</figcaption>
+  </figure>
+  <p class="source">Source: Researcher (2026).</p>
+  <p>The framework is organized as an input-process-output model. The inputs are the four user groups identified in the study: students, who create profiles and search for services and opportunities; service providers, who list services with prices and availability; opportunity posters, who publish gigs and jobs; and the administrator, who sets verification and moderation rules. These inputs reflect the two-sided nature of the platform and correspond to the participants whose channels and challenges are examined under Objective One. The processes are the seven functions of the CampusLink prototype, which are derived from the requirements gathered under Objective Two: registration and login, service discovery, gigs and jobs, career support, reviews and reputation, wallet and transaction records, and an admin dashboard. Together they consolidate in a single interface the functions that Table 1 shows to be scattered across separate systems.</p>
+  <p>The outputs are what users obtain from the processes: services found and booked, gig applications submitted, career guidance accessed, ratings and reviews recorded, and transaction and activity records. The outputs lead to the evaluation outcomes measured in the study, namely task completion rate and SUS score under Objective Three, and perceived usefulness and intention to use under Objective Four. Contextual factors, including device and internet access, trust in providers, data costs, and digital skills, are expected to influence these outcomes and will be recorded during evaluation, as suggested by UTAUT's facilitating conditions and by research on trust in online platforms. The guiding theories inform the choice of outcomes and their interpretation. The dashed feedback line shows that evaluation findings are fed back to refine the requirements and design, consistent with the iterative design science approach adopted in the study.</p>
+
+  <h2>2.6 Summary of Reviewed Literature</h2>
+  <p>The theoretical review showed that TAM and UTAUT explain technology acceptance mainly through perceived usefulness, ease of use, social influence, and facilitating conditions; that the DeLone and McLean model links information, system, and service quality to use and satisfaction; and that two-sided platform theory explains why a platform's value depends on attracting both seekers and providers and on managing trust between them. The empirical review showed that young people increasingly use digital platforms to find work, but face barriers related to connectivity, skills, trust, and access to reliable information (Datta et al., 2023; GSMA, 2023; ILO, 2021). It also showed that the SUS combined with task-based measures provides a reliable way to evaluate usability, and that perceived usefulness is a consistent predictor of intention to use. However, the reviewed studies were conducted at national or global scale, focused on specialized systems, and seldom involved students and providers at a Kenyan campus. The implication for the present study is that the requirements of an integrated campus platform must be established locally, and that its evaluation should combine task completion, SUS scores, and usefulness and intention measures while recording contextual constraints. These implications form the basis of the methodology presented in Chapter Three.</p>
+
+  <h2>References</h2>
+  <div class="refs">
+    <p>Al-Emran, M., &amp; Granić, A. (2021). Is it still valid or outdated? A bibliometric analysis of the technology acceptance model and its applications from 2010 to 2020. In M. Al-Emran &amp; K. Shaalan (Eds.), <em>Recent advances in technology acceptance models and theories</em> (pp. 1–12). Springer.</p>
+    <p>Bangor, A., Kortum, P., &amp; Miller, J. (2009). Determining what individual SUS scores mean: Adding an adjective rating scale. <em>Journal of Usability Studies, 4</em>(3), 114–123.</p>
+    <p>BrighterMonday Kenya. (n.d.). <em>BrighterMonday</em>. https://www.brightermonday.co.ke</p>
+    <p>Brooke, J. (1996). SUS: A "quick and dirty" usability scale. In P. W. Jordan, B. Thomas, B. A. Weerdmeester, &amp; I. L. McClelland (Eds.), <em>Usability evaluation in industry</em> (pp. 189–194). Taylor &amp; Francis.</p>
+    <p>Covacevich, C., Mann, A., Santos, C., &amp; Champaud, J. (2021). <em>Indicators of teenage career readiness: An analysis of longitudinal data from eight countries</em> (OECD Education Working Papers No. 258). OECD Publishing.</p>
+    <p>Datta, N., Rong, C., Singh, S., Stinshoff, C., Iacob, N., Nigatu, N. S., Nxumalo, M., &amp; Klimaviciute, L. (2023). <em>Working without borders: The promise and peril of online gig work</em>. World Bank.</p>
+    <p>Davis, F. D. (1989). Perceived usefulness, perceived ease of use, and user acceptance of information technology. <em>MIS Quarterly, 13</em>(3), 319–340.</p>
+    <p>DeLone, W. H., &amp; McLean, E. R. (2003). The DeLone and McLean model of information systems success: A ten-year update. <em>Journal of Management Information Systems, 19</em>(4), 9–30.</p>
+    <p>Dwivedi, Y. K., Rana, N. P., Jeyaraj, A., Clement, M., &amp; Williams, M. D. (2019). Re-examining the Unified Theory of Acceptance and Use of Technology (UTAUT): Towards a revised theoretical model. <em>Information Systems Frontiers, 21</em>(3), 719–734.</p>
+    <p>Fairwork. (2023). <em>Fairwork Kenya report 2023: The promise and perils of platform work in the Kenyan platform economy</em>. Fairwork. https://fair.work/en/ratings/kenya/</p>
+    <p>Fiverr. (n.d.). <em>Fiverr</em>. https://www.fiverr.com</p>
+    <p>Fuzu. (n.d.). <em>Fuzu</em>. https://www.fuzu.com</p>
+    <p>Government of Kenya. (n.d.). <em>Ajira Digital Programme</em>. https://ajiradigital.go.ke</p>
+    <p>Granić, A. (2022). Educational technology adoption: A systematic review. <em>Education and Information Technologies, 27</em>(7), 9725–9744. https://doi.org/10.1007/s10639-022-10951-7</p>
+    <p>Granić, A., &amp; Marangunić, N. (2019). Technology acceptance model in educational context: A systematic literature review. <em>British Journal of Educational Technology, 50</em>(5), 2572–2593.</p>
+    <p>GSMA. (2023). <em>The state of mobile internet connectivity 2023</em>. GSMA.</p>
+    <p>Handshake. (n.d.). <em>Handshake</em>. https://joinhandshake.com</p>
+    <p>Hevner, A. R., March, S. T., Park, J., &amp; Ram, S. (2004). Design science in information systems research. <em>MIS Quarterly, 28</em>(1), 75–105.</p>
+    <p>Hyzy, M., Bond, R., Mulvenna, M., Bai, L., Dix, A., Leigh, S., &amp; Hunt, S. (2022). System Usability Scale benchmarking for digital health apps: Meta-analysis. <em>JMIR mHealth and uHealth, 10</em>(8), e37290.</p>
+    <p>International Labour Organization. (2021). <em>World employment and social outlook 2021: The role of digital labour platforms in transforming the world of work</em>. International Labour Office.</p>
+    <p>International Organization for Standardization. (2018). <em>Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts</em> (ISO Standard No. 9241-11:2018).</p>
+    <p>Jiji Kenya. (n.d.). <em>Jiji</em>. https://jiji.co.ke</p>
+    <p>Lewis, J. R. (2018). The System Usability Scale: Past, present, and future. <em>International Journal of Human–Computer Interaction, 34</em>(7), 577–590.</p>
+    <p>Lewis, J. R., &amp; Sauro, J. (2018). Item benchmarks for the System Usability Scale. <em>Journal of Usability Studies, 13</em>(3), 158–167.</p>
+    <p>LinkedIn. (n.d.). <em>LinkedIn</em>. https://www.linkedin.com</p>
+    <p>Mercy Corps. (2019). <em>Towards a digital workforce: Understanding the building blocks of Kenya's gig economy</em>. Mercy Corps.</p>
+    <p>Neyt, B., Omey, E., Verhaest, D., &amp; Baert, S. (2019). Does student work really affect educational outcomes? A review of the literature. <em>Journal of Economic Surveys, 33</em>(3), 896–921.</p>
+    <p>Nielsen, J. (1994). <em>Usability engineering</em>. Morgan Kaufmann.</p>
+    <p>Odusanya, K., Aluko, O., &amp; Lal, B. (2022). Building consumers' trust in electronic retail platforms in the sub-Saharan context: An exploratory study on drivers and impact on continuance intention. <em>Information Systems Frontiers, 24</em>(2), 377–391. https://doi.org/10.1007/s10796-020-10043-2</p>
+    <p>Parker, G. G., Van Alstyne, M. W., &amp; Choudary, S. P. (2016). <em>Platform revolution: How networked markets are transforming the economy and how to make them work for you</em>. W. W. Norton.</p>
+    <p>Peffers, K., Tuunanen, T., Rothenberger, M. A., &amp; Chatterjee, S. (2007). A design science research methodology for information systems research. <em>Journal of Management Information Systems, 24</em>(3), 45–77.</p>
+    <p>Rani, U., &amp; Furrer, M. (2021). Digital labour platforms and new forms of flexible work in developing countries: Algorithmic management of work and workers. <em>Competition &amp; Change, 25</em>(2), 212–236.</p>
+    <p>Rochet, J.-C., &amp; Tirole, J. (2003). Platform competition in two-sided markets. <em>Journal of the European Economic Association, 1</em>(4), 990–1029.</p>
+    <p>Sauro, J., &amp; Lewis, J. R. (2016). <em>Quantifying the user experience: Practical statistics for user research</em> (2nd ed.). Morgan Kaufmann.</p>
+    <p>Scherer, R., Siddiq, F., &amp; Tondeur, J. (2019). The technology acceptance model (TAM): A meta-analytic structural equation modeling approach to explaining teachers' adoption of digital technology in education. <em>Computers &amp; Education, 128</em>, 13–35.</p>
+    <p>Suri, T., &amp; Jack, W. (2016). The long-run poverty and gender impacts of mobile money. <em>Science, 354</em>(6317), 1288–1292.</p>
+    <p>Tadelis, S. (2016). Reputation and feedback systems in online platform markets. <em>Annual Review of Economics, 8</em>, 321–340.</p>
+    <p>Tamilmani, K., Rana, N. P., Wamba, S. F., &amp; Dwivedi, R. (2021). The extended Unified Theory of Acceptance and Use of Technology (UTAUT2): A systematic literature review and theory evaluation. <em>International Journal of Information Management, 57</em>, 102269.</p>
+    <p>Venkatesh, V., Morris, M. G., Davis, G. B., &amp; Davis, F. D. (2003). User acceptance of information technology: Toward a unified view. <em>MIS Quarterly, 27</em>(3), 425–478.</p>
+    <p>Venkatesh, V., Thong, J. Y. L., &amp; Xu, X. (2012). Consumer acceptance and use of information technology: Extending the unified theory of acceptance and use of technology. <em>MIS Quarterly, 36</em>(1), 157–178.</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 __nav_update.py)"
+    ]
+  }
+}
