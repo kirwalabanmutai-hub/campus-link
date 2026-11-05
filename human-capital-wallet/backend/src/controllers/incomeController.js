@@ -27,7 +27,7 @@ export async function addRecord(req, res, next) {
     const { rows } = await query(
       `INSERT INTO income_records (id, user_id, amount, source, category, type, date, description)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`,
-      [uuid(), req.user.id, amount, source, category, type, date, description || '']
+      [uuid(), req.user.id, Math.abs(amount), source, category, type, date, description || '']
     )
     res.status(201).json({ success: true, data: rows[0] })
   } catch (err) { next(err) }
@@ -58,8 +58,8 @@ export async function getSummary(req, res, next) {
     const { rows } = await query(
       `SELECT
         SUM(CASE WHEN type='income'  THEN amount ELSE 0 END) AS total_income,
-        SUM(CASE WHEN type='expense' THEN amount ELSE 0 END) AS total_expenses,
-        SUM(CASE WHEN type='income'  THEN amount ELSE -amount END) AS net_savings
+        SUM(CASE WHEN type='expense' THEN ABS(amount) ELSE 0 END) AS total_expenses,
+        SUM(CASE WHEN type='income'  THEN amount ELSE -ABS(amount) END) AS net_savings
        FROM income_records WHERE user_id = $1`,
       [req.user.id]
     )

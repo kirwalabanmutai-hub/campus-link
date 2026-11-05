@@ -21,7 +21,6 @@ export const query = (text, params) => pool.query(text, params)
 
 export async function getClient() {
   const client = await pool.connect()
-  const origQuery = client.query.bind(client)
   const release  = client.release.bind(client)
   const timeout  = setTimeout(() => {
     console.error('A client has been checked out for more than 5 seconds!')

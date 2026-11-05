@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Eye, EyeOff, Mail, Lock, User, UserPlus } from 'lucide-react'
-import { authApi } from '@/lib/api'
+import { authApi, getApiErrorMessage } from '@/lib/api'
 import { setToken, setUser } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
 import type { UserRole } from '@/types'
@@ -33,8 +33,8 @@ export default function RegisterPage() {
       setToken(data.data.token)
       setUser(data.data.user)
       router.push('/dashboard')
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed.')
+    } catch (error) {
+      setError(getApiErrorMessage(error, 'Registration failed.'))
     } finally {
       setLoading(false)
     }

@@ -4,11 +4,11 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Shop — CampusLink</title>
-  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <link rel="stylesheet" href="campuslink.css" />
 <style>
@@ -22,8 +22,8 @@
 .filter-group{display:flex;flex-wrap:wrap;gap:.4rem}
 .f-btn{padding:.32rem .8rem;border-radius:var(--pill);font-size:.8rem;font-weight:500;border:1px solid var(--border);color:var(--muted);background:var(--bg2);cursor:pointer;transition:all .18s;white-space:nowrap}
 .f-btn:hover{border-color:var(--border2);color:var(--text)}
-.f-btn.active{background:var(--text);color:#fff;border-color:var(--text);font-weight:600}
-.f-btn.active-gender-m,.f-btn.active-gender-f{background:var(--text);color:#fff;border-color:var(--text);font-weight:600}
+.f-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);font-weight:600}
+.f-btn.active-gender-m,.f-btn.active-gender-f{background:var(--primary);color:#fff;border-color:var(--primary);font-weight:600}
 
 /* ── Product grid ── */
 .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
@@ -31,10 +31,15 @@
 .product-card:hover{border-color:var(--border2);box-shadow:var(--shadow)}
 .product-img{
   background:var(--tint,var(--bg2));
-  height:150px;display:flex;align-items:center;justify-content:center;
+  height:170px;display:flex;align-items:center;justify-content:center;
   font-size:2.6rem;color:var(--text);position:relative;
 }
-.product-badge{position:absolute;top:.6rem;left:.6rem;background:var(--card);color:var(--text);font-size:.65rem;font-weight:700;padding:.18rem .5rem;border-radius:.4rem;text-transform:uppercase}
+.product-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+.product-card:hover .product-img img{transform:scale(1.05)}
+.product-img{overflow:hidden}
+.cart-item-icon{overflow:hidden}
+.cart-item-icon img{width:100%;height:100%;object-fit:cover}
+.product-badge{z-index:1;position:absolute;top:.6rem;left:.6rem;background:var(--card);color:var(--text);font-size:.65rem;font-weight:700;padding:.18rem .5rem;border-radius:.4rem;text-transform:uppercase}
 .product-body{padding:.9rem;flex:1;display:flex;flex-direction:column}
 .product-name{font-weight:700;font-size:.9rem;margin-bottom:.2rem;line-height:1.3}
 .product-meta{color:var(--muted);font-size:.75rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.35rem;flex-wrap:wrap}
@@ -111,7 +116,7 @@
   color:var(--muted);background:var(--card);cursor:pointer;transition:all .18s;
 }
 .dept-tab:hover{border-color:var(--border2);color:var(--text)}
-.dept-tab.active{background:var(--text);color:#fff;border-color:var(--text)}
+.dept-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
 
 /* ── No-results ── */
 .no-results{grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted)}
@@ -134,6 +139,28 @@
 <body>
 
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-group">
+      <span class="hide-sm"><i class="ph ph-map-pin"></i> Nairobi, Kenya</span>
+      <a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple"></i> simplykae2@gmail.com</a>
+      <span class="hide-sm"><i class="ph ph-clock"></i> Support: Mon–Sat, 8am–8pm</span>
+    </div>
+    <div class="topbar-group">
+      <a href="register.html?role=provider" class="hide-sm"><i class="ph ph-storefront"></i> List your service</a>
+      <span class="sep hide-sm"></span>
+      <a href="admin.html"><i class="ph ph-lock-simple"></i> Admin login</a>
+    </div>
+  </div>
+</div>
+<div class="announce" id="announce">
+  <div class="announce-inner">
+    <span class="announce-tag"><i class="ph ph-megaphone-simple"></i> New</span>
+    <span class="announce-text"><b>Campus Shop is open:</b> order groceries, meals and clothing for delivery to your hostel, paid with M-Pesa.</span>
+    <a href="shop.html" class="announce-link">Open the shop →</a>
+    <button class="announce-close" onclick="dismissAnnounce()" aria-label="Dismiss announcement"><i class="ph ph-x"></i></button>
+  </div>
+</div>
 <div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
 <header class="navbar">
   <div class="navbar-inner">
@@ -238,7 +265,7 @@
 </header>
 
 <main id="main">
-  <section class="page-hero">
+  <section class="page-hero has-img" style="--img:url(/images/market-produce.webp)">
     <div class="container">
       <div>
         <div class="crumbs"><a href="home.html">Home</a> / Shop</div>
@@ -378,30 +405,31 @@
       <p>A marketplace for campus life: book services, buy essentials, find paid work and pay with M-Pesa. Built in Nairobi.</p>
     </div>
     <div class="footer-col"><h4>Explore</h4><ul>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="gigs.html">Gigs</a></li>
-      <li><a href="career.html">Careers</a></li>
+      <li><a href="services.html"><i class="ph ph-storefront fi-gold"></i>Services</a></li>
+      <li><a href="shop.html"><i class="ph ph-shopping-bag fi-rose"></i>Shop</a></li>
+      <li><a href="gigs.html"><i class="ph ph-briefcase fi-green"></i>Gigs</a></li>
+      <li><a href="career.html"><i class="ph ph-compass fi-sky"></i>Careers</a></li>
     </ul></div>
     <div class="footer-col"><h4>Account</h4><ul>
-      <li><a href="register.html">Create account</a></li>
-      <li><a href="login.html">Sign in</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="wallet.html">Wallet</a></li>
+      <li><a href="register.html"><i class="ph ph-user-plus fi-gold"></i>Create account</a></li>
+      <li><a href="login.html"><i class="ph ph-sign-in fi-sky"></i>Sign in</a></li>
+      <li><a href="dashboard.html"><i class="ph ph-squares-four fi-violet"></i>Dashboard</a></li>
+      <li><a href="wallet.html"><i class="ph ph-wallet fi-green"></i>Wallet</a></li>
     </ul></div>
     <div class="footer-col"><h4>Contact</h4><ul>
-      <li><a href="mailto:simplykae2@gmail.com">simplykae2@gmail.com</a></li>
-      <li><span>Nairobi, Kenya</span></li>
-      <li><a href="register.html?role=provider">List your service</a></li>
+      <li><a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>simplykae2@gmail.com</a></li>
+      <li><span><i class="ph ph-map-pin fi-rose"></i>Nairobi, Kenya</span></li>
+      <li><a href="register.html?role=provider"><i class="ph ph-megaphone-simple fi-sky"></i>List your service</a></li>
     </ul></div>
   </div>
   <div class="footer-bottom">
     <span>&copy; <span data-year>2026</span> CampusLink</span>
-    <a href="admin.html">Admin</a>
+    <a href="admin.html"><i class="ph ph-lock-simple fi-gold"></i> Admin</a>
   </div>
 </footer>
+<div class="float-help"><a href="career.html#coach" class="fh-chat" title="Ask the career coach" aria-label="Ask the career coach"><i class="ph ph-chat-circle-dots"></i></a></div>
 
-<script src="nav.js"></script>
+<script src="/nav.js"></script>
 
 <script>
 /* ════════════════════════════════════════
@@ -413,80 +441,80 @@
 ════════════════════════════════════════ */
 const PRODUCTS = [
   /* ── Men Jerseys ── */
-  {id:1,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Liverpool FC Home Jersey',       price:2500, badge:'Best Seller'},
-  {id:2,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Manchester United Away Jersey',  price:2800, badge:null},
-  {id:3,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Chelsea Home Jersey 2024/25',    price:2600, badge:'New'},
-  {id:4,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Real Madrid Training Jersey',    price:2400, badge:null},
-  {id:5,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Barcelona FC Away Jersey',       price:2700, badge:null},
-  {id:6,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Kenya National Team Jersey',     price:1800, badge:'Local'},
-  {id:7,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'NBA Lakers Jersey #23',          price:3200, badge:null},
-  {id:8,  dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Arsenal Home Jersey 2024/25',   price:2550, badge:null},
+  {id:1,  img:'jersey-liverpool', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Liverpool FC Home Jersey',       price:2500, badge:'Best Seller'},
+  {id:2,  img:'jersey-manutd-away', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Manchester United Away Jersey',  price:2800, badge:null},
+  {id:3,  img:'jersey-chelsea', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Chelsea Home Jersey 2024/25',    price:2600, badge:'New'},
+  {id:4,  img:'jersey-realmadrid', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Real Madrid Training Jersey',    price:2400, badge:null},
+  {id:5,  img:'jersey-barcelona', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Barcelona FC Away Jersey',       price:2700, badge:null},
+  {id:6,  img:'jersey-kenya', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Kenya National Team Jersey',     price:1800, badge:'Local'},
+  {id:7,  img:'jersey-basketball', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'NBA Lakers Jersey #23',          price:3200, badge:null},
+  {id:8,  img:'jersey-arsenal', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Arsenal Home Jersey 2024/25',   price:2550, badge:null},
   /* ── Men T-Shirts ── */
-  {id:9,  dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         name:'Campus Graphic Oversized Tee',  price:800,  badge:null},
-  {id:10, dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         name:'Plain White Essential Tee',     price:600,  badge:null},
-  {id:11, dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         name:'Black Streetwear Tee',           price:750,  badge:'Trending'},
+  {id:9,  img:'tee-graphic', dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         name:'Campus Graphic Oversized Tee',  price:800,  badge:null},
+  {id:10, img:'tee-white', dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         name:'Plain White Essential Tee',     price:600,  badge:null},
+  {id:11, img:'tee-black', dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         name:'Black Streetwear Tee',           price:750,  badge:'Trending'},
   /* ── Men Jeans ── */
-  {id:12, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         name:'Slim Fit Dark Wash Jeans',      price:1500, badge:null},
-  {id:13, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         name:'Cargo Pants — Olive Green',     price:1200, badge:null},
-  {id:14, dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         name:'Khaki Slim Chinos',             price:1350, badge:null},
+  {id:12, img:'jeans-dark', dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         name:'Slim Fit Dark Wash Jeans',      price:1500, badge:null},
+  {id:13, img:'pants-cargo-olive', dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         name:'Cargo Pants — Olive Green',     price:1200, badge:null},
+  {id:14, img:'pants-chinos', dept:'Clothes', gender:'Men',   type:'Jeans',    subcat:null,         name:'Khaki Slim Chinos',             price:1350, badge:null},
   /* ── Men Hoodies ── */
-  {id:15, dept:'Clothes', gender:'Men',   type:'Hoodies',  subcat:null,         name:'Campus Zip-Up Hoodie',          price:1800, badge:null},
-  {id:16, dept:'Clothes', gender:'Men',   type:'Hoodies',  subcat:null,         name:'Oversized Pullover Hoodie',     price:1600, badge:'Popular'},
+  {id:15, img:'hoodie-zip', dept:'Clothes', gender:'Men',   type:'Hoodies',  subcat:null,         name:'Campus Zip-Up Hoodie',          price:1800, badge:null},
+  {id:16, img:'hoodie-pullover', dept:'Clothes', gender:'Men',   type:'Hoodies',  subcat:null,         name:'Oversized Pullover Hoodie',     price:1600, badge:'Popular'},
   /* ── Men Shorts ── */
-  {id:17, dept:'Clothes', gender:'Men',   type:'Shorts',   subcat:null,         name:'Sport Running Shorts',          price:650,  badge:null},
-  {id:18, dept:'Clothes', gender:'Men',   type:'Shorts',   subcat:null,         name:'Denim Shorts',                  price:900,  badge:null},
+  {id:17, img:'shorts-sport', dept:'Clothes', gender:'Men',   type:'Shorts',   subcat:null,         name:'Sport Running Shorts',          price:650,  badge:null},
+  {id:18, img:'shorts-denim', dept:'Clothes', gender:'Men',   type:'Shorts',   subcat:null,         name:'Denim Shorts',                  price:900,  badge:null},
   /* ── Women Dresses ── */
-  {id:19, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Floral Summer Dress',           price:1200, badge:'Popular'},
-  {id:20, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Casual Midi Dress',             price:1500, badge:null},
-  {id:21, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Office Shift Dress',            price:1800, badge:null},
-  {id:22, dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Mini Party Dress — Black',      price:1100, badge:'Trending'},
+  {id:19, img:'dress-floral', dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Floral Summer Dress',           price:1200, badge:'Popular'},
+  {id:20, img:'dress-midi', dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Casual Midi Dress',             price:1500, badge:null},
+  {id:21, img:'dress-office', dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Office Shift Dress',            price:1800, badge:null},
+  {id:22, img:'dress-black', dept:'Clothes', gender:'Women', type:'Dresses',  subcat:null,         name:'Mini Party Dress — Black',      price:1100, badge:'Trending'},
   /* ── Women Blouses ── */
-  {id:23, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         name:'White Ruffle Blouse',           price:900,  badge:null},
-  {id:24, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         name:'Striped Button-Down Blouse',    price:850,  badge:null},
-  {id:25, dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         name:'Flowy Chiffon Blouse',          price:950,  badge:'New'},
+  {id:23, img:'blouse-ruffle', dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         name:'White Ruffle Blouse',           price:900,  badge:null},
+  {id:24, img:'blouse-striped', dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         name:'Striped Button-Down Blouse',    price:850,  badge:null},
+  {id:25, img:'blouse-chiffon', dept:'Clothes', gender:'Women', type:'Blouses',  subcat:null,         name:'Flowy Chiffon Blouse',          price:950,  badge:'New'},
   /* ── Women Jeans ── */
-  {id:26, dept:'Clothes', gender:'Women', type:'Jeans',    subcat:null,         name:'High-Waist Skinny Jeans',       price:1400, badge:'Best Seller'},
-  {id:27, dept:'Clothes', gender:'Women', type:'Jeans',    subcat:null,         name:'Mom Jeans — Light Blue',        price:1300, badge:null},
+  {id:26, img:'jeans-skinny', dept:'Clothes', gender:'Women', type:'Jeans',    subcat:null,         name:'High-Waist Skinny Jeans',       price:1400, badge:'Best Seller'},
+  {id:27, img:'jeans-mom', dept:'Clothes', gender:'Women', type:'Jeans',    subcat:null,         name:'Mom Jeans — Light Blue',        price:1300, badge:null},
   /* ── Women Skirts ── */
-  {id:28, dept:'Clothes', gender:'Women', type:'Skirts',   subcat:null,         name:'Pleated Mini Skirt — Beige',    price:700,  badge:null},
-  {id:29, dept:'Clothes', gender:'Women', type:'Skirts',   subcat:null,         name:'Maxi Wrap Skirt — Floral',      price:1000, badge:'New'},
+  {id:28, img:'skirt-beige-mini', dept:'Clothes', gender:'Women', type:'Skirts',   subcat:null,         name:'Pleated Mini Skirt — Beige',    price:700,  badge:null},
+  {id:29, img:'skirt-floral', dept:'Clothes', gender:'Women', type:'Skirts',   subcat:null,         name:'Maxi Wrap Skirt — Floral',      price:1000, badge:'New'},
   /* ── Women Hoodies ── */
-  {id:30, dept:'Clothes', gender:'Women', type:'Hoodies',  subcat:null,         name:'Cropped Campus Hoodie',         price:1400, badge:null},
+  {id:30, img:'hoodie-cropped', dept:'Clothes', gender:'Women', type:'Hoodies',  subcat:null,         name:'Cropped Campus Hoodie',         price:1400, badge:null},
 
   /* ── Food: Groceries ── */
-  {id:31, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Basmati Rice 2kg',              price:220,  badge:null},
-  {id:32, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Cooking Oil 1L',                price:280,  badge:null},
-  {id:33, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Sugar 1kg',                     price:160,  badge:null},
-  {id:34, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Wheat Flour 2kg',               price:180,  badge:null},
-  {id:35, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Fresh Tomatoes 500g',           price:60,   badge:null},
-  {id:36, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Onions 1kg',                    price:80,   badge:null},
-  {id:37, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'White Bread Loaf',              price:65,   badge:null},
-  {id:38, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Eggs — Tray of 30',             price:420,  badge:'Value'},
-  {id:39, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Fresh Milk 1L',                 price:65,   badge:null},
-  {id:40, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Pasta 500g',                    price:120,  badge:null},
-  {id:41, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Dry Beans 1kg',                 price:180,  badge:null},
-  {id:42, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Potatoes 1kg',                  price:90,   badge:null},
-  {id:43, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Table Salt 500g',               price:40,   badge:null},
-  {id:44, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Canned Tomatoes 400g',          price:85,   badge:null},
-  {id:45, dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Blueband Margarine 500g',       price:150,  badge:null},
+  {id:31, img:'rice', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Basmati Rice 2kg',              price:220,  badge:null},
+  {id:32, img:'cooking-oil', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Cooking Oil 1L',                price:280,  badge:null},
+  {id:33, img:'sugar', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Sugar 1kg',                     price:160,  badge:null},
+  {id:34, img:'flour', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Wheat Flour 2kg',               price:180,  badge:null},
+  {id:35, img:'tomatoes', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Fresh Tomatoes 500g',           price:60,   badge:null},
+  {id:36, img:'onions', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Onions 1kg',                    price:80,   badge:null},
+  {id:37, img:'bread', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'White Bread Loaf',              price:65,   badge:null},
+  {id:38, img:'eggs', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Eggs — Tray of 30',             price:420,  badge:'Value'},
+  {id:39, img:'milk', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Fresh Milk 1L',                 price:65,   badge:null},
+  {id:40, img:'pasta', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Pasta 500g',                    price:120,  badge:null},
+  {id:41, img:'beans', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Dry Beans 1kg',                 price:180,  badge:null},
+  {id:42, img:'potatoes', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Potatoes 1kg',                  price:90,   badge:null},
+  {id:43, img:'salt', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Table Salt 500g',               price:40,   badge:null},
+  {id:44, img:'canned-tomatoes', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Canned Tomatoes 400g',          price:85,   badge:null},
+  {id:45, img:'margarine', dept:'Food', gender:null, type:null, subcat:'Groceries',    name:'Blueband Margarine 500g',       price:150,  badge:null},
   /* ── Food: Ready Meals ── */
-  {id:46, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Rice & Beans (1 serving)',      price:150,  badge:'Popular'},
-  {id:47, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Pilau — Large Portion',         price:200,  badge:null},
-  {id:48, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Chapati & Stew (3 pcs)',        price:180,  badge:null},
-  {id:49, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Ugali & Sukuma Wiki',           price:120,  badge:'Value'},
-  {id:50, dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Chicken & Chips',               price:350,  badge:null},
+  {id:46, img:'rice-beans', dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Rice & Beans (1 serving)',      price:150,  badge:'Popular'},
+  {id:47, img:'pilau', dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Pilau — Large Portion',         price:200,  badge:null},
+  {id:48, img:'chapati', dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Chapati & Stew (3 pcs)',        price:180,  badge:null},
+  {id:49, img:'ugali-sukuma', dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Ugali & Sukuma Wiki',           price:120,  badge:'Value'},
+  {id:50, img:'chicken-chips', dept:'Food', gender:null, type:null, subcat:'Ready Meals',  name:'Chicken & Chips',               price:350,  badge:null},
   /* ── Food: Snacks ── */
-  {id:51, dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Mandazi — 5 pieces',            price:50,   badge:null},
-  {id:52, dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Samosa — 3 pieces',             price:60,   badge:'Popular'},
-  {id:53, dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Fries — Large Portion',         price:150,  badge:null},
-  {id:54, dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Biscuit Pack (Digestive)',      price:80,   badge:null},
-  {id:55, dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Roasted Groundnuts (200g)',     price:70,   badge:null},
+  {id:51, img:'mandazi', dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Mandazi — 5 pieces',            price:50,   badge:null},
+  {id:52, img:'samosa', dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Samosa — 3 pieces',             price:60,   badge:'Popular'},
+  {id:53, img:'fries', dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Fries — Large Portion',         price:150,  badge:null},
+  {id:54, img:'biscuits-digestive', dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Biscuit Pack (Digestive)',      price:80,   badge:null},
+  {id:55, img:'groundnuts', dept:'Food', gender:null, type:null, subcat:'Snacks',       name:'Roasted Groundnuts (200g)',     price:70,   badge:null},
   /* ── Food: Beverages ── */
-  {id:56, dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Masala Tea (cup)',              price:30,   badge:null},
-  {id:57, dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Black Coffee (cup)',            price:50,   badge:null},
-  {id:58, dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Fresh Fruit Juice (300ml)',     price:80,   badge:null},
-  {id:59, dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Soda — Coca-Cola 500ml',        price:70,   badge:null},
-  {id:60, dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Mango Smoothie (400ml)',        price:120,  badge:'New'},
+  {id:56, img:'masala-chai', dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Masala Tea (cup)',              price:30,   badge:null},
+  {id:57, img:'coffee', dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Black Coffee (cup)',            price:50,   badge:null},
+  {id:58, img:'juice', dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Fresh Fruit Juice (300ml)',     price:80,   badge:null},
+  {id:59, img:'soda', dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Soda — Coca-Cola 500ml',        price:70,   badge:null},
+  {id:60, img:'mango-smoothie', dept:'Food', gender:null, type:null, subcat:'Beverages',    name:'Mango Smoothie (400ml)',        price:120,  badge:'New'},
 ];
 
 /* ── Icons for product tiles (replaces emoji) ── */
@@ -626,6 +654,7 @@ function renderProducts() {
     <div class="product-card">
       <div class="product-img" style="--tint:${tintFor(p)}">
         <i class="ph ph-${iconForProduct(p)}"></i>
+        ${p.img ? `<img src="images/shop/${p.img}.webp" alt="${p.name}" width="480" height="360" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
         ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
       </div>
       <div class="product-body">
@@ -693,7 +722,7 @@ function updateCart() {
 
   itemsEl.innerHTML = cart.map(c=>`
     <div class="cart-item">
-      <div class="cart-item-icon"><i class="ph ph-${iconForProduct(c)}"></i></div>
+      <div class="cart-item-icon">${c.img ? `<img src="images/shop/${c.img}.webp" alt="" width="44" height="44" loading="lazy">` : `<i class="ph ph-${iconForProduct(c)}"></i>`}</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${c.name}</div>
         <div class="cart-item-price">Ksh ${(c.price*c.qty).toLocaleString()}</div>

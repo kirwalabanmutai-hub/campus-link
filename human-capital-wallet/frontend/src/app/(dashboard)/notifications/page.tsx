@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Bell, Briefcase, Star, DollarSign, Info, CheckCheck, Trash2 } from 'lucide-react'
+import { Bell, Briefcase, Star, Info, CheckCheck, Trash2 } from 'lucide-react'
 
 const NOTIFS = [
   { id:'1', type:'opportunity', title:'New Job Match: Data Scientist at KCB',        message:'A new job matching your profile was posted. Apply before Jun 28.',              time:'2h ago',  read:false },

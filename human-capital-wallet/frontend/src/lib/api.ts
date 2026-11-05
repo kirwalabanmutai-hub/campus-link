@@ -1,7 +1,10 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import type { ApiResponse, IncomeRecord } from '@/types'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+
+type IncomeRecordResponse = Omit<IncomeRecord, 'amount'> & { amount: number | string }
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -19,7 +22,9 @@ api.interceptors.response.use(
   err => {
     if (err.response?.status === 401) {
       Cookies.remove('hcw_token')
-      window.location.href = '/login'
+      if (typeof window !== 'undefined') {
+        window.location.assign(new URL('/login', window.location.origin).toString())
+      }
     }
     return Promise.reject(err)
   }
@@ -32,6 +37,13 @@ export const authApi = {
   forgotPassword: (email: string) => api.post('/auth/forgot-password', { email }),
   resetPassword:  (data: object) => api.post('/auth/reset-password', data),
   verifyEmail:    (token: string) => api.get(`/auth/verify-email/${token}`),
+}
+
+export function getApiErrorMessage(error: unknown, fallback: string): string {
+  if (axios.isAxiosError<{ message?: string }>(error)) {
+    return error.response?.data?.message ?? fallback
+  }
+  return fallback
 }
 
 export const profileApi = {
@@ -68,8 +80,10 @@ export const careerApi = {
 }
 
 export const incomeApi = {
-  getRecords:  (params?: object) => api.get('/income', { params }),
-  addRecord:   (data: object)    => api.post('/income', data),
+  getRecords:  (params?: { type?: IncomeRecord['type']; category?: string; limit?: number; page?: number }) =>
+    api.get<ApiResponse<IncomeRecordResponse[]>>('/income', { params }),
+  addRecord:   (data: Omit<IncomeRecord, 'id'>) =>
+    api.post<ApiResponse<IncomeRecordResponse>>('/income', data),
   updateRecord:(id: string, data: object) => api.put(`/income/${id}`, data),
   deleteRecord:(id: string)      => api.delete(`/income/${id}`),
   getSummary:  ()                => api.get('/income/summary'),

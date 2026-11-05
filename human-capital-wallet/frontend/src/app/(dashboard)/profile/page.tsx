@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import {
-  User, MapPin, Globe, Plus, Pencil, CheckCircle,
+  MapPin, Globe, Plus, Pencil, CheckCircle,
   Briefcase, BookOpen, Award, Code, Shield,
 } from 'lucide-react'
 

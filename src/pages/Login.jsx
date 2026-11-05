@@ -84,7 +84,7 @@ export default function Login() {
         </button>
 
         <p className="auth-switch">
-          Don't have an account? <Link to="/register">Sign up free</Link>
+          Don&apos;t have an account? <Link to="/register">Sign up free</Link>
         </p>
       </div>
     </div>

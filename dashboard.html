@@ -6,11 +6,11 @@
   <meta name="description" content="Your CampusLink dashboard: earnings, applications, bookings and recent activity." />
   <meta name="theme-color" content="#fbfaf7" />
   <title>Dashboard — CampusLink</title>
-  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <link rel="stylesheet" href="campuslink.css" />
   <style>
@@ -28,7 +28,7 @@
 
     .bar-chart { display: flex; align-items: flex-end; gap: .75rem; height: 160px; }
     .bar-col { display: flex; flex-direction: column; align-items: center; gap: .4rem; flex: 1; height: 100%; justify-content: flex-end; }
-    .bar { width: 100%; max-width: 44px; border-radius: 4px 4px 0 0; background: #1f5c4533; min-height: 4px; }
+    .bar { width: 100%; max-width: 44px; border-radius: 4px 4px 0 0; background: #0b254533; min-height: 4px; }
     .bar-col:last-child .bar { background: var(--primary); }
     .bar-lbl { font-size: .75rem; color: var(--dim); }
 
@@ -48,6 +48,28 @@
 <body>
 
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-group">
+      <span class="hide-sm"><i class="ph ph-map-pin"></i> Nairobi, Kenya</span>
+      <a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple"></i> simplykae2@gmail.com</a>
+      <span class="hide-sm"><i class="ph ph-clock"></i> Support: Mon–Sat, 8am–8pm</span>
+    </div>
+    <div class="topbar-group">
+      <a href="register.html?role=provider" class="hide-sm"><i class="ph ph-storefront"></i> List your service</a>
+      <span class="sep hide-sm"></span>
+      <a href="admin.html"><i class="ph ph-lock-simple"></i> Admin login</a>
+    </div>
+  </div>
+</div>
+<div class="announce" id="announce">
+  <div class="announce-inner">
+    <span class="announce-tag"><i class="ph ph-megaphone-simple"></i> New</span>
+    <span class="announce-text"><b>Campus Shop is open:</b> order groceries, meals and clothing for delivery to your hostel, paid with M-Pesa.</span>
+    <a href="shop.html" class="announce-link">Open the shop →</a>
+    <button class="announce-close" onclick="dismissAnnounce()" aria-label="Dismiss announcement"><i class="ph ph-x"></i></button>
+  </div>
+</div>
 <div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
 <header class="navbar">
   <div class="navbar-inner">
@@ -152,7 +174,7 @@
 </header>
 
 <main id="main">
-  <section class="page-hero">
+  <section class="page-hero has-img" style="--img:url(/images/student-laptop.webp)">
     <div class="container">
       <div>
         <div class="crumbs"><a href="home.html">Home</a> / Dashboard</div>
@@ -235,30 +257,31 @@
       <p>A marketplace for campus life: book services, buy essentials, find paid work and pay with M-Pesa. Built in Nairobi.</p>
     </div>
     <div class="footer-col"><h4>Explore</h4><ul>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="gigs.html">Gigs</a></li>
-      <li><a href="career.html">Careers</a></li>
+      <li><a href="services.html"><i class="ph ph-storefront fi-gold"></i>Services</a></li>
+      <li><a href="shop.html"><i class="ph ph-shopping-bag fi-rose"></i>Shop</a></li>
+      <li><a href="gigs.html"><i class="ph ph-briefcase fi-green"></i>Gigs</a></li>
+      <li><a href="career.html"><i class="ph ph-compass fi-sky"></i>Careers</a></li>
     </ul></div>
     <div class="footer-col"><h4>Account</h4><ul>
-      <li><a href="register.html">Create account</a></li>
-      <li><a href="login.html">Sign in</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="wallet.html">Wallet</a></li>
+      <li><a href="register.html"><i class="ph ph-user-plus fi-gold"></i>Create account</a></li>
+      <li><a href="login.html"><i class="ph ph-sign-in fi-sky"></i>Sign in</a></li>
+      <li><a href="dashboard.html"><i class="ph ph-squares-four fi-violet"></i>Dashboard</a></li>
+      <li><a href="wallet.html"><i class="ph ph-wallet fi-green"></i>Wallet</a></li>
     </ul></div>
     <div class="footer-col"><h4>Contact</h4><ul>
-      <li><a href="mailto:simplykae2@gmail.com">simplykae2@gmail.com</a></li>
-      <li><span>Nairobi, Kenya</span></li>
-      <li><a href="register.html?role=provider">List your service</a></li>
+      <li><a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>simplykae2@gmail.com</a></li>
+      <li><span><i class="ph ph-map-pin fi-rose"></i>Nairobi, Kenya</span></li>
+      <li><a href="register.html?role=provider"><i class="ph ph-megaphone-simple fi-sky"></i>List your service</a></li>
     </ul></div>
   </div>
   <div class="footer-bottom">
     <span>&copy; <span data-year>2026</span> CampusLink</span>
-    <a href="admin.html">Admin</a>
+    <a href="admin.html"><i class="ph ph-lock-simple fi-gold"></i> Admin</a>
   </div>
 </footer>
+<div class="float-help"><a href="career.html#coach" class="fh-chat" title="Ask the career coach" aria-label="Ask the career coach"><i class="ph ph-chat-circle-dots"></i></a></div>
 
-<script src="nav.js"></script>
+<script src="/nav.js"></script>
 <script>
 (function () {
   const h = new Date().getHours();

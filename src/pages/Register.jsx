@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Eye, EyeOff, Mail, Lock, User, UserPlus, GraduationCap } from 'lucide-react'
+import { Eye, EyeOff, Mail, Lock, User, UserPlus } from 'lucide-react'
 import './Auth.css'
 
 const ROLES = [

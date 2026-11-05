@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react'
-import { authApi } from '@/lib/api'
+import { authApi, getApiErrorMessage } from '@/lib/api'
 import { setToken, setUser } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
 
@@ -25,8 +25,8 @@ export default function LoginPage() {
       setToken(data.data.token)
       setUser(data.data.user)
       router.push('/dashboard')
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.')
+    } catch (error) {
+      setError(getApiErrorMessage(error, 'Login failed. Please try again.'))
     } finally {
       setLoading(false)
     }

@@ -1,4 +1,4 @@
-import { ArrowDownLeft, ArrowUpRight, History, Plus, Minus, RefreshCw, CreditCard } from 'lucide-react'
+import { ArrowDownLeft, ArrowUpRight, History, Plus, Minus, CreditCard } from 'lucide-react'
 import Card from '../components/ui/Card'
 import Badge from '../components/ui/Badge'
 import './Wallet.css'

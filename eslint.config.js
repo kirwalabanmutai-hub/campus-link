@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import react from 'eslint-plugin-react'
 
 export default [
-  { ignores: ['dist', 'node_modules'] },
+  { ignores: ['**/dist/**', '**/node_modules/**', '**/.next/**'] },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -32,6 +32,19 @@ export default [
       'react/prop-types': 'off',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    },
+  },
+  {
+    files: ['human-capital-wallet/backend/**/*.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
+    files: ['human-capital-wallet/frontend/postcss.config.js'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: globals.node,
     },
   },
 ]

@@ -85,7 +85,7 @@ export default function DashboardPage() {
                 tickFormatter={v => `${v/1000}K`} />
               <Tooltip
                 contentStyle={{ background: '#1a2235', border: '1px solid #263550', borderRadius: '8px', fontSize: 12 }}
-                formatter={(v: number) => [`KSh ${v.toLocaleString()}`, 'Income']}
+                formatter={value => [`KSh ${Number(value ?? 0).toLocaleString()}`, 'Income']}
               />
               <Area type="monotone" dataKey="income" stroke="#10b981" strokeWidth={2.5}
                 fill="url(#incG)" dot={{ fill: '#10b981', r: 3 }} activeDot={{ r: 5 }} />

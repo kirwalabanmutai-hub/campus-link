@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Mail, ArrowLeft, CheckCircle } from 'lucide-react'
-import { authApi } from '@/lib/api'
+import { authApi, getApiErrorMessage } from '@/lib/api'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail]   = useState('')
@@ -17,8 +17,8 @@ export default function ForgotPasswordPage() {
     try {
       await authApi.forgotPassword(email)
       setSent(true)
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to send reset email.')
+    } catch (error) {
+      setError(getApiErrorMessage(error, 'Failed to send reset email.'))
     } finally {
       setLoading(false)
     }

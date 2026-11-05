@@ -11,10 +11,13 @@
             "isBackground": true,
             "problemMatcher": {
                 "owner": "vite",
+                "fileLocation": "absolute",
                 "pattern": {
-                    "regexp": "^(.*)$",
+                    "regexp": "\\[vite\\] Internal server error: (.+?):(\\d+):(\\d+):?\\s*(.*)$",
                     "file": 1,
-                    "message": 1
+                    "line": 2,
+                    "column": 3,
+                    "message": 4
                 },
                 "background": {
                     "activeOnStart": true,

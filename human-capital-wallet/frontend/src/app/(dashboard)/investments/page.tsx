@@ -1,5 +1,4 @@
 'use client'
-import { useState } from 'react'
 import { TrendingUp, TrendingDown, Plus, BarChart3, AlertTriangle } from 'lucide-react'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -71,7 +70,7 @@ export default function InvestmentsPage() {
               tickFormatter={v => `${v/1000}K`} />
             <Tooltip
               contentStyle={{ background: '#1a2235', border: '1px solid #263550', borderRadius: '8px', fontSize: 12 }}
-              formatter={(v: number) => [`KSh ${v.toLocaleString()}`, 'Portfolio Value']}
+              formatter={value => [`KSh ${Number(value ?? 0).toLocaleString()}`, 'Portfolio Value']}
             />
             <Line type="monotone" dataKey="value" stroke="#10b981" strokeWidth={2.5}
               dot={{ fill: '#10b981', r: 3 }} activeDot={{ r: 5 }} />

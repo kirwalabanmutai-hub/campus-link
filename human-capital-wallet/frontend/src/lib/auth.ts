@@ -38,5 +38,7 @@ export function isAuthenticated(): boolean {
 
 export function logout() {
   removeToken()
-  window.location.href = '/login'
+  if (typeof window !== 'undefined') {
+    window.location.assign(new URL('/login', window.location.origin).toString())
+  }
 }

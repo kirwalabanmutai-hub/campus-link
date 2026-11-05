@@ -1,6 +1,5 @@
 import {
-  Briefcase, Store, DollarSign, TrendingUp, Users, Star,
-  BarChart2, Clock, CheckCircle, AlertCircle,
+  Briefcase, Store, DollarSign, Star, Clock,
 } from 'lucide-react'
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid,

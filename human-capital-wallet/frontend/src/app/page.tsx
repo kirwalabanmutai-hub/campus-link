@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import {
   Shield, TrendingUp, Briefcase, Brain, DollarSign,
-  Star, ArrowRight, CheckCircle, Users, Award, BarChart3,
+  ArrowRight, CheckCircle, BarChart3,
 } from 'lucide-react'
 
 const FEATURES = [

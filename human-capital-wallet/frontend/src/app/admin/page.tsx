@@ -1,5 +1,5 @@
 'use client'
-import { Users, Briefcase, DollarSign, TrendingUp, AlertTriangle, CheckCircle, Clock } from 'lucide-react'
+import { Users, Briefcase, DollarSign, TrendingUp, AlertTriangle, Clock } from 'lucide-react'
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar,
@@ -67,7 +67,7 @@ export default function AdminPage() {
               <YAxis tick={{ fill: '#8da4c4', fontSize: 11 }} axisLine={false} tickLine={false}
                 tickFormatter={v => `${v/1000}K`} />
               <Tooltip contentStyle={{ background: '#1a2235', border: '1px solid #263550', borderRadius: '8px', fontSize: 12 }}
-                formatter={(v: number) => [v.toLocaleString(), 'Users']} />
+                formatter={value => [Number(value ?? 0).toLocaleString(), 'Users']} />
               <Area type="monotone" dataKey="users" stroke="#10b981" strokeWidth={2.5} fill="url(#usersGrad)" />
             </AreaChart>
           </ResponsiveContainer>
@@ -82,7 +82,7 @@ export default function AdminPage() {
               <YAxis tick={{ fill: '#8da4c4', fontSize: 11 }} axisLine={false} tickLine={false}
                 tickFormatter={v => `${v/1000000}M`} />
               <Tooltip contentStyle={{ background: '#1a2235', border: '1px solid #263550', borderRadius: '8px', fontSize: 12 }}
-                formatter={(v: number) => [`KSh ${(v/1000000).toFixed(1)}M`, 'Revenue']} />
+                formatter={value => [`KSh ${(Number(value ?? 0)/1000000).toFixed(1)}M`, 'Revenue']} />
               <Bar dataKey="revenue" fill="#3b82f6" radius={[4,4,0,0]} />
             </BarChart>
           </ResponsiveContainer>

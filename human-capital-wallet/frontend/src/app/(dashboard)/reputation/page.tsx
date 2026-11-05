@@ -1,5 +1,5 @@
 'use client'
-import { Star, CheckCircle, Shield, Award, TrendingUp, Users } from 'lucide-react'
+import { Star, Shield, TrendingUp, Users } from 'lucide-react'
 
 const SCORE_BREAKDOWN = [
   { label: 'Verification Score', score: 92, max: 100, icon: Shield,     color: 'text-primary',   bg: 'bg-primary/10' },

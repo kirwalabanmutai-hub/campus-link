@@ -51,11 +51,11 @@ export const schemas = {
   }),
 
   addIncomeRecord: Joi.object({
-    amount:      Joi.number().required(),
-    source:      Joi.string().required(),
-    category:    Joi.string().required(),
+    amount:      Joi.number().min(0.01).required(),
+    source:      Joi.string().min(1).max(200).required(),
+    category:    Joi.string().min(1).max(80).required(),
     type:        Joi.string().valid('income', 'expense').required(),
-    date:        Joi.string().required(),
+    date:        Joi.date().iso().required(),
     description: Joi.string().optional().allow(''),
   }),
 

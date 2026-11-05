@@ -4,20 +4,20 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Admin — CampusLink</title>
-<link rel="icon" href="public/favicon.svg" type="image/svg+xml"/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"/>
 <meta name="robots" content="noindex"/>
 <style>
 /* ── Tokens ── */
 :root{
-  --bg:#fbfaf7;--bg2:#f3f1ec;--card:#ffffff;--card2:#f7f5f0;
-  --border:#e7e3da;--border2:#d5cfc3;
-  --primary:#1f5c45;--primary-d:#164634;--primary-g:#1f5c4514;
-  --accent:#2f5d8a;--warn:#a86a12;--danger:#b42318;--success:#2f7d4f;
-  --text:#1c1b19;--muted:#5e5a52;--dim:#8b867b;
-  --font:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--font-serif:'Source Serif 4',Georgia,serif;
+  --bg:#f8fafc;--bg2:#ffffff;--card:#ffffff;--card2:#f1f5f9;
+  --border:#e2e8f0;--border2:#cbd5e1;
+  --primary:#0b2545;--primary-d:#07172b;--primary-g:#0b254514;
+  --accent:#7a1c2e;--warn:#a86a12;--danger:#b42318;--success:#2f7d4f;
+  --text:#0f172a;--muted:#475569;--dim:#64748b;
+  --font:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;--font-serif:'Outfit',system-ui,sans-serif;
   --radius:.75rem;--sidebar:240px;--topbar:60px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -291,6 +291,20 @@ tbody tr:hover{background:var(--card2)}
 .qa-btn:hover .qa-icon{background:var(--primary-g)}
 .qa-icon{font-size:1.5rem;margin-bottom:.4rem;width:44px;height:44px;border-radius:var(--radius);background:var(--card2);display:flex;align-items:center;justify-content:center;margin:0 auto .5rem}
 .qa-label{font-size:.82rem;font-weight:600}
+/* navy sidebar */
+#sidebar{background:var(--primary);border-right:none}
+.sidebar-logo{color:#fff;border-color:#1e3a5f}
+.logo-mark{background:var(--primary);color:#d4af37;border:2px solid #d4af37}
+.logo-accent{color:#d4af37}
+.nav-section-label{color:#7d8fa9}
+.nav-item{color:#cbd5e1}
+.nav-item:hover{background:#133966;color:#fff}
+.nav-item.active{background:rgba(212,175,55,.14);color:#d4af37;border-color:#d4af3799}
+.sidebar-footer{border-color:#1e3a5f}
+.sidebar-footer a,.sidebar-footer button{color:#cbd5e1}
+.sidebar-footer a:hover{background:#133966;color:#fff}
+#topbar{background:#fff}
+.panel-title{color:var(--primary)}
 </style>
 </head>
 <body>
@@ -637,7 +651,7 @@ tbody tr:hover{background:var(--card2)}
 <!-- Toast -->
 <div id="toast"></div>
 
-<script src="data.js"></script>
+<script src="/data.js"></script>
 <script>
 /* ── Navigation ── */
 let currentPanel = 'overview';

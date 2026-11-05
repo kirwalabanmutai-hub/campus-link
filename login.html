@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#fbfaf7" />
   <title>Sign in — CampusLink</title>
-  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <link rel="stylesheet" href="campuslink.css" />
   <style>
     .auth { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
-    .auth-side { background: var(--primary); color: #fff; padding: 3rem; display: flex; flex-direction: column; justify-content: space-between; }
-    .auth-side .logo { color: #fff; } .auth-side .logo-accent { color: #8fd3b3; } .auth-side .logo-mark { background: #fff; color: var(--primary); }
+    .auth-side { background: linear-gradient(180deg, rgba(7,23,43,.55) 0%, rgba(11,37,69,.7) 45%, rgba(7,23,43,.95) 100%), url(/images/student-laptop.webp) center / cover no-repeat; color: #fff; border-right: 4px solid var(--gold); padding: 3rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .auth-side .logo { color: #fff; } .auth-side .logo-accent { color: #d4af37; } .auth-side .logo-mark { background: #fff; color: var(--primary); }
     .auth-side blockquote { font-family: var(--font-serif); font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.3; max-width: 460px; }
-    .auth-side p { color: #cfe3da; font-size: .9rem; margin-top: 1rem; }
+    .auth-side p { color: #cbd5e1; font-size: .9rem; margin-top: 1rem; }
     .auth-main { display: flex; flex-direction: column; padding: 2rem; }
     .auth-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; font-size: .9rem; color: var(--muted); }
     .auth-top a { display: inline-flex; align-items: center; gap: .35rem; }
@@ -45,7 +45,7 @@
       <blockquote>Printing, laundry, groceries and paid work, all from one account.</blockquote>
       <p>Sign in to pick up where you left off.</p>
     </div>
-    <span style="color:#cfe3da;font-size:.82rem">Nairobi, Kenya</span>
+    <span style="color:#cbd5e1;font-size:.82rem">Nairobi, Kenya</span>
   </aside>
 
   <main class="auth-main" id="main">
@@ -87,7 +87,7 @@
   </main>
 </div>
 
-<script src="nav.js"></script>
+<script src="/nav.js"></script>
 <script>
 function handleLogin(e) {
   e.preventDefault();

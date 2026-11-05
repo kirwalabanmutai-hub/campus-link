@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Brain, CheckCircle, ChevronRight, TrendingUp, BookOpen, Target, Award } from 'lucide-react'
+import { Brain, CheckCircle, ChevronRight, Target } from 'lucide-react'
 import Card from '../components/ui/Card'
 import Badge from '../components/ui/Badge'
 import './AICareer.css'

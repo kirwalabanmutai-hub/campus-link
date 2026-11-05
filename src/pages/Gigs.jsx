@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Briefcase, Users, Clock, DollarSign, Plus, Filter, ChevronDown } from 'lucide-react'
+import { Users, Clock, Plus } from 'lucide-react'
 import Card from '../components/ui/Card'
 import Badge from '../components/ui/Badge'
 import SearchBar from '../components/ui/SearchBar'
