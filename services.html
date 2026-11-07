@@ -12,13 +12,18 @@
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
-  <link rel="stylesheet" href="campuslink.css" />
+  <link rel="stylesheet" href="/campuslink.css" />
   <style>
     .toolbar { display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 1.25rem; }
     .toolbar .search-wrap { flex: 1; max-width: 460px; min-width: 220px; }
     .results-count { color: var(--muted); font-size: .9rem; }
     .svc-card { display: flex; flex-direction: column; }
-    .svc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .svc-card { overflow: hidden; }
+    .svc-photo { position: relative; margin: -1.35rem -1.35rem 1rem; aspect-ratio: 16 / 10; background: var(--border); overflow: hidden; }
+    .svc-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+    .svc-card:hover .svc-photo img { transform: scale(1.05); }
+    .svc-photo .icon-tile { position: absolute; left: .75rem; bottom: .75rem; background: var(--card); box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+    .svc-photo .badge { position: absolute; top: .75rem; right: .75rem; background: var(--card); box-shadow: 0 2px 8px rgba(0,0,0,.12); }
     .svc-name { font-family: var(--font); letter-spacing: 0; font-weight: 600; font-size: 1.02rem; line-height: 1.35; }
     .svc-provider { color: var(--muted); font-size: .86rem; margin-bottom: .55rem; }
     .svc-meta { display: flex; flex-direction: column; gap: .3rem; color: var(--muted); font-size: .82rem; margin: .6rem 0 0; }
@@ -42,7 +47,7 @@
   <div class="topbar-inner">
     <div class="topbar-group">
       <span class="hide-sm"><i class="ph ph-map-pin"></i> Nairobi, Kenya</span>
-      <a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple"></i> simplykae2@gmail.com</a>
+      <a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple"></i> campuslink@gmail.com</a>
       <span class="hide-sm"><i class="ph ph-clock"></i> Support: Mon–Sat, 8am–8pm</span>
     </div>
     <div class="topbar-group">
@@ -224,7 +229,7 @@
       <li><a href="wallet.html"><i class="ph ph-wallet fi-green"></i>Wallet</a></li>
     </ul></div>
     <div class="footer-col"><h4>Contact</h4><ul>
-      <li><a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>simplykae2@gmail.com</a></li>
+      <li><a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>campuslink@gmail.com</a></li>
       <li><span><i class="ph ph-map-pin fi-rose"></i>Nairobi, Kenya</span></li>
       <li><a href="register.html?role=provider"><i class="ph ph-megaphone-simple fi-sky"></i>List your service</a></li>
     </ul></div>
@@ -279,7 +284,8 @@ function render() {
   document.getElementById('resultCount').textContent = list.length + ' service' + (list.length !== 1 ? 's' : '');
   document.getElementById('svcGrid').innerHTML = list.map(s => `
     <article class="card svc-card">
-      <div class="svc-top">
+      <div class="svc-photo">
+        <img src="${esc(CampusData.imageFor(s))}" alt="" loading="lazy" width="640" height="400" onerror="this.remove()" />
         <span class="icon-tile"><i class="ph ph-${CampusData.iconFor(s.cat)}"></i></span>
         ${s.badge ? `<span class="badge badge-primary">${esc(s.badge)}</span>` : ''}
       </div>

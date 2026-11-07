@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
-  <link rel="stylesheet" href="campuslink.css" />
+  <link rel="stylesheet" href="/campuslink.css" />
 <style>
 /* ── Shop-specific styles ── */
 .shop-layout{display:grid;grid-template-columns:220px 1fr;gap:1.5rem;align-items:start}
@@ -27,6 +27,71 @@
 
 /* ── Product grid ── */
 .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
+/* Section headings that split Clothing and Food in the product grid */
+.shop-section-head{grid-column:1/-1;display:flex;align-items:center;gap:.9rem;padding:.9rem 1.1rem;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:var(--radius);scroll-margin-top:90px}
+.shop-section-head:not(:first-child){margin-top:2.25rem}
+.shop-section-head h2{font-size:1.3rem;margin:0;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.shop-section-head p{color:var(--muted);font-size:.86rem;margin:.15rem 0 0}
+.shop-section-icon{width:44px;height:44px;border-radius:var(--radius-sm);display:inline-flex;align-items:center;justify-content:center;font-size:1.4rem;background:var(--primary-l);color:var(--primary);flex-shrink:0}
+.shop-section-count{font-family:var(--font);font-size:.78rem;font-weight:600;color:var(--muted);background:var(--bg,#f4f5f7);border:1px solid var(--border);padding:.12rem .55rem;border-radius:var(--pill)}
+/* Clickable clothing cards */
+.product-img-btn{border:0;padding:0;width:100%;cursor:pointer;font:inherit;color:inherit;display:flex;align-items:center;justify-content:center}
+.product-view-hint{position:absolute;left:50%;bottom:.6rem;transform:translate(-50%,6px);opacity:0;background:rgba(11,37,69,.88);color:#fff;font-size:.72rem;font-weight:600;padding:.3rem .7rem;border-radius:var(--pill);display:inline-flex;align-items:center;gap:.3rem;transition:all .2s;white-space:nowrap;z-index:2}
+.product-card:hover .product-view-hint,.product-img-btn:focus-visible .product-view-hint{opacity:1;transform:translate(-50%,0)}
+.product-name-btn{background:none;border:0;padding:0;text-align:left;cursor:pointer;color:inherit;font-family:inherit}
+.product-name-btn:hover{color:var(--primary);text-decoration:underline;text-underline-offset:2px}
+.cart-item-size{font-size:.75rem;color:var(--muted);margin-bottom:.1rem}
+
+/* Product details dialog */
+.pd-dialog{margin:auto;border:0;padding:0;border-radius:var(--radius-lg);max-width:880px;width:calc(100vw - 2rem);max-height:calc(100vh - 2rem);box-shadow:0 24px 60px rgba(0,0,0,.25);background:var(--card);color:var(--text)}
+.pd-dialog::backdrop{background:rgba(11,20,35,.55)}
+.pd-dialog[open]{animation:pdIn .2s ease}
+@keyframes pdIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.pd-wrap{display:grid;grid-template-columns:1fr 1fr;position:relative}
+.pd-media{position:relative;background:var(--bg2);min-height:100%}
+.pd-media img{width:100%;height:100%;object-fit:cover;display:block;min-height:320px}
+.pd-body{padding:1.6rem 1.6rem 1.4rem;overflow-y:auto;max-height:calc(100vh - 2rem)}
+.pd-close{position:absolute;top:.75rem;right:.75rem;z-index:3;width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;color:var(--text)}
+.pd-close:hover{background:var(--bg2)}
+.pd-title{font-size:1.45rem;line-height:1.25;margin:.4rem 2.2rem .35rem 0}
+.pd-price{font-size:1.25rem;font-weight:700;color:var(--primary);margin-bottom:1rem}
+.pd-label{font-family:var(--font);font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 .45rem}
+.pd-size-unit{text-transform:none;letter-spacing:0;font-weight:500}
+.pd-desc{color:var(--text);font-size:.92rem;line-height:1.65;margin:0 0 1rem}
+.pd-facts{display:grid;gap:.45rem;margin:0 0 1.25rem;padding:.85rem 1rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius)}
+.pd-facts div{display:grid;grid-template-columns:72px 1fr;gap:.5rem;font-size:.84rem}
+.pd-facts dt{color:var(--muted);font-weight:600}
+.pd-facts dd{margin:0}
+.pd-sizes{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem}
+.size-btn{min-width:48px;height:42px;padding:0 .8rem;border-radius:var(--radius-sm);border:1.5px solid var(--border2);background:var(--card);font-weight:600;font-size:.9rem;cursor:pointer;color:var(--text);font-family:inherit;transition:all .15s}
+.size-btn:hover{border-color:var(--primary)}
+.size-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.pd-kit{margin-bottom:1.1rem}
+.pd-kit[hidden]{display:none}
+.pd-kit .pd-sizes{margin-bottom:.85rem}
+.kit-btn{display:inline-flex;align-items:center;gap:.45rem}
+.kit-dot{width:16px;height:16px;border-radius:50%;border:1px solid rgba(0,0,0,.2);flex-shrink:0}
+.size-btn.active .kit-dot{border-color:rgba(255,255,255,.7)}
+.pd-colour{display:flex;align-items:center;gap:.5rem;font-size:.9rem;padding:.6rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2)}
+.pd-colour-swatch{width:28px;height:28px;border-radius:6px;border:1px solid rgba(0,0,0,.2);flex-shrink:0}
+.pd-colour-for{color:var(--muted);font-size:.8rem}
+.cart-item-variant{display:inline-flex;align-items:center;gap:.3rem}
+.cart-item-variant .kit-dot{width:11px;height:11px}
+.pd-size-error{color:#b91c1c;font-size:.82rem;margin:.1rem 0 .4rem;display:flex;align-items:center;gap:.3rem}
+.pd-size-error[hidden]{display:none}
+.pd-actions{display:flex;align-items:center;gap:.75rem;margin-top:1rem}
+.pd-qty{margin:0}
+.pd-qty .qty-btn{width:34px;height:34px}
+.pd-add{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.7rem}
+.pd-note{color:var(--muted);font-size:.78rem;margin:.85rem 0 0;display:flex;align-items:center;gap:.35rem}
+@media (max-width:700px){
+  .pd-wrap{grid-template-columns:1fr}
+  .pd-media img{min-height:0;aspect-ratio:4/3}
+  .pd-body{max-height:none}
+  .pd-dialog{overflow-y:auto}
+}
+#sec-food{border-left-color:var(--gold,#c9a227)}
+#sec-food .shop-section-icon{background:var(--gold-l,#fbf3d6);color:#8a6d12}
 .product-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .2s;display:flex;flex-direction:column}
 .product-card:hover{border-color:var(--border2);box-shadow:var(--shadow)}
 .product-img{
@@ -134,6 +199,31 @@
   .product-grid{grid-template-columns:repeat(2,1fr)}
   .product-img{height:110px;font-size:2rem}
 }
+/* Shops near your campus */
+.product-seller{display:flex;align-items:center;gap:.25rem;font-size:.72rem;font-weight:600;color:#15803d;margin-bottom:.3rem}
+.nearby{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.35rem;margin-bottom:1.5rem;scroll-margin-top:90px}
+.nearby-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.nearby-head h2{font-size:1.3rem;display:flex;align-items:center;gap:.45rem;margin:0}
+.nearby-head h2 i{color:var(--maroon)}
+.nearby-head p{color:var(--muted);font-size:.86rem;margin:.2rem 0 0}
+.nearby-pick{display:flex;flex-direction:column;gap:.25rem;font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.nearby-pick select{min-width:240px;padding:.5rem .7rem;border:1px solid var(--border2);border-radius:var(--radius-sm);font:inherit;font-size:.88rem;text-transform:none;letter-spacing:0;color:var(--text);background:var(--card)}
+.nearby-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.9rem}
+.nb-card{border:1px solid var(--border);border-radius:var(--radius);padding:1rem;display:flex;flex-direction:column;gap:.6rem;background:var(--bg)}
+.nb-top{display:flex;gap:.7rem;align-items:flex-start}
+.nb-top>div{flex:1;min-width:0}
+.nb-top h3{font-size:1rem;margin:0}
+.nb-ic{width:40px;height:40px;border-radius:var(--radius-sm);background:var(--primary-l);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.nb-cat{color:var(--muted);font-size:.8rem}
+.nb-verified{display:inline-flex;align-items:center;gap:.25rem;font-size:.7rem;font-weight:700;color:#15803d;background:#dcfce7;padding:.2rem .5rem;border-radius:var(--pill);white-space:nowrap}
+.nb-loc{color:var(--muted);font-size:.84rem;display:flex;gap:.35rem;margin:0}
+.nb-loc i{margin-top:.15rem}
+.nb-actions{display:flex;gap:.5rem;margin-top:auto}
+.nb-empty{grid-column:1/-1;display:flex;gap:.8rem;align-items:center;padding:1rem;border:1px dashed var(--border2);border-radius:var(--radius);color:var(--muted);font-size:.88rem}
+.nb-empty>i{font-size:1.8rem;color:var(--dim)}
+.nb-empty a{color:var(--primary);font-weight:600;text-decoration:underline}
+@media (max-width:900px){.nearby-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.nearby-grid{grid-template-columns:1fr}.nearby-pick select{min-width:0;width:100%}.nearby-pick{width:100%}}
 </style>
 </head>
 <body>
@@ -143,7 +233,7 @@
   <div class="topbar-inner">
     <div class="topbar-group">
       <span class="hide-sm"><i class="ph ph-map-pin"></i> Nairobi, Kenya</span>
-      <a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple"></i> simplykae2@gmail.com</a>
+      <a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple"></i> campuslink@gmail.com</a>
       <span class="hide-sm"><i class="ph ph-clock"></i> Support: Mon–Sat, 8am–8pm</span>
     </div>
     <div class="topbar-group">
@@ -279,6 +369,18 @@
   <section class="section-tight">
   <div class="container">
 
+    <!-- Verified shops near the student's campus (approved sellers only) -->
+    <section class="nearby" id="nearby" aria-labelledby="nearbyTitle">
+      <div class="nearby-head">
+        <div>
+          <h2 id="nearbyTitle"><i class="ph ph-map-pin"></i> <span>Shops near <span id="nearbyCampusName"></span></span></h2>
+          <p>Local businesses checked by CampusLink: KRA PIN, business permit and shop location.</p>
+        </div>
+        <label class="nearby-pick"><span>Campus</span><select id="nearbyCampus" onchange="setNearbyCampus(this.value)"></select></label>
+      </div>
+      <div class="nearby-grid" id="nearbyGrid"></div>
+    </section>
+
     <!-- Department tabs -->
     <div class="dept-tabs" id="deptTabs">
       <button class="dept-tab active" onclick="setDept(this,'All')">All</button>
@@ -371,6 +473,50 @@
   </section>
 </main>
 
+<!-- Clothing details: description, details and size picker -->
+<dialog id="productDialog" class="pd-dialog" aria-labelledby="pdTitle" onclick="if(event.target===this)closeDetails()">
+  <div class="pd-wrap">
+    <button type="button" class="pd-close" onclick="closeDetails()" aria-label="Close"><i class="ph ph-x"></i></button>
+    <div class="pd-media">
+      <img id="pdImg" src="" alt="" width="480" height="360" />
+      <span class="product-badge" id="pdBadge" hidden></span>
+    </div>
+    <div class="pd-body">
+      <div class="product-meta" id="pdTags"></div>
+      <h2 id="pdTitle" class="pd-title"></h2>
+      <div class="pd-price" id="pdPrice"></div>
+
+      <h3 class="pd-label">Description</h3>
+      <p class="pd-desc" id="pdDesc"></p>
+      <dl class="pd-facts" id="pdFacts"></dl>
+
+      <div class="pd-kit" id="pdKit" hidden>
+        <h3 class="pd-label" id="pdSeasonLabel">Season</h3>
+        <div class="pd-sizes" id="pdSeasons" role="radiogroup" aria-labelledby="pdSeasonLabel"></div>
+        <h3 class="pd-label" id="pdKitLabel">Kit</h3>
+        <div class="pd-sizes" id="pdKits" role="radiogroup" aria-labelledby="pdKitLabel"></div>
+        <div class="pd-colour"><span class="pd-colour-swatch" id="pdColourSwatch"></span> Colour: <strong id="pdColourName"></strong> <span class="pd-colour-for" id="pdColourFor"></span></div>
+      </div>
+
+      <div class="pd-size-head">
+        <h3 class="pd-label" id="pdSizeGroupLabel">Choose size <span class="pd-size-unit">· <span id="pdSizeLabel">Size</span></span></h3>
+      </div>
+      <div class="pd-sizes" id="pdSizes" role="radiogroup" aria-labelledby="pdSizeGroupLabel"></div>
+      <p class="pd-size-error" id="pdSizeError" role="alert" hidden><i class="ph ph-warning-circle"></i> Please choose a size first.</p>
+
+      <div class="pd-actions">
+        <div class="qty-controls pd-qty" aria-label="Quantity">
+          <button type="button" class="qty-btn" onclick="changeDetailQty(-1)" aria-label="Decrease quantity">−</button>
+          <span class="qty-val" id="pdQty" aria-live="polite">1</span>
+          <button type="button" class="qty-btn" onclick="changeDetailQty(1)" aria-label="Increase quantity">+</button>
+        </div>
+        <button type="button" class="add-cart-btn pd-add" onclick="addDetailToCart()"><i class="ph ph-shopping-cart"></i> Add to cart</button>
+      </div>
+      <p class="pd-note"><i class="ph ph-truck"></i> Delivered to your hostel. Free size exchange within 7 days.</p>
+    </div>
+  </div>
+</dialog>
+
 <!-- Cart overlay -->
 <div id="cartOverlay" onclick="closeCart()"></div>
 
@@ -417,7 +563,7 @@
       <li><a href="wallet.html"><i class="ph ph-wallet fi-green"></i>Wallet</a></li>
     </ul></div>
     <div class="footer-col"><h4>Contact</h4><ul>
-      <li><a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>simplykae2@gmail.com</a></li>
+      <li><a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>campuslink@gmail.com</a></li>
       <li><span><i class="ph ph-map-pin fi-rose"></i>Nairobi, Kenya</span></li>
       <li><a href="register.html?role=provider"><i class="ph ph-megaphone-simple fi-sky"></i>List your service</a></li>
     </ul></div>
@@ -430,6 +576,7 @@
 <div class="float-help"><a href="career.html#coach" class="fh-chat" title="Ask the career coach" aria-label="Ask the career coach"><i class="ph ph-chat-circle-dots"></i></a></div>
 
 <script src="/nav.js"></script>
+<script src="/data.js"></script>
 
 <script>
 /* ════════════════════════════════════════
@@ -439,16 +586,112 @@
    type: 'Jerseys' | 'T-Shirts' etc.    (clothes only)
    subcat: 'Groceries' | 'Ready Meals' etc. (food only)
 ════════════════════════════════════════ */
+/* Clothing details: sizes, material, fit and care by type (Men/Women can differ) */
+const CLOTHING_INFO = {
+  'Jerseys':  { sizes:['S','M','L','XL','XXL'], material:'100% recycled polyester, breathable mesh', fit:'Regular fit, true to size', care:'Machine wash cold, inside out. Do not iron the crest.' },
+  'T-Shirts': { sizes:['S','M','L','XL','XXL'], material:'100% combed cotton, 180gsm', fit:'Regular fit', care:'Machine wash at 30°C. Tumble dry low.' },
+  'Jeans':    { sizes:{ Men:['28','30','32','34','36'], Women:['6','8','10','12','14'] }, sizeLabel:{ Men:'Waist (inches)', Women:'UK size' }, material:'Cotton with 2% stretch', fit:'Slim through the hip and thigh', care:'Wash inside out, cold. Hang to dry.' },
+  'Hoodies':  { sizes:{ Men:['S','M','L','XL','XXL'], Women:['XS','S','M','L','XL'] }, material:'80% cotton, 20% polyester fleece', fit:'Relaxed fit', care:'Machine wash at 30°C. Do not bleach.' },
+  'Shorts':   { sizes:['28','30','32','34','36'], sizeLabel:'Waist (inches)', material:'Lightweight cotton blend', fit:'Above the knee', care:'Machine wash cold.' },
+  'Dresses':  { sizes:['XS','S','M','L','XL'], material:'Soft viscose blend', fit:'True to size. Size up for a looser fit.', care:'Hand wash or gentle cycle, cold.' },
+  'Blouses':  { sizes:['XS','S','M','L','XL'], material:'Lightweight woven fabric', fit:'Regular fit', care:'Gentle cycle, cold. Cool iron.' },
+  'Skirts':   { sizes:['XS','S','M','L','XL'], material:'Woven polyester blend with elastic waistband', fit:'High-rise waist', care:'Gentle cycle, cold. Hang to dry.' },
+};
+
+const DESCRIPTIONS = {
+  1:'Liverpool FC replica jersey with an embroidered crest. Pick the season and choose home or away. Light enough for five-a-side and smart enough for match day at the hostel common room.',
+  2:'Manchester United replica jersey with a crisp club badge and a moisture-wicking finish. Choose your season and home or away kit; the colour changes to match.',
+  3:'Chelsea FC replica jersey with a ribbed crew neck and an embroidered club badge. Available in home and away kits from recent seasons.',
+  4:'Real Madrid replica jersey with quick-drying fabric and flat seams. Pick the season and home or away kit.',
+  5:'Barcelona FC replica jersey with a woven crest and breathable panels under the arms. Choose the season and home or away colours.',
+  6:'Show your Harambee Stars pride. Kenyan colours with a woven badge, perfect for match nights and inter-campus games.',
+  7:'A sleeveless basketball jersey with stitched numbers. Loose through the body for easy movement on court.',
+  8:'Arsenal FC replica jersey with a ribbed collar and an embroidered cannon crest. Choose the season and home or away kit.',
+  9:'A dropped-shoulder oversized tee with a front graphic print. Pairs well with cargos or jeans.',
+  10:'An everyday white tee in thick cotton that holds its shape wash after wash. The wardrobe basic you will reach for most.',
+  11:'A heavyweight black tee with a boxy streetwear cut and a ribbed neck that stays flat.',
+  12:'Dark indigo denim in a slim fit with a little stretch for comfort through long lecture days.',
+  13:'Durable olive cargos with six pockets, adjustable ankle cuffs and a relaxed fit.',
+  14:'Smart-casual khaki chinos that work for presentations, internships and weekends.',
+  15:'A full-zip hoodie with a lined hood, kangaroo pockets and ribbed cuffs. Ideal for early classes and cold evenings.',
+  16:'A heavyweight pullover with a roomy oversized cut and a front pouch pocket.',
+  17:'Lightweight running shorts with an inner liner, an elastic drawcord waist and a zip key pocket.',
+  18:'Washed denim shorts with a frayed hem. An easy pick for warm days on campus.',
+  19:'A floaty floral dress with a V-neck, short sleeves and a tie waist. Made for sunny days.',
+  20:'A relaxed midi dress with side pockets that is easy to dress up or down.',
+  21:'A tailored shift dress with a clean neckline and a knee-length hem. Ready for interviews and attachment.',
+  22:'A fitted black mini dress with a square neckline. Your go-to for evenings out.',
+  23:'A crisp white blouse with ruffle details on the collar and cuffs.',
+  24:'A classic striped button-down that you can tuck into jeans or wear loose over a skirt.',
+  25:'A sheer chiffon blouse with a soft drape and a relaxed fit. Wear it with a camisole underneath.',
+  26:'High-rise skinny jeans with stretch that holds its shape all day.',
+  27:'Light-wash mom jeans with a high waist and a relaxed, tapered leg.',
+  28:'A pleated beige mini skirt with a comfortable elastic back waistband.',
+  29:'A flowing floral maxi skirt with a wrap front and a tie waist.',
+  30:'A cropped hoodie with a drawstring hood and dropped shoulders. Pair it with high-waist jeans.',
+};
+
+/* Club jersey kits: product id → season → Home/Away colour.
+   Edit here to add seasons or correct colours. The first season listed is the default. */
+const JERSEY_KITS = {
+  2: { // Manchester United
+    '2024/25': { Home:{ name:'Red',            hex:'#c8102e' }, Away:{ name:'Navy blue',       hex:'#1b2a4a' } },
+    '2023/24': { Home:{ name:'Red',            hex:'#d0102b' }, Away:{ name:'White',           hex:'#f5f5f2' } },
+    '2022/23': { Home:{ name:'Red',            hex:'#c41230' }, Away:{ name:'White & black',   hex:'#ececec', hex2:'#1a1a1a' } },
+  },
+  1: { // Liverpool
+    '2024/25': { Home:{ name:'Red',            hex:'#c8102e' }, Away:{ name:'Black',           hex:'#1c1c1c' } },
+    '2023/24': { Home:{ name:'Red',            hex:'#c8102e' }, Away:{ name:'White & teal',    hex:'#f4f4f2', hex2:'#0f8a8a' } },
+    '2022/23': { Home:{ name:'Red',            hex:'#c8102e' }, Away:{ name:'White',           hex:'#f4f4f2' } },
+  },
+  3: { // Chelsea
+    '2024/25': { Home:{ name:'Royal blue',     hex:'#034694' }, Away:{ name:'Cream',           hex:'#efe6d2' } },
+    '2023/24': { Home:{ name:'Royal blue',     hex:'#034694' }, Away:{ name:'Light blue',      hex:'#9cc7e8' } },
+    '2022/23': { Home:{ name:'Royal blue',     hex:'#034694' }, Away:{ name:'White',           hex:'#f5f5f2' } },
+  },
+  4: { // Real Madrid
+    '2024/25': { Home:{ name:'White',          hex:'#f7f7f5' }, Away:{ name:'Orange',          hex:'#f28c28' } },
+    '2023/24': { Home:{ name:'White',          hex:'#f7f7f5' }, Away:{ name:'Navy blue',       hex:'#1d2a52' } },
+    '2022/23': { Home:{ name:'White',          hex:'#f7f7f5' }, Away:{ name:'Purple',          hex:'#5b2a86' } },
+  },
+  5: { // Barcelona
+    '2024/25': { Home:{ name:'Blue & garnet',  hex:'#004d98', hex2:'#a50044' }, Away:{ name:'Black', hex:'#1a1a1a' } },
+    '2023/24': { Home:{ name:'Blue & garnet',  hex:'#004d98', hex2:'#a50044' }, Away:{ name:'White', hex:'#f5f5f2' } },
+    '2022/23': { Home:{ name:'Blue & garnet',  hex:'#004d98', hex2:'#a50044' }, Away:{ name:'White', hex:'#f5f5f2' } },
+  },
+  8: { // Arsenal
+    '2024/25': { Home:{ name:'Red & white',    hex:'#db0007', hex2:'#ffffff' }, Away:{ name:'Black',  hex:'#1a1a1a' } },
+    '2023/24': { Home:{ name:'Red & white',    hex:'#db0007', hex2:'#ffffff' }, Away:{ name:'Gold',   hex:'#d8b44a' } },
+    '2022/23': { Home:{ name:'Red & white',    hex:'#db0007', hex2:'#ffffff' }, Away:{ name:'Black',  hex:'#1a1a1a' } },
+  },
+};
+
+function swatchStyle(c) {
+  return c.hex2 ? `background:linear-gradient(135deg,${c.hex} 50%,${c.hex2} 50%)` : `background:${c.hex}`;
+}
+
+/* Photo for a product: seller uploads come from the server, built-in ones from images/shop */
+function imgSrc(p) { return p.imgUrl || (p.img ? `images/shop/${p.img}.webp` : ''); }
+
+function sizesFor(p) {
+  if (p.sizes && p.sizes.length) return { sizes: p.sizes, label: 'Size' };   // seller-chosen sizes
+  const info = CLOTHING_INFO[p.type];
+  if (!info) return { sizes: [], label: 'Size' };
+  const sizes = Array.isArray(info.sizes) ? info.sizes : (info.sizes[p.gender] || Object.values(info.sizes)[0]);
+  const label = typeof info.sizeLabel === 'string' ? info.sizeLabel : (info.sizeLabel && info.sizeLabel[p.gender]) || 'Size';
+  return { sizes, label };
+}
+
 const PRODUCTS = [
   /* ── Men Jerseys ── */
-  {id:1,  img:'jersey-liverpool', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Liverpool FC Home Jersey',       price:2500, badge:'Best Seller'},
-  {id:2,  img:'jersey-manutd-away', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Manchester United Away Jersey',  price:2800, badge:null},
-  {id:3,  img:'jersey-chelsea', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Chelsea Home Jersey 2024/25',    price:2600, badge:'New'},
-  {id:4,  img:'jersey-realmadrid', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Real Madrid Training Jersey',    price:2400, badge:null},
-  {id:5,  img:'jersey-barcelona', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Barcelona FC Away Jersey',       price:2700, badge:null},
+  {id:1,  img:'jersey-liverpool', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Liverpool FC Jersey',       price:2500, badge:'Best Seller'},
+  {id:2,  img:'jersey-manutd-away', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Manchester United Jersey',  price:2800, badge:null},
+  {id:3,  img:'jersey-chelsea', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Chelsea FC Jersey',    price:2600, badge:'New'},
+  {id:4,  img:'jersey-realmadrid', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Real Madrid Jersey',    price:2400, badge:null},
+  {id:5,  img:'jersey-barcelona', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Barcelona FC Jersey',       price:2700, badge:null},
   {id:6,  img:'jersey-kenya', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Kenya National Team Jersey',     price:1800, badge:'Local'},
   {id:7,  img:'jersey-basketball', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'NBA Lakers Jersey #23',          price:3200, badge:null},
-  {id:8,  img:'jersey-arsenal', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Arsenal Home Jersey 2024/25',   price:2550, badge:null},
+  {id:8,  img:'jersey-arsenal', dept:'Clothes', gender:'Men',   type:'Jerseys',  subcat:null,         name:'Arsenal FC Jersey',   price:2550, badge:null},
   /* ── Men T-Shirts ── */
   {id:9,  img:'tee-graphic', dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         name:'Campus Graphic Oversized Tee',  price:800,  badge:null},
   {id:10, img:'tee-white', dept:'Clothes', gender:'Men',   type:'T-Shirts', subcat:null,         name:'Plain White Essential Tee',     price:600,  badge:null},
@@ -611,6 +854,53 @@ function resetFilters() {
 }
 
 /* ── Render products ── */
+/* ── Shops near your campus ──
+   Only admin-approved businesses, and only those near the chosen campus.
+   Default campus: the last one picked here, then the signed-in account's campus. */
+const NEARBY_KEY = 'campuslink_campus';
+function setNearbyCampus(c) { localStorage.setItem(NEARBY_KEY, c); renderNearby(); }
+
+/* Products from approved sellers near the chosen campus join the built-in catalogue.
+   Their ids are offset so they never clash with the sample products. */
+const BUILT_IN_COUNT = PRODUCTS.length;
+function loadSellerProducts(campus) {
+  return CampusAPI.products(campus).then(list => {
+    PRODUCTS.splice(BUILT_IN_COUNT);                       // drop the previous campus's seller products
+    list.forEach(sp => PRODUCTS.push({
+      id: CampusAPI.ID_OFFSET + sp.id, dept: sp.dept, gender: sp.gender, type: sp.type, subcat: sp.subcat,
+      name: sp.name, price: sp.price, badge: 'Local', imgUrl: sp.imageUrl, description: sp.description,
+      sizes: sp.sizes, seller: sp.sellerName, sellerCampus: sp.campus,
+    }));
+    renderProducts();
+  }).catch(() => { /* server offline: show the built-in catalogue only */ });
+}
+
+async function renderNearby() {
+  const sel = document.getElementById('nearbyCampus');
+  const grid = document.getElementById('nearbyGrid');
+  let meta, me;
+  try { [meta, me] = await Promise.all([CampusAPI.meta(), CampusAPI.me()]); }
+  catch (e) { grid.innerHTML = `<div class="nb-empty"><i class="ph ph-wifi-slash"></i><div><strong>Couldn't load local shops.</strong><br>${esc(e.message)}</div></div>`; return; }
+  if (!sel.options.length) sel.innerHTML = meta.campuses.map(c => '<option>' + esc(c) + '</option>').join('');
+  const campus = localStorage.getItem(NEARBY_KEY) || (me && me.campus) || meta.campuses[0];
+  sel.value = campus;
+  document.getElementById('nearbyCampusName').textContent = campus;
+  loadSellerProducts(campus);
+  const shops = await CampusAPI.shops(campus).catch(() => []);
+  grid.innerHTML = shops.map(s => `
+    <article class="nb-card">
+      <div class="nb-top"><span class="nb-ic"><i class="ph ph-storefront"></i></span>
+        <div><h3>${esc(s.name)}</h3><span class="nb-cat">${esc(s.category)}</span></div>
+        <span class="nb-verified" title="Documents checked by CampusLink"><i class="ph ph-seal-check"></i> Verified</span></div>
+      <p class="nb-loc"><i class="ph ph-map-pin"></i> ${esc(s.landmark)}</p>
+      <div class="nb-actions">
+        <a class="btn btn-sm btn-primary" href="tel:${esc(s.phone)}"><i class="ph ph-phone"></i> Call</a>
+        ${s.mapLink ? `<a class="btn btn-sm btn-ghost" href="${esc(s.mapLink)}" target="_blank" rel="noopener"><i class="ph ph-map-trifold"></i> Directions</a>` : ''}
+      </div>
+    </article>`).join('') ||
+    `<div class="nb-empty"><i class="ph ph-storefront"></i><div><strong>No verified shops near ${esc(campus)} yet.</strong><br>Own a shop near this campus? <a href="register.html?role=business">Register your business</a> and we'll check your documents.</div></div>`;
+}
+
 function renderProducts() {
   const q       = document.getElementById('shopSearch').value.toLowerCase();
   const maxP    = parseInt(document.getElementById('priceRange').value);
@@ -648,38 +938,160 @@ function renderProducts() {
     return;
   }
 
-  grid.innerHTML = items.map(p => {
-    const inCart = cart.find(c=>c.id===p.id);
+  const sections = [
+    { dept:'Clothes', icon:'t-shirt',   title:'Clothing',          sub:'Jerseys, tees, jeans, hoodies, dresses and more' },
+    { dept:'Food',    icon:'bowl-food', title:'Food & groceries', sub:'Groceries, ready meals, snacks and drinks' },
+  ];
+  grid.innerHTML = sections.map(sec => {
+    const list = items.filter(p => p.dept === sec.dept);
+    if (!list.length) return '';
     return `
-    <div class="product-card">
-      <div class="product-img" style="--tint:${tintFor(p)}">
-        <i class="ph ph-${iconForProduct(p)}"></i>
-        ${p.img ? `<img src="images/shop/${p.img}.webp" alt="${p.name}" width="480" height="360" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
-        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+    <div class="shop-section-head" id="sec-${sec.dept.toLowerCase()}">
+      <span class="shop-section-icon"><i class="ph ph-${sec.icon}"></i></span>
+      <div>
+        <h2>${esc(sec.title)} <span class="shop-section-count">${list.length} item${list.length !== 1 ? 's' : ''}</span></h2>
+        <p>${esc(sec.sub)}</p>
       </div>
-      <div class="product-body">
-        <div class="product-name">${p.name}</div>
-        <div class="product-meta">
-          ${p.dept==='Clothes'?`<span class="meta-tag">${p.gender}</span><span class="meta-tag">${p.type}</span>`:''}
-          ${p.dept==='Food'?`<span class="meta-tag">${p.subcat}</span>`:''}
-        </div>
-        <div class="product-price">Ksh ${p.price.toLocaleString()}</div>
-        <button class="add-cart-btn ${inCart?'added':''}" onclick="addToCart(${p.id})">
-          ${inCart ? `<i class="ph ph-check"></i> In cart (${inCart.qty})` : 'Add to cart'}
-        </button>
-      </div>
-    </div>`;
+    </div>${list.map(productCard).join('')}`;
   }).join('');
 }
 
-/* ── Cart ── */
-let cart = [];
+function productCard(p) {
+    const isClothes = p.dept === 'Clothes';
+    const inCartQty = cart.filter(c => c.id === p.id).reduce((s, c) => s + c.qty, 0);
+    const btn = isClothes
+      ? `<button class="add-cart-btn ${inCartQty ? 'added' : ''}" onclick="openDetails(${p.id})">
+          ${inCartQty ? `<i class="ph ph-check"></i> In cart (${inCartQty}) · Add size` : 'Choose size'}
+        </button>`
+      : `<button class="add-cart-btn ${inCartQty ? 'added' : ''}" onclick="addToCart(${p.id})">
+          ${inCartQty ? `<i class="ph ph-check"></i> In cart (${inCartQty})` : 'Add to cart'}
+        </button>`;
+    const imgInner = `
+        <i class="ph ph-${iconForProduct(p)}"></i>
+        ${imgSrc(p) ? `<img src="${esc(imgSrc(p))}" alt="${esc(p.name)}" width="480" height="360" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
+        ${p.badge ? `<span class="product-badge">${esc(p.badge)}</span>` : ''}
+        ${isClothes ? `<span class="product-view-hint"><i class="ph ph-eye"></i> View details</span>` : ''}`;
+    return `
+    <div class="product-card">
+      ${isClothes
+        ? `<button type="button" class="product-img product-img-btn" style="--tint:${tintFor(p)}" onclick="openDetails(${p.id})" aria-label="View details and sizes for ${esc(p.name)}">${imgInner}</button>`
+        : `<div class="product-img" style="--tint:${tintFor(p)}">${imgInner}</div>`}
+      <div class="product-body">
+        ${isClothes
+          ? `<button type="button" class="product-name product-name-btn" onclick="openDetails(${p.id})">${esc(p.name)}</button>`
+          : `<div class="product-name">${esc(p.name)}</div>`}
+        ${p.seller ? `<div class="product-seller"><i class="ph ph-seal-check"></i> Sold by ${esc(p.seller)}</div>` : ''}
+        <div class="product-meta">
+          ${p.dept==='Clothes'?`<span class="meta-tag">${esc(p.gender)}</span><span class="meta-tag">${esc(p.type)}</span>`:''}
+          ${p.dept==='Food'?`<span class="meta-tag">${esc(p.subcat)}</span>`:''}
+        </div>
+        <div class="product-price">Ksh ${p.price.toLocaleString()}</div>
+        ${btn}
+      </div>
+    </div>`;
+}
 
-function addToCart(id) {
+/* ── Clothing details dialog ── */
+let detailId = null, detailSize = null, detailQty = 1, detailSeason = null, detailKit = null;
+
+/* Season + Home/Away picker for club jerseys */
+function renderKitPicker() {
+  const kits = JERSEY_KITS[detailId];
+  const box = document.getElementById('pdKit');
+  box.hidden = !kits;
+  if (!kits) return;
+  document.getElementById('pdSeasons').innerHTML = Object.keys(kits).map(s =>
+    `<button type="button" class="size-btn${s === detailSeason ? ' active' : ''}" role="radio" aria-checked="${s === detailSeason}" onclick="pickSeason('${s}')">${s}</button>`
+  ).join('');
+  document.getElementById('pdKits').innerHTML = Object.entries(kits[detailSeason]).map(([k, c]) =>
+    `<button type="button" class="size-btn kit-btn${k === detailKit ? ' active' : ''}" role="radio" aria-checked="${k === detailKit}" onclick="pickKit('${k}')">
+      <span class="kit-dot" style="${swatchStyle(c)}"></span>${k}</button>`
+  ).join('');
+  const c = kits[detailSeason][detailKit];
+  document.getElementById('pdColourSwatch').style.cssText = swatchStyle(c);
+  document.getElementById('pdColourName').textContent = c.name;
+  document.getElementById('pdColourFor').textContent = `(${detailSeason} ${detailKit.toLowerCase()} kit)`;
+}
+function pickSeason(s) { detailSeason = s; renderKitPicker(); }
+function pickKit(k)    { detailKit = k;    renderKitPicker(); }
+
+function openDetails(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  const info = CLOTHING_INFO[p.type] || {};
+  const { sizes, label } = sizesFor(p);
+  detailId = id; detailSize = null; detailQty = 1;
+  const kits = JERSEY_KITS[id];
+  detailSeason = kits ? Object.keys(kits)[0] : null;
+  detailKit = kits ? 'Home' : null;
+  renderKitPicker();
+
+  const img = document.getElementById('pdImg');
+  img.src = imgSrc(p);
+  img.alt = p.name;
+  document.getElementById('pdBadge').textContent = p.badge || '';
+  document.getElementById('pdBadge').hidden = !p.badge;
+  document.getElementById('pdTags').innerHTML = `<span class="meta-tag">${esc(p.gender)}</span><span class="meta-tag">${esc(p.type)}</span>`;
+  document.getElementById('pdTitle').textContent = p.name;
+  document.getElementById('pdPrice').textContent = 'Ksh ' + p.price.toLocaleString();
+  document.getElementById('pdDesc').textContent = p.description || DESCRIPTIONS[p.id] || 'Quality campus clothing, delivered to your hostel.';
+  /* seller products: who sells it and where; built-in products: material, fit and care */
+  const facts = p.seller
+    ? [['Sold by', p.seller + ' (verified)'], ['Near', p.sellerCampus]]
+    : [['Material', info.material], ['Fit', info.fit], ['Care', info.care]];
+  document.getElementById('pdFacts').innerHTML = facts.filter(r => r[1]).map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('');
+  document.getElementById('pdSizeLabel').textContent = label;
+  document.querySelector('.pd-size-unit').hidden = label === 'Size';
+  document.getElementById('pdSizes').innerHTML = sizes.map(s =>
+    `<button type="button" class="size-btn" role="radio" aria-checked="false" data-size="${esc(s)}" onclick="pickSize(this)">${esc(s)}</button>`
+  ).join('');
+  document.getElementById('pdSizeError').hidden = true;
+  document.getElementById('pdQty').textContent = detailQty;
+  document.getElementById('productDialog').showModal();
+}
+
+function pickSize(btn) {
+  detailSize = btn.dataset.size;
+  document.querySelectorAll('#pdSizes .size-btn').forEach(b => {
+    const on = b === btn;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-checked', on);
+  });
+  document.getElementById('pdSizeError').hidden = true;
+}
+
+function changeDetailQty(delta) {
+  detailQty = Math.max(1, Math.min(10, detailQty + delta));
+  document.getElementById('pdQty').textContent = detailQty;
+}
+
+function addDetailToCart() {
+  if (!detailSize) {
+    const err = document.getElementById('pdSizeError');
+    err.hidden = false;
+    document.querySelector('#pdSizes .size-btn')?.focus();
+    return;
+  }
+  const kits = JERSEY_KITS[detailId];
+  const variant = kits ? { season: detailSeason, kit: detailKit, ...kits[detailSeason][detailKit] } : null;
+  addToCart(detailId, detailSize, detailQty, variant);
+  closeDetails();
+  const extra = variant ? `${variant.season} ${variant.kit.toLowerCase()}, ${variant.name.toLowerCase()}, ` : '';
+  notify(`Added ${detailQty} × ${PRODUCTS.find(x => x.id === detailId).name} (${extra}size ${detailSize}) to your cart.`, 'shopping-cart');
+}
+
+function closeDetails() { document.getElementById('productDialog').close(); }
+
+/* ── Cart ── each line is one product in one size; key = "id|size" */
+let cart = [];
+const cartKey = (id, size, v) => [id, size || '', v ? v.season : '', v ? v.kit : ''].join('|');
+
+function addToCart(id, size = null, qty = 1, variant = null) {
   const p = PRODUCTS.find(p=>p.id===id);
-  const existing = cart.find(c=>c.id===id);
-  if (existing) existing.qty++;
-  else cart.push({...p, qty:1});
+  const key = cartKey(id, size, variant);
+  const existing = cart.find(c=>c.key===key);
+  if (existing) existing.qty += qty;
+  else cart.push({...p, key, size, variant, qty});
   updateCart();
   renderProducts(); // refresh button state
   // Flash the cart button
@@ -688,18 +1100,18 @@ function addToCart(id) {
   setTimeout(()=>btn.style.transform='',200);
 }
 
-function removeFromCart(id) {
-  cart = cart.filter(c=>c.id!==id);
+function removeFromCart(key) {
+  cart = cart.filter(c=>c.key!==key);
   updateCart();
   renderProducts();
 }
 
-function changeQty(id, delta) {
-  const item = cart.find(c=>c.id===id);
+function changeQty(key, delta) {
+  const item = cart.find(c=>c.key===key);
   if (!item) return;
   item.qty += delta;
-  if (item.qty <= 0) removeFromCart(id);
-  else updateCart();
+  if (item.qty <= 0) removeFromCart(key);
+  else { updateCart(); renderProducts(); }
 }
 
 function updateCart() {
@@ -722,15 +1134,17 @@ function updateCart() {
 
   itemsEl.innerHTML = cart.map(c=>`
     <div class="cart-item">
-      <div class="cart-item-icon">${c.img ? `<img src="images/shop/${c.img}.webp" alt="" width="44" height="44" loading="lazy">` : `<i class="ph ph-${iconForProduct(c)}"></i>`}</div>
+      <div class="cart-item-icon">${imgSrc(c) ? `<img src="${esc(imgSrc(c))}" alt="" width="44" height="44" loading="lazy">` : `<i class="ph ph-${iconForProduct(c)}"></i>`}</div>
       <div class="cart-item-info">
-        <div class="cart-item-name">${c.name}</div>
+        <div class="cart-item-name">${esc(c.name)}</div>
+        ${c.variant ? `<div class="cart-item-size cart-item-variant"><span class="kit-dot" style="${swatchStyle(c.variant)}"></span>${esc(c.variant.season)} ${esc(c.variant.kit)} · ${esc(c.variant.name)}</div>` : ''}
+        ${c.size ? `<div class="cart-item-size">Size: <strong>${esc(c.size)}</strong></div>` : ''}
         <div class="cart-item-price">Ksh ${(c.price*c.qty).toLocaleString()}</div>
         <div class="qty-controls">
-          <button class="qty-btn" onclick="changeQty(${c.id},-1)">−</button>
+          <button class="qty-btn" onclick="changeQty('${c.key}',-1)" aria-label="Decrease quantity">−</button>
           <span class="qty-val">${c.qty}</span>
-          <button class="qty-btn" onclick="changeQty(${c.id},+1)">+</button>
-          <button class="cart-remove" onclick="removeFromCart(${c.id})" aria-label="Remove"><i class="ph ph-trash"></i></button>
+          <button class="qty-btn" onclick="changeQty('${c.key}',+1)" aria-label="Increase quantity">+</button>
+          <button class="cart-remove" onclick="removeFromCart('${c.key}')" aria-label="Remove"><i class="ph ph-trash"></i></button>
         </div>
       </div>
     </div>
@@ -773,6 +1187,7 @@ document.getElementById('clothesFilters').style.display='';
 document.getElementById('foodFilters').style.display='';
 renderProducts();
 applyUrlFilters();
+renderNearby();
 </script>
 </body>
 </html>

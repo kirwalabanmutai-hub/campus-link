@@ -40,7 +40,7 @@ export default function Footer() {
           <div className="footer-contact">
             <span><MapPin size={14} /> Nairobi, Kenya</span>
             <span><Phone size={14} /> +254 700 000 000</span>
-            <span><Mail size={14} /> hello@campuslink.co.ke</span>
+            <span><Mail size={14} /> campuslink@gmail.com</span>
           </div>
           <div className="footer-socials">
             <a href="#" aria-label="Twitter"><Twitter size={18} /></a>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Your CampusLink dashboard: earnings, applications, bookings and recent activity." />
+  <meta name="theme-color" content="#fbfaf7" />
+  <title>My shop — CampusLink</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <link rel="stylesheet" href="/campuslink.css" />
+  <style>
+    .sp-note { color: var(--muted); display: flex; align-items: center; gap: .5rem; padding: 2rem 0; }
+    .sp-spin { animation: spspin 1s linear infinite; }
+    @keyframes spspin { to { transform: rotate(360deg); } }
+    [hidden] { display: none !important; }
+    .sp-gate { text-align: center; padding: 3rem 1rem; border: 1px dashed var(--border2); border-radius: var(--radius); background: var(--card); }
+    .sp-gate i { font-size: 2.4rem; color: var(--primary); display: block; margin-bottom: .6rem; }
+    .sp-gate h2 { font-size: 1.4rem; margin-bottom: .35rem; }
+    .sp-gate p { color: var(--muted); margin-bottom: 1.1rem; }
+    .sp-gate .btn + .btn { margin-left: .4rem; }
+    .sp-status { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border-radius: var(--radius); border: 1px solid; margin-bottom: 1.25rem; }
+    .sp-status > i { font-size: 1.8rem; flex-shrink: 0; }
+    .sp-status strong { display: block; margin-bottom: .1rem; }
+    .sp-status p { margin: 0; font-size: .9rem; line-height: 1.5; }
+    .sp-status.pending  { background: #fffbeb; border-color: #fcd34d; color: #78350f; }
+    .sp-status.approved { background: #f0fdf4; border-color: #86efac; color: #14532d; }
+    .sp-status.rejected { background: #fef2f2; border-color: #fca5a5; color: #7f1d1d; }
+    .sp-card { padding: 1.4rem; }
+    .sp-h2 { font-size: 1.2rem; margin: 0 0 .35rem; display: flex; align-items: center; gap: .5rem; }
+    .sp-muted { color: var(--muted); font-size: .86rem; font-weight: 400; }
+    .sp-card > .sp-muted { margin-bottom: 1rem; }
+    .sp-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 .9rem; }
+    .sp-card .input { width: 100%; }
+    .sp-card textarea.input { resize: vertical; font-family: inherit; }
+    .sp-docs { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1rem; }
+    .sp-doc { display: inline-flex; align-items: center; gap: .35rem; font-size: .8rem; padding: .35rem .7rem; border-radius: var(--pill); background: var(--bg2); border: 1px solid var(--border); }
+    .sp-err { color: #b91c1c; background: #fef2f2; border: 1px solid #fca5a5; border-radius: var(--radius-sm); padding: .6rem .8rem; font-size: .85rem; margin: .25rem 0 1rem; }
+    .sp-ferr { color: #b91c1c; font-size: .78rem; margin-top: .25rem; }
+    .sp-ferr:empty { display: none; }
+    .sp-hint { color: var(--dim); font-size: .78rem; margin-top: .3rem; }
+    .sp-layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 1.5rem; align-items: start; }
+    .sp-layout > form { position: sticky; top: 90px; }
+    .sp-seg { display: flex; gap: .5rem; }
+    .sp-seg label { flex: 1; display: flex; align-items: center; justify-content: center; gap: .4rem; padding: .6rem; border: 1.5px solid var(--border2); border-radius: var(--radius-sm); cursor: pointer; font-size: .88rem; font-weight: 600; }
+    .sp-seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .sp-seg label:has(input:checked) { border-color: var(--primary); background: var(--primary-g); color: var(--primary); }
+    .sp-seg label:has(input:focus-visible) { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .sp-sizes { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .sp-size { min-width: 44px; height: 38px; padding: 0 .7rem; border: 1.5px solid var(--border2); border-radius: var(--radius-sm); background: var(--card); font-weight: 600; font-size: .85rem; cursor: pointer; color: var(--text); font-family: inherit; }
+    .sp-size[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .sp-photo { display: flex; gap: .75rem; align-items: center; }
+    .sp-photo-prev { width: 64px; height: 64px; border-radius: var(--radius-sm); background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--dim); overflow: hidden; flex-shrink: 0; }
+    .sp-photo-prev img { width: 100%; height: 100%; object-fit: cover; }
+    .sp-check { display: flex; gap: .5rem; align-items: center; font-size: .88rem; margin: .25rem 0 1rem; cursor: pointer; }
+    .sp-check input { accent-color: var(--primary); }
+    .sp-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .sp-list-head { margin-bottom: .75rem; }
+    .sp-count { font-family: var(--font); font-size: .78rem; font-weight: 600; color: var(--muted); background: var(--card); border: 1px solid var(--border); padding: .1rem .55rem; border-radius: var(--pill); }
+    .sp-products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; }
+    .sp-prod { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+    .sp-prod.editing { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-g); }
+    .sp-prod-img { aspect-ratio: 4 / 3; background: var(--bg2); position: relative; }
+    .sp-prod-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .sp-prod-img .sp-stock { position: absolute; top: .5rem; left: .5rem; font-size: .68rem; font-weight: 700; padding: .15rem .5rem; border-radius: var(--pill); background: #dcfce7; color: #166534; }
+    .sp-prod-img .sp-stock.out { background: #fee2e2; color: #991b1b; }
+    .sp-prod-body { padding: .8rem .9rem .9rem; display: flex; flex-direction: column; gap: .3rem; flex: 1; }
+    .sp-prod-body strong { font-size: .95rem; }
+    .sp-prod-meta { color: var(--muted); font-size: .78rem; }
+    .sp-prod-price { font-weight: 700; color: var(--primary); }
+    .sp-prod-actions { display: flex; gap: .4rem; margin-top: auto; padding-top: .5rem; }
+    .sp-empty { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 2.5rem 1rem; border: 1px dashed var(--border2); border-radius: var(--radius); background: var(--card); }
+    .sp-empty i { font-size: 2rem; display: block; color: var(--dim); margin-bottom: .4rem; }
+    @media (max-width: 960px) { .sp-layout { grid-template-columns: 1fr; } .sp-layout > form { position: static; } }
+    @media (max-width: 600px) { .sp-grid2, .sp-products { grid-template-columns: 1fr; } .sp-status { flex-wrap: wrap; } }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-group">
+      <span class="hide-sm"><i class="ph ph-map-pin"></i> Nairobi, Kenya</span>
+      <a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple"></i> campuslink@gmail.com</a>
+      <span class="hide-sm"><i class="ph ph-clock"></i> Support: Mon–Sat, 8am–8pm</span>
+    </div>
+    <div class="topbar-group">
+      <a href="register.html?role=provider" class="hide-sm"><i class="ph ph-storefront"></i> List your service</a>
+      <span class="sep hide-sm"></span>
+      <a href="admin.html"><i class="ph ph-lock-simple"></i> Admin login</a>
+    </div>
+  </div>
+</div>
+<div class="announce" id="announce">
+  <div class="announce-inner">
+    <span class="announce-tag"><i class="ph ph-megaphone-simple"></i> New</span>
+    <span class="announce-text"><b>Campus Shop is open:</b> order groceries, meals and clothing for delivery to your hostel, paid with M-Pesa.</span>
+    <a href="shop.html" class="announce-link">Open the shop →</a>
+    <button class="announce-close" onclick="dismissAnnounce()" aria-label="Dismiss announcement"><i class="ph ph-x"></i></button>
+  </div>
+</div>
+<div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="home.html" class="logo" aria-label="CampusLink home"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+    <nav class="nav-links" id="mainNav" aria-label="Main">
+      <div class="mobile-nav-head">
+        <a href="home.html" class="logo"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+        <button class="mobile-close-btn" onclick="closeMobileNav()" aria-label="Close menu"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="nav-wrap">
+        <a href="home.html" class="nav-link"><i class="ph ph-house-simple"></i> Home</a>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="services.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-storefront"></i> Services <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
+          <div class="drop-col">
+            <div class="drop-head">Everyday</div>
+            <a href="services.html?cat=Printing" class="drop-item"><i class="ph ph-printer"></i> Printing</a>
+            <a href="services.html?cat=Laundry" class="drop-item"><i class="ph ph-t-shirt"></i> Laundry</a>
+            <a href="services.html?cat=Food" class="drop-item"><i class="ph ph-bowl-food"></i> Food delivery</a>
+            <a href="services.html?cat=Housing" class="drop-item"><i class="ph ph-house-line"></i> Housing &amp; cleaning</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Study &amp; moving</div>
+            <a href="services.html?cat=Academic" class="drop-item"><i class="ph ph-book-open-text"></i> Notes &amp; tutoring</a>
+            <a href="services.html?cat=Writing" class="drop-item"><i class="ph ph-pen-nib"></i> Writing help</a>
+            <a href="services.html?cat=Movers" class="drop-item"><i class="ph ph-truck"></i> Moving &amp; storage</a>
+            <a href="services.html" class="drop-item"><i class="ph ph-squares-four"></i> All services</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="shop.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-shopping-bag"></i> Shop <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
+          <div class="drop-col">
+            <div class="drop-head">Clothing</div>
+            <a href="shop.html?dept=Clothes&amp;type=Jerseys" class="drop-item"><i class="ph ph-soccer-ball"></i> Jerseys</a>
+            <a href="shop.html?dept=Clothes&amp;gender=Men" class="drop-item"><i class="ph ph-t-shirt"></i> Men</a>
+            <a href="shop.html?dept=Clothes&amp;gender=Women" class="drop-item"><i class="ph ph-dress"></i> Women</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Food</div>
+            <a href="shop.html?dept=Food&amp;sub=Groceries" class="drop-item"><i class="ph ph-basket"></i> Groceries</a>
+            <a href="shop.html?dept=Food&amp;sub=Ready%20Meals" class="drop-item"><i class="ph ph-bowl-food"></i> Ready meals</a>
+            <a href="shop.html?dept=Food&amp;sub=Snacks" class="drop-item"><i class="ph ph-cookie"></i> Snacks</a>
+            <a href="shop.html?dept=Food&amp;sub=Beverages" class="drop-item"><i class="ph ph-coffee"></i> Drinks</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="gigs.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-briefcase"></i> Gigs <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop two-col">
+          <div class="drop-col">
+            <div class="drop-head">Find work</div>
+            <a href="gigs.html?cat=Academic" class="drop-item"><i class="ph ph-graduation-cap"></i> Tutoring</a>
+            <a href="gigs.html?cat=Tech" class="drop-item"><i class="ph ph-code"></i> Tech</a>
+            <a href="gigs.html?cat=Creative" class="drop-item"><i class="ph ph-palette"></i> Creative</a>
+            <a href="gigs.html?cat=Admin" class="drop-item"><i class="ph ph-clipboard-text"></i> Admin</a>
+            <a href="gigs.html?cat=Physical" class="drop-item"><i class="ph ph-barbell"></i> Hands-on</a>
+          </div>
+          <div class="drop-col">
+            <div class="drop-head">Hiring</div>
+            <a href="register.html?role=recruiter" class="drop-item"><i class="ph ph-plus-circle"></i> Post a gig</a>
+            <a href="gigs.html" class="drop-item"><i class="ph ph-list-magnifying-glass"></i> All open gigs</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="career.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-compass"></i> Careers <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop">
+          <div class="drop-col">
+            <div class="drop-head">Plan your next step</div>
+            <a href="career.html#matches" class="drop-item"><i class="ph ph-chart-bar"></i> Career matches</a>
+            <a href="career.html#skills" class="drop-item"><i class="ph ph-target"></i> Skill gaps</a>
+            <a href="career.html#roadmap" class="drop-item"><i class="ph ph-map-trifold"></i> 16-week plan</a>
+            <a href="career.html#coach" class="drop-item"><i class="ph ph-chat-circle-text"></i> Ask the coach</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap has-drop">
+        <a href="wallet.html" class="nav-link" onclick="handleDrop(event,this)" aria-haspopup="true"><i class="ph ph-wallet"></i> Wallet <i class="ph ph-caret-down nav-caret"></i></a>
+        <div class="mega-drop">
+          <div class="drop-col">
+            <div class="drop-head">Your money</div>
+            <a href="wallet.html#balance" class="drop-item"><i class="ph ph-coins"></i> Balance</a>
+            <a href="wallet.html#transactions" class="drop-item"><i class="ph ph-list-bullets"></i> Transactions</a>
+            <a href="wallet.html#spending" class="drop-item"><i class="ph ph-chart-pie-slice"></i> Spending</a>
+            <a href="wallet.html#mpesa" class="drop-item"><i class="ph ph-device-mobile"></i> Top up with M-Pesa</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-wrap">
+        <a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i> Dashboard</a>
+      </div>
+    </nav>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Join free</a>
+    </div>
+    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()" aria-label="Open menu" aria-controls="mainNav" aria-expanded="false"><i class="ph ph-list"></i></button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero has-img" style="--img:url(/images/market-vendor.webp)">
+    <div class="container">
+      <div>
+        <div class="crumbs"><a href="dashboard.html">Dashboard</a> / My shop</div>
+        <h1 id="shopTitle">My shop</h1>
+        <p id="shopSub">Manage what students at your campus can buy from you.</p>
+      </div>
+      <a href="shop.html#nearby" class="btn btn-ghost" id="viewShopBtn" hidden><i class="ph ph-storefront"></i> See it on the shop page</a>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div id="loading" class="sp-note"><i class="ph ph-circle-notch sp-spin"></i> Loading your shop…</div>
+
+      <!-- Not signed in / wrong account type -->
+      <div id="gate" class="sp-gate" hidden></div>
+
+      <!-- Pending or rejected: status + resubmit documents -->
+      <div id="verify" hidden>
+        <div class="sp-status" id="verifyStatus"></div>
+        <form id="docForm" class="card sp-card" novalidate>
+          <h2 class="sp-h2" id="docFormTitle">Update your documents</h2>
+          <p class="sp-muted" id="docFormSub">Upload clear photos or PDFs, up to 5 MB each. Only CampusLink admins can see them.</p>
+          <div class="sp-docs" id="currentDocs"></div>
+          <div class="sp-grid2">
+            <div class="form-group"><label class="label" for="dKra">New KRA PIN certificate</label><input class="input" id="dKra" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp"></div>
+            <div class="form-group"><label class="label" for="dPermit">New business permit</label><input class="input" id="dPermit" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp"></div>
+            <div class="form-group"><label class="label" for="dPhoto">New shop photo <span class="sp-muted">(optional)</span></label><input class="input" id="dPhoto" type="file" accept=".jpg,.jpeg,.png,.webp"></div>
+            <div class="form-group"><label class="label" for="dPin">KRA PIN</label><input class="input" id="dPin" maxlength="11" style="text-transform:uppercase"></div>
+            <div class="form-group"><label class="label" for="dLandmark">Shop address or landmark</label><input class="input" id="dLandmark" maxlength="200"></div>
+            <div class="form-group"><label class="label" for="dMap">Google Maps link <span class="sp-muted">(optional)</span></label><input class="input" id="dMap" type="url" placeholder="https://maps.app.goo.gl/…"></div>
+          </div>
+          <p class="sp-err" id="docErr" role="alert" hidden></p>
+          <button class="btn btn-primary" type="submit" id="docBtn"><i class="ph ph-paper-plane-tilt"></i> Send for review</button>
+        </form>
+      </div>
+
+      <!-- Approved: product manager -->
+      <div id="manager" hidden>
+        <div class="sp-status approved"><i class="ph ph-seal-check"></i><div><strong>Verified seller</strong><p id="approvedText"></p></div></div>
+
+        <div class="sp-layout">
+          <form id="productForm" class="card sp-card" novalidate>
+            <h2 class="sp-h2" id="pfTitle">Add a product</h2>
+            <input type="hidden" id="pfId">
+            <div class="form-group">
+              <span class="label">Section</span>
+              <div class="sp-seg" role="radiogroup" aria-label="Section">
+                <label><input type="radio" name="dept" value="Clothes" checked> <i class="ph ph-t-shirt"></i> Clothing</label>
+                <label><input type="radio" name="dept" value="Food"> <i class="ph ph-bowl-food"></i> Food &amp; groceries</label>
+              </div>
+            </div>
+            <div class="form-group"><label class="label" for="pfName">Product name</label><input class="input" id="pfName" maxlength="100" placeholder="e.g. Kenya Harambee Stars Home Jersey"><p class="sp-ferr" data-err="name"></p></div>
+            <div class="sp-grid2">
+              <div class="form-group"><label class="label" for="pfPrice">Price (Ksh)</label><input class="input" id="pfPrice" type="number" min="1" step="10" placeholder="1800"><p class="sp-ferr" data-err="price"></p></div>
+              <div class="form-group" data-dept="Food" hidden><label class="label" for="pfSubcat">Food category</label><select class="input" id="pfSubcat"></select><p class="sp-ferr" data-err="subcat"></p></div>
+              <div class="form-group" data-dept="Clothes"><label class="label" for="pfType">Clothing type</label><select class="input" id="pfType"></select><p class="sp-ferr" data-err="type"></p></div>
+            </div>
+            <div data-dept="Clothes">
+              <div class="form-group"><label class="label" for="pfGender">For</label><select class="input" id="pfGender"></select><p class="sp-ferr" data-err="gender"></p></div>
+              <div class="form-group">
+                <span class="label">Sizes you have</span>
+                <div class="sp-sizes" id="pfSizes"></div>
+                <p class="sp-hint">Tap to select. Students must pick one of these when ordering.</p>
+                <p class="sp-ferr" data-err="sizes"></p>
+              </div>
+            </div>
+            <div class="form-group"><label class="label" for="pfDesc">Description</label><textarea class="input" id="pfDesc" rows="3" maxlength="1000" placeholder="Material, fit, season, what's included…"></textarea></div>
+            <div class="form-group">
+              <label class="label" for="pfImage">Photo</label>
+              <div class="sp-photo">
+                <span class="sp-photo-prev" id="pfPreview"><i class="ph ph-image"></i></span>
+                <input class="input" id="pfImage" type="file" accept=".jpg,.jpeg,.png,.webp">
+              </div>
+              <p class="sp-hint" id="pfImageHint">JPG, PNG or WebP, up to 5 MB. A clear photo on a plain background sells best.</p>
+              <p class="sp-ferr" data-err="image"></p>
+            </div>
+            <label class="sp-check"><input type="checkbox" id="pfStock" checked> In stock (shown to students)</label>
+            <p class="sp-err" id="pfErr" role="alert" hidden></p>
+            <div class="sp-actions">
+              <button class="btn btn-primary" type="submit" id="pfBtn"><i class="ph ph-plus"></i> Add product</button>
+              <button class="btn btn-ghost" type="button" id="pfCancel" hidden>Cancel editing</button>
+            </div>
+          </form>
+
+          <div>
+            <div class="sp-list-head"><h2 class="sp-h2">Your products <span class="sp-count" id="pCount">0</span></h2></div>
+            <div class="sp-products" id="pList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="home.html" class="logo"><span class="logo-mark">CL</span><span>Campus<span class="logo-accent">Link</span></span></a>
+      <p>A marketplace for campus life: book services, buy essentials, find paid work and pay with M-Pesa. Built in Nairobi.</p>
+    </div>
+    <div class="footer-col"><h4>Explore</h4><ul>
+      <li><a href="services.html"><i class="ph ph-storefront fi-gold"></i>Services</a></li>
+      <li><a href="shop.html"><i class="ph ph-shopping-bag fi-rose"></i>Shop</a></li>
+      <li><a href="gigs.html"><i class="ph ph-briefcase fi-green"></i>Gigs</a></li>
+      <li><a href="career.html"><i class="ph ph-compass fi-sky"></i>Careers</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Account</h4><ul>
+      <li><a href="register.html"><i class="ph ph-user-plus fi-gold"></i>Create account</a></li>
+      <li><a href="login.html"><i class="ph ph-sign-in fi-sky"></i>Sign in</a></li>
+      <li><a href="dashboard.html"><i class="ph ph-squares-four fi-violet"></i>Dashboard</a></li>
+      <li><a href="wallet.html"><i class="ph ph-wallet fi-green"></i>Wallet</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul>
+      <li><a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>campuslink@gmail.com</a></li>
+      <li><span><i class="ph ph-map-pin fi-rose"></i>Nairobi, Kenya</span></li>
+      <li><a href="register.html?role=provider"><i class="ph ph-megaphone-simple fi-sky"></i>List your service</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; <span data-year>2026</span> CampusLink</span>
+    <a href="admin.html"><i class="ph ph-lock-simple fi-gold"></i> Admin</a>
+  </div>
+</footer>
+<div class="float-help"><a href="career.html#coach" class="fh-chat" title="Ask the career coach" aria-label="Ask the career coach"><i class="ph ph-chat-circle-dots"></i></a></div>
+
+<script src="/nav.js"></script>
+<script src="/data.js"></script>
+<script>
+/* My shop: approved sellers add, edit and remove products; others see their verification status. */
+const $ = id => document.getElementById(id);
+const LETTERS = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+const WAIST = ['28', '30', '32', '34', '36', '38'];
+const UK = ['6', '8', '10', '12', '14', '16'];
+function sizeOptions(type, gender) {
+  if (type === 'Jeans' || type === 'Shorts') return gender === 'Women' ? UK : WAIST;
+  return LETTERS;
+}
+let me = null, products = [], chosenSizes = new Set();
+
+(async function init() {
+  me = await CampusAPI.me();
+  $('loading').hidden = true;
+  if (!me) return gate('lock-simple', 'Sign in to manage your shop', 'This page is for business accounts.',
+    '<a class="btn btn-primary" href="login.html?next=seller.html">Sign in</a><a class="btn btn-ghost" href="register.html?role=business">Register your business</a>');
+  if (me.type !== 'business') return gate('storefront', 'This page is for business accounts', 'Your account is a ' + me.type + ' account. Businesses register separately so our team can verify them.',
+    '<a class="btn btn-primary" href="dashboard.html">Go to my dashboard</a>');
+
+  $('shopTitle').textContent = me.orgName;
+  $('shopSub').textContent = me.category + ' · near ' + me.campus;
+  if (me.status === 'approved') return showManager();
+  showVerify();
+})();
+
+function gate(icon, title, text, buttons) {
+  $('gate').innerHTML = `<i class="ph ph-${icon}"></i><h2>${esc(title)}</h2><p>${esc(text)}</p>${buttons}`;
+  $('gate').hidden = false;
+}
+
+/* ── Pending / rejected ── */
+async function showVerify() {
+  $('verify').hidden = false;
+  const rejected = me.status === 'rejected';
+  const note = (me.reviewNote || '').replace(/[.\s]+$/, '');
+  $('verifyStatus').className = 'sp-status ' + me.status;
+  $('verifyStatus').innerHTML = rejected
+    ? `<i class="ph ph-x-circle"></i><div><strong>Verification not approved</strong><p>Reason from our team: ${esc(note)}. Fix this below and send it for review again.</p></div>`
+    : `<i class="ph ph-hourglass-medium"></i><div><strong>Your documents are under review</strong><p>You can list products once an admin approves your business. This usually takes 1–2 working days. You can replace a document below if you uploaded the wrong one.</p></div>`;
+  $('docFormTitle').textContent = rejected ? 'Fix and resubmit' : 'Replace a document';
+  $('dPin').value = me.kraPin || '';
+  $('dLandmark').value = me.landmark || '';
+  $('dMap').value = me.mapLink || '';
+  const LABEL = { kra: 'KRA PIN certificate', permit: 'Business permit', photo: 'Shop photo' };
+  try {
+    const docs = await CampusAPI.myDocuments();
+    $('currentDocs').innerHTML = '<span class="sp-muted" style="width:100%">On file:</span>' + Object.keys(LABEL).map(k =>
+      docs[k] ? `<span class="sp-doc"><i class="ph ph-file-text"></i> ${LABEL[k]}: ${esc(docs[k].name)}</span>` : `<span class="sp-doc" style="opacity:.6">${LABEL[k]}: none</span>`).join('');
+  } catch (e) { /* list is optional */ }
+}
+
+$('docForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = $('docErr'); err.hidden = true;
+  const fd = new FormData();
+  const files = { kra: $('dKra').files[0], permit: $('dPermit').files[0], photo: $('dPhoto').files[0] };
+  for (const [k, f] of Object.entries(files)) if (f) fd.append(k, f);
+  fd.append('kraPin', $('dPin').value.trim()); fd.append('landmark', $('dLandmark').value.trim()); fd.append('mapLink', $('dMap').value.trim());
+  const btn = $('docBtn'); btn.disabled = true;
+  try {
+    me = await CampusAPI.resubmit(fd);
+    notify('Sent for review. We will check your documents again.', 'paper-plane-tilt');
+    e.target.reset();
+    showVerify();
+  } catch (ex) {
+    err.textContent = ex.message; err.hidden = false;
+  } finally { btn.disabled = false; }
+});
+
+/* ── Approved: product manager ── */
+async function showManager() {
+  $('manager').hidden = false;
+  $('viewShopBtn').hidden = false;
+  $('approvedText').textContent = 'Products you add here are shown to students at ' + me.campus + ' on the shop page, under "Sold by ' + me.orgName + '".';
+  const meta = await CampusAPI.meta();
+  $('pfType').innerHTML = meta.clothingTypes.map(t => `<option>${esc(t)}</option>`).join('');
+  $('pfGender').innerHTML = meta.genders.map(g => `<option>${esc(g)}</option>`).join('');
+  $('pfSubcat').innerHTML = meta.foodSubcats.map(s => `<option>${esc(s)}</option>`).join('');
+  /* sensible default for the business type */
+  if (/food|meal|snack/i.test(me.category)) document.querySelector('input[name=dept][value=Food]').checked = true;
+  syncDept(); renderSizes();
+  loadProducts();
+}
+
+const dept = () => document.querySelector('input[name=dept]:checked').value;
+function syncDept() { document.querySelectorAll('[data-dept]').forEach(el => el.hidden = el.dataset.dept !== dept()); }
+document.querySelectorAll('input[name=dept]').forEach(r => r.addEventListener('change', syncDept));
+
+function renderSizes() {
+  const opts = sizeOptions($('pfType').value, $('pfGender').value);
+  chosenSizes = new Set([...chosenSizes].filter(s => opts.includes(s)));
+  $('pfSizes').innerHTML = opts.map(s => `<button type="button" class="sp-size" aria-pressed="${chosenSizes.has(s)}" data-size="${s}">${s}</button>`).join('');
+}
+$('pfType').addEventListener('change', renderSizes);
+$('pfGender').addEventListener('change', renderSizes);
+$('pfSizes').addEventListener('click', e => {
+  const b = e.target.closest('.sp-size'); if (!b) return;
+  const s = b.dataset.size;
+  chosenSizes.has(s) ? chosenSizes.delete(s) : chosenSizes.add(s);
+  b.setAttribute('aria-pressed', chosenSizes.has(s));
+});
+
+$('pfImage').addEventListener('change', () => {
+  const f = $('pfImage').files[0];
+  $('pfPreview').innerHTML = f ? `<img src="${URL.createObjectURL(f)}" alt="">` : '<i class="ph ph-image"></i>';
+});
+
+async function loadProducts() {
+  products = await CampusAPI.myProducts();
+  $('pCount').textContent = products.length;
+  $('pList').innerHTML = products.map(p => `
+    <article class="sp-prod${String(p.id) === $('pfId').value ? ' editing' : ''}">
+      <div class="sp-prod-img">${p.imageUrl ? `<img src="${esc(p.imageUrl)}" alt="">` : ''}<span class="sp-stock${p.inStock ? '' : ' out'}">${p.inStock ? 'In stock' : 'Hidden · out of stock'}</span></div>
+      <div class="sp-prod-body">
+        <strong>${esc(p.name)}</strong>
+        <span class="sp-prod-meta">${p.dept === 'Clothes' ? esc(p.gender + ' · ' + p.type + ' · sizes ' + p.sizes.join(', ')) : esc(p.subcat)}</span>
+        <span class="sp-prod-price">Ksh ${p.price.toLocaleString()}</span>
+        <div class="sp-prod-actions">
+          <button class="btn btn-ghost btn-sm" data-edit="${p.id}"><i class="ph ph-pencil-simple"></i> Edit</button>
+          <button class="btn btn-ghost btn-sm" data-del="${p.id}"><i class="ph ph-trash"></i> Delete</button>
+        </div>
+      </div>
+    </article>`).join('') ||
+    '<div class="sp-empty"><i class="ph ph-package"></i>No products yet. Add your first one using the form.</div>';
+}
+
+$('pList').addEventListener('click', async e => {
+  const ed = e.target.closest('[data-edit]'), del = e.target.closest('[data-del]');
+  if (ed) startEdit(products.find(p => String(p.id) === ed.dataset.edit));
+  if (del) {
+    const p = products.find(x => String(x.id) === del.dataset.del);
+    if (!confirm('Delete "' + p.name + '"? Students will no longer see it.')) return;
+    await CampusAPI.deleteProduct(p.id);
+    if ($('pfId').value === String(p.id)) resetForm();
+    notify('Product deleted.', 'trash');
+    loadProducts();
+  }
+});
+
+function startEdit(p) {
+  $('pfId').value = p.id;
+  $('pfTitle').textContent = 'Edit product';
+  $('pfBtn').innerHTML = '<i class="ph ph-floppy-disk"></i> Save changes';
+  $('pfCancel').hidden = false;
+  document.querySelector(`input[name=dept][value=${p.dept}]`).checked = true; syncDept();
+  $('pfName').value = p.name; $('pfPrice').value = p.price; $('pfDesc').value = p.description || '';
+  $('pfStock').checked = p.inStock;
+  if (p.dept === 'Clothes') { $('pfType').value = p.type; $('pfGender').value = p.gender; chosenSizes = new Set(p.sizes); renderSizes(); }
+  else $('pfSubcat').value = p.subcat;
+  $('pfPreview').innerHTML = p.imageUrl ? `<img src="${esc(p.imageUrl)}" alt="">` : '<i class="ph ph-image"></i>';
+  $('pfImageHint').textContent = 'Leave empty to keep the current photo.';
+  clearFormErrors();
+  loadProducts();
+  $('productForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function resetForm() {
+  $('productForm').reset(); $('pfId').value = '';
+  $('pfTitle').textContent = 'Add a product';
+  $('pfBtn').innerHTML = '<i class="ph ph-plus"></i> Add product';
+  $('pfCancel').hidden = true;
+  $('pfPreview').innerHTML = '<i class="ph ph-image"></i>';
+  $('pfImageHint').textContent = 'JPG, PNG or WebP, up to 5 MB. A clear photo on a plain background sells best.';
+  chosenSizes = new Set(); syncDept(); renderSizes(); clearFormErrors();
+}
+$('pfCancel').addEventListener('click', () => { resetForm(); loadProducts(); });
+function clearFormErrors() { document.querySelectorAll('.sp-ferr').forEach(p => p.textContent = ''); $('pfErr').hidden = true; }
+
+$('productForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  clearFormErrors();
+  const id = $('pfId').value;
+  const fd = new FormData();
+  fd.append('dept', dept()); fd.append('name', $('pfName').value.trim()); fd.append('price', $('pfPrice').value);
+  fd.append('description', $('pfDesc').value.trim()); fd.append('inStock', $('pfStock').checked ? 'true' : 'false');
+  if (dept() === 'Clothes') { fd.append('type', $('pfType').value); fd.append('gender', $('pfGender').value); fd.append('sizes', JSON.stringify([...chosenSizes])); }
+  else fd.append('subcat', $('pfSubcat').value);
+  if ($('pfImage').files[0]) fd.append('image', $('pfImage').files[0]);
+  const btn = $('pfBtn'); btn.disabled = true;
+  try {
+    if (id) { await CampusAPI.updateProduct(id, fd); notify('Product updated.', 'check'); }
+    else { await CampusAPI.addProduct(fd); notify('Product added. Students at ' + me.campus + ' can see it now.', 'storefront'); }
+    resetForm();
+    loadProducts();
+  } catch (ex) {
+    const errs = Object.entries(ex.errors || {});
+    if (!errs.length) { $('pfErr').textContent = ex.message; $('pfErr').hidden = false; }
+    errs.forEach(([f, m]) => { const p = document.querySelector('.sp-ferr[data-err="' + f + '"]'); if (p) p.textContent = m; else { $('pfErr').textContent = m; $('pfErr').hidden = false; } });
+  } finally { btn.disabled = false; }
+});
+</script>
+</body>
+</html>

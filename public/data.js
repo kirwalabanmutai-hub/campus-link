@@ -6,7 +6,7 @@
     settings: {
       siteName: 'CampusLink',
       tagline: 'Campus services, work and payments in one place',
-      email: 'simplykae2@gmail.com',
+      email: 'campuslink@gmail.com',
       phone: '+254 700 000 000',
       location: 'Nairobi, Kenya',
     },
@@ -86,9 +86,115 @@
       return map[cat] || 'storefront';
     },
 
+    /* ── Photos for service cards: by service name, then category, then a default ── */
+    imageFor(s) {
+      if (s.img) return s.img;
+      const byName = {
+        'Printing (B&W)':'printing-card.webp', 'Printing (Color)':'services/printing-color.webp',
+        'Laundry Service':'services/laundry.webp', 'Lecture Notes':'services/lecture-notes.webp',
+        'Essay Writing':'services/essay-writing.webp', 'Data Entry Jobs':'student-laptop.webp',
+        'Room Cleaning':'services/room-cleaning.webp', 'Food Delivery':'services/food-delivery.webp',
+        'Room-to-Room Moving':'services/moving-boxes.webp', 'Off-Campus Relocation':'services/relocation-truck.webp',
+        'Furniture Assembly':'services/furniture-assembly.webp', 'Luggage Storage':'services/luggage.webp',
+        'Pickup & Delivery':'services/pickup-delivery.webp', 'End-of-Semester Packing':'services/packing.webp',
+      };
+      const byCat = {
+        Printing:'printing-card.webp', Laundry:'services/laundry.webp', Academic:'services/lecture-notes.webp',
+        Writing:'services/essay-writing.webp', Housing:'services/room-cleaning.webp', Food:'services/food-delivery.webp',
+        Movers:'services/moving-boxes.webp', Repairs:'services/furniture-assembly.webp', Tech:'student-laptop.webp',
+      };
+      return '/images/' + (byName[s.name] || byCat[s.cat] || 'coworking-card.webp');
+    },
+
+    /* ── Photos for gig cards: by title, then category, then a default ── */
+    gigImageFor(g) {
+      if (g.img) return g.img;
+      const byTitle = {
+        'Math Tutor Needed':'gigs/math-tutor.webp', 'Web Designer':'gigs/web-design.webp',
+        'Data Entry Assistant':'student-laptop.webp', 'Poster Design':'gigs/poster-design.webp',
+        'Python Tutor':'gigs/python-code.webp', 'Content Writer':'gigs/content-writing.webp',
+        'Furniture Mover':'services/moving-boxes.webp', 'Social Media Manager':'gigs/social-media.webp',
+      };
+      const byCat = {
+        Academic:'gigs/math-tutor.webp', Tech:'gigs/web-design.webp', Admin:'student-laptop.webp',
+        Creative:'gigs/poster-design.webp', Physical:'services/moving-boxes.webp', Writing:'gigs/content-writing.webp',
+      };
+      return '/images/' + (byTitle[g.title] || byCat[g.cat] || 'coworking-card.webp');
+    },
+
     /* ── Utils ── */
     reset()             { save(DEFAULT); },
     clearAll()          { save({ ...load(), services:[], gigs:[], categories:[] }); },
     counts()            { const d=load(); return { services:d.services.length, gigs:d.gigs.length, categories:d.categories.length }; },
   };
+})();
+
+/* ── CampusAPI: accounts, seller verification, seller products and posted gigs ──
+   Talks to the CampusLink server (server/index.js). Every call returns a promise.
+   Failed calls reject with an Error that has .status and .errors ({ field: message }). */
+;(function () {
+  async function call(method, url, body) {
+    const opts = { method, credentials: 'same-origin', headers: {} };
+    if (body instanceof FormData) opts.body = body;
+    else if (body !== undefined) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
+    let res;
+    try { res = await fetch(url, opts); }
+    catch (e) { const err = new Error("Can't reach the CampusLink server. Check your connection and try again."); err.status = 0; throw err; }
+    let data = {};
+    try { data = await res.json(); } catch (e) { /* empty or non-JSON reply */ }
+    if (!res.ok) {
+      const err = new Error(data.error || Object.values(data.errors || {})[0] || 'Something went wrong. Please try again.');
+      err.status = res.status; err.errors = data.errors || {};
+      throw err;
+    }
+    return data;
+  }
+
+  let metaPromise = null, mePromise = null;
+
+  window.CampusAPI = {
+    /* lists: campuses, business types, clothing types, genders, food sub-categories, gig categories */
+    meta()              { return metaPromise || (metaPromise = call('GET', '/api/meta')); },
+
+    /* account */
+    me()                { return mePromise || (mePromise = call('GET', '/api/auth/me').then(d => d.user).catch(() => null)); },
+    register(formData)  { mePromise = null; return call('POST', '/api/auth/register', formData).then(d => d.user); },
+    login(email, password) { mePromise = null; return call('POST', '/api/auth/login', { email, password }).then(d => d.user); },
+    logout()            { mePromise = null; return call('POST', '/api/auth/logout', {}); },
+
+    /* public listings */
+    shops(campus)       { return call('GET', '/api/shops?campus=' + encodeURIComponent(campus)).then(d => d.shops); },
+    products(campus)    { return call('GET', '/api/products?campus=' + encodeURIComponent(campus)).then(d => d.products); },
+    gigs()              { return call('GET', '/api/gigs').then(d => d.gigs); },
+
+    /* approved sellers */
+    myProducts()        { return call('GET', '/api/my/products').then(d => d.products); },
+    addProduct(fd)      { return call('POST', '/api/my/products', fd).then(d => d.product); },
+    updateProduct(id, fd) { return call('PUT', '/api/my/products/' + id, fd).then(d => d.product); },
+    deleteProduct(id)   { return call('DELETE', '/api/my/products/' + id); },
+
+    myDocuments()       { return call('GET', '/api/my/documents').then(d => d.docs); },
+    resubmit(fd)        { mePromise = null; return call('POST', '/api/my/documents', fd).then(d => d.user); },
+
+    /* recruiters */
+    myGigs()            { return call('GET', '/api/my/gigs').then(d => d.gigs); },
+    postGig(gig)        { return call('POST', '/api/my/gigs', gig).then(d => d.gig); },
+    deleteGig(id)       { return call('DELETE', '/api/my/gigs/' + id); },
+
+    /* admin */
+    adminSellers()      { return call('GET', '/api/admin/sellers').then(d => d.sellers); },
+    sellerDocUrl(id, kind) { return '/api/admin/sellers/' + id + '/docs/' + kind; },
+    decide(id, status, note) { return call('POST', '/api/admin/sellers/' + id + '/decision', { status, note }).then(d => d.seller); },
+    adminGigs()         { return call('GET', '/api/admin/gigs').then(d => d.gigs); },
+    adminDeleteGig(id)  { return call('DELETE', '/api/admin/gigs/' + id); },
+
+    /* same rules as the server, for instant feedback in forms */
+    isEmail(e)        { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((e || '').trim()); },
+    isStudentEmail(e) { return /^[^\s@]+@[^\s@]+\.(ac\.ke|edu)$/i.test((e || '').trim()); },
+    isKraPin(p)       { return /^[AP]\d{9}[A-Z]$/i.test((p || '').trim()); },
+    isKenyanPhone(p)  { return /^(\+?254|0)(7|1)\d{8}$/.test((p || '').replace(/[\s-]/g, '')); },
+  };
+
+  /* Server products and gigs get ids above this, so they never clash with the built-in sample ids. */
+  window.CampusAPI.ID_OFFSET = 100000;
 })();

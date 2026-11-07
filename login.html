@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
-  <link rel="stylesheet" href="campuslink.css" />
+  <link rel="stylesheet" href="/campuslink.css" />
   <style>
     .auth { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
     .auth-side { background: linear-gradient(180deg, rgba(7,23,43,.55) 0%, rgba(11,37,69,.7) 45%, rgba(7,23,43,.95) 100%), url(/images/student-laptop.webp) center / cover no-repeat; color: #fff; border-right: 4px solid var(--gold); padding: 3rem; display: flex; flex-direction: column; justify-content: space-between; }
@@ -88,14 +88,27 @@
 </div>
 
 <script src="/nav.js"></script>
+<script src="/data.js"></script>
 <script>
-function handleLogin(e) {
+async function handleLogin(e) {
   e.preventDefault();
   const email = document.getElementById('email').value.trim();
   const pass = document.getElementById('password').value;
-  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && pass.length >= 6;
-  document.getElementById('errMsg').style.display = ok ? 'none' : 'block';
-  if (ok) location.href = 'dashboard.html';
+  const err = document.getElementById('errMsg');
+  const showErr = msg => { err.textContent = msg; err.style.display = 'block'; };
+  if (!CampusAPI.isEmail(email) || !pass) return showErr('Enter your email and password.');
+  err.style.display = 'none';
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.disabled = true; btn.textContent = 'Signing in…';
+  try {
+    const user = await CampusAPI.login(email, pass);
+    /* go back to the page that sent the user here (e.g. admin.html), if any */
+    const next = qs('next');
+    location.href = next && /^[\w-]+\.html(#[\w-]*)?$/.test(next) ? next : user.type === 'admin' ? 'admin.html' : 'dashboard.html';
+  } catch (ex) {
+    showErr(ex.message);
+    btn.disabled = false; btn.textContent = 'Sign in';
+  }
 }
 function forgot() {
   const email = document.getElementById('email').value.trim();

@@ -12,12 +12,15 @@
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
-  <link rel="stylesheet" href="campuslink.css" />
+  <link rel="stylesheet" href="/campuslink.css" />
   <style>
     .toolbar { display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 1.25rem; }
     .toolbar .search-wrap { flex: 1; max-width: 460px; min-width: 220px; }
     .results-count { color: var(--muted); font-size: .9rem; }
-    .gig-card { display: flex; flex-direction: column; }
+    .gig-card { display: flex; flex-direction: column; overflow: hidden; }
+    .gig-photo { margin: -1.35rem -1.35rem 1rem; aspect-ratio: 16 / 9; background: var(--border); overflow: hidden; }
+    .gig-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+    .gig-card:hover .gig-photo img { transform: scale(1.05); }
     .gig-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: .75rem; }
     .gig-title { font-family: var(--font); font-size: 1.1rem; font-weight: 600; letter-spacing: 0; margin-bottom: .35rem; }
     .gig-desc { color: var(--muted); font-size: .9rem; line-height: 1.65; margin-bottom: .9rem; }
@@ -27,8 +30,61 @@
     .gig-budget { font-weight: 600; font-size: 1rem; }
     .poster { display: flex; align-items: center; gap: .5rem; font-size: .82rem; color: var(--muted); margin-top: .15rem; }
     .avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--primary-g); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: .68rem; }
+    .gig-org { display: flex; align-items: center; gap: .3rem; font-size: .76rem; color: var(--muted); margin-top: .25rem; }
     .applied-btn { background: var(--success); color: #fff; border-color: var(--success); }
     .empty { grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--muted); }
+
+    /* ── Application dialog ── */
+    .ap-dialog { margin: auto; border: 0; padding: 0; border-radius: var(--radius-lg); width: calc(100vw - 2rem); max-width: 640px; max-height: calc(100vh - 2rem); background: var(--card); color: var(--text); box-shadow: 0 24px 60px rgba(0,0,0,.25); }
+    .ap-dialog [hidden] { display: none !important; }
+    .ap-dialog::backdrop { background: rgba(11,20,35,.55); }
+    .ap-dialog[open] { animation: apIn .2s ease; }
+    @keyframes apIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    .ap-head { position: sticky; top: 0; z-index: 2; background: var(--card); padding: 1.25rem 1.5rem 1rem; border-bottom: 1px solid var(--border); }
+    .ap-head h2 { font-size: 1.3rem; margin: .35rem 2.5rem .25rem 0; }
+    .ap-head-meta { display: flex; flex-wrap: wrap; gap: .4rem .9rem; color: var(--muted); font-size: .84rem; }
+    .ap-head-meta strong { color: var(--text); }
+    .ap-close { position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; color: var(--text); }
+    .ap-close:hover { background: var(--bg2); }
+    .ap-body { padding: 1.25rem 1.5rem; }
+    .ap-step { display: flex; align-items: flex-start; gap: .5rem; font-weight: 600; font-size: .95rem; margin: 0 0 .35rem; }
+    .ap-step .n { width: 22px; height: 22px; border-radius: 50%; background: var(--primary); color: #fff; font-size: .72rem; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .ap-step .opt { color: var(--muted); font-weight: 400; font-size: .8rem; }
+    .ap-hint { color: var(--muted); font-size: .82rem; margin: 0 0 .6rem; line-height: 1.5; }
+    .ap-section { margin-bottom: 1.4rem; }
+    .ap-dialog textarea.input { width: 100%; min-height: 130px; resize: vertical; line-height: 1.55; font-family: inherit; }
+    .ap-counter { display: flex; justify-content: space-between; font-size: .76rem; color: var(--muted); margin-top: .3rem; }
+    .ap-counter.ok #apNoteCount { color: var(--success, #15803d); font-weight: 600; }
+    .ap-skills { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .ap-skill { display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .75rem; border: 1px solid var(--border2); border-radius: var(--pill); font-size: .82rem; cursor: pointer; user-select: none; background: var(--card); }
+    .ap-skill input { accent-color: var(--primary); margin: 0; }
+    .ap-skill:has(input:checked) { border-color: var(--primary); background: var(--primary-g); color: var(--primary); font-weight: 600; }
+    .ap-drop { border: 2px dashed var(--border2); border-radius: var(--radius); padding: 1.4rem 1rem; text-align: center; background: var(--bg2); cursor: pointer; transition: border-color .15s, background .15s; }
+    .ap-drop:hover, .ap-drop:focus-visible, .ap-drop.drag { border-color: var(--primary); background: var(--primary-g); outline: none; }
+    .ap-drop i { font-size: 2rem; color: var(--primary); display: block; margin-bottom: .3rem; }
+    .ap-drop strong { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+    .ap-drop small { display: block; color: var(--muted); font-size: .76rem; margin-top: .3rem; }
+    .ap-files { list-style: none; margin: .6rem 0 0; padding: 0; display: grid; gap: .45rem; }
+    .ap-file { display: flex; align-items: center; gap: .7rem; padding: .5rem .6rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card); }
+    .ap-file-thumb { width: 40px; height: 40px; border-radius: 6px; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--primary); flex-shrink: 0; overflow: hidden; }
+    .ap-file-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .ap-file-info { flex: 1; min-width: 0; }
+    .ap-file-name { font-size: .85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ap-file-size { font-size: .74rem; color: var(--muted); }
+    .ap-file-remove { border: 0; background: none; color: var(--muted); font-size: 1.05rem; cursor: pointer; padding: .3rem; border-radius: 6px; }
+    .ap-file-remove:hover { color: #b91c1c; background: #fee2e2; }
+    .ap-row { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+    .ap-row .input { width: 100%; }
+    .ap-error { color: #b91c1c; font-size: .8rem; margin: .35rem 0 0; display: flex; align-items: center; gap: .3rem; }
+    .ap-error[hidden] { display: none; }
+    .ap-foot { position: sticky; bottom: 0; background: var(--card); border-top: 1px solid var(--border); padding: .9rem 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: .75rem; flex-wrap: wrap; }
+    .ap-foot-note { color: var(--muted); font-size: .76rem; display: flex; align-items: center; gap: .3rem; }
+    .ap-foot-btns { display: flex; gap: .5rem; margin-left: auto; }
+    .ap-sent { display: flex; align-items: center; gap: .5rem; padding: .7rem .9rem; border-radius: var(--radius-sm); background: #dcfce7; color: #15803d; font-size: .86rem; font-weight: 600; margin-bottom: 1.2rem; }
+    .ap-readonly-note { white-space: pre-wrap; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .8rem .9rem; font-size: .9rem; line-height: 1.6; margin: 0; }
+    .ap-dialog .btn-danger-line { border: 1px solid #fca5a5; color: #b91c1c; background: var(--card); }
+    .ap-dialog .btn-danger-line:hover { background: #fee2e2; }
+    @media (max-width: 560px) { .ap-row { grid-template-columns: 1fr; } .ap-head, .ap-body, .ap-foot { padding-left: 1rem; padding-right: 1rem; } }
   </style>
 </head>
 <body>
@@ -38,7 +94,7 @@
   <div class="topbar-inner">
     <div class="topbar-group">
       <span class="hide-sm"><i class="ph ph-map-pin"></i> Nairobi, Kenya</span>
-      <a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple"></i> simplykae2@gmail.com</a>
+      <a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple"></i> campuslink@gmail.com</a>
       <span class="hide-sm"><i class="ph ph-clock"></i> Support: Mon–Sat, 8am–8pm</span>
     </div>
     <div class="topbar-group">
@@ -165,7 +221,7 @@
       <div>
         <div class="crumbs"><a href="home.html">Home</a> / Gigs</div>
         <h1>Paid gigs on campus</h1>
-        <p>Short jobs posted by students, societies and local businesses. Apply in one click and get paid to your wallet.</p>
+        <p>Short jobs posted by students, societies and local businesses. Apply with your CV or work samples and get paid straight to your wallet.</p>
       </div>
       <a href="register.html?role=recruiter" class="btn btn-primary"><i class="ph ph-plus"></i> Post a gig</a>
     </div>
@@ -191,10 +247,89 @@
         <button class="cat-tab" data-cat="Physical">Hands-on</button>
       </div>
 
-      <div class="grid-2" id="gigGrid"></div>
+      <div class="grid-3" id="gigGrid"></div>
     </div>
   </section>
 </main>
+
+<!-- Gig application: motivation, skills, uploaded work/documents -->
+<dialog id="applyDialog" class="ap-dialog" aria-labelledby="apTitle" onclick="if(event.target===this)closeApply()">
+  <form id="applyForm" novalidate onsubmit="submitApplication(event)">
+    <div class="ap-head">
+      <span class="badge badge-accent" id="apCat"></span>
+      <h2 id="apTitle"></h2>
+      <div class="ap-head-meta"><span>Pay: <strong id="apBudget"></strong></span><span id="apPoster"></span><span id="apApplicants"></span></div>
+      <button type="button" class="ap-close" onclick="closeApply()" aria-label="Close"><i class="ph ph-x"></i></button>
+    </div>
+
+    <div class="ap-body">
+      <div class="ap-sent" id="apSent" hidden><i class="ph ph-check-circle"></i> <span id="apSentText"></span></div>
+
+      <div class="ap-section">
+        <label class="ap-step" for="apNote"><span class="n">1</span> Why do you want this gig?</label>
+        <p class="ap-hint" id="apNoteHint">Tell the poster why you need this job and why you are a good fit: your experience, similar work you have done, and when you can start.</p>
+        <textarea class="input" id="apNote" maxlength="1200" aria-describedby="apNoteHint apNoteError" oninput="updateNoteCount()" placeholder="e.g. I'm a 3rd-year maths student and have tutored first-years in calculus for two semesters. I need the extra income to cover my rent, and I'm free on Tuesday and Thursday evenings…"></textarea>
+        <div class="ap-counter" id="apCounter"><span>At least 50 characters</span><span id="apNoteCount">0 / 1200</span></div>
+        <p class="ap-error" id="apNoteError" role="alert" hidden><i class="ph ph-warning-circle"></i> Please write at least 50 characters so the poster understands why you're applying.</p>
+        <p class="ap-readonly-note" id="apNoteRead" hidden></p>
+      </div>
+
+      <div class="ap-section" id="apSkillsSection">
+        <div class="ap-step" id="apSkillsLabel"><span class="n">2</span> <span>Which of the required skills do you have? <span class="opt">(optional)</span></span></div>
+        <div class="ap-skills" id="apSkills" role="group" aria-labelledby="apSkillsLabel"></div>
+      </div>
+
+      <div class="ap-section">
+        <div class="ap-step" id="apFilesLabel"><span class="n">3</span> Upload your work or documents</div>
+        <p class="ap-hint" id="apFilesHint">Add your CV, certificates, transcripts or samples of similar work (designs, writing, code, photos) so the poster can see what you can do.</p>
+        <div class="ap-drop" id="apDrop" tabindex="0" role="button" aria-describedby="apFilesLabel apFilesError"
+             onclick="document.getElementById('apFileInput').click()"
+             onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">
+          <i class="ph ph-cloud-arrow-up"></i>
+          Drag files here or <strong>browse</strong>
+          <small>PDF, Word, images, ZIP · up to 5 files · 10 MB each</small>
+        </div>
+        <input type="file" id="apFileInput" multiple hidden accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.jpg,.jpeg,.png,.webp,.gif,.zip,.fig" onchange="addFiles(this.files); this.value=''">
+        <ul class="ap-files" id="apFiles" aria-live="polite"></ul>
+        <p class="ap-error" id="apFilesError" role="alert" hidden></p>
+      </div>
+
+      <div class="ap-section" id="apExtraSection">
+        <div class="ap-step"><span class="n">4</span> <span>Extra details <span class="opt">(optional)</span></span></div>
+        <div class="ap-row">
+          <div>
+            <label class="label" for="apLink">Portfolio or work link</label>
+            <input class="input" type="url" id="apLink" placeholder="https://…">
+          </div>
+          <div>
+            <label class="label" for="apAvail">When can you start?</label>
+            <select class="input" id="apAvail">
+              <option value="">Choose…</option>
+              <option>Immediately</option>
+              <option>Within this week</option>
+              <option>Evenings only</option>
+              <option>Weekends only</option>
+              <option>Flexible</option>
+            </select>
+          </div>
+        </div>
+        <p class="ap-error" id="apLinkError" role="alert" hidden><i class="ph ph-warning-circle"></i> That link doesn't look right. It should start with https://</p>
+      </div>
+    </div>
+
+    <div class="ap-foot">
+      <span class="ap-foot-note" id="apFootNote"><i class="ph ph-lock-simple"></i> Only the gig poster sees your application.</span>
+      <div class="ap-foot-btns" id="apBtnsEdit">
+        <button type="button" class="btn btn-ghost" onclick="closeApply()">Cancel</button>
+        <button type="submit" class="btn btn-primary"><i class="ph ph-paper-plane-tilt"></i> Send application</button>
+      </div>
+      <div class="ap-foot-btns" id="apBtnsView" hidden>
+        <button type="button" class="btn btn-danger-line" onclick="withdrawApplication()"><i class="ph ph-arrow-counter-clockwise"></i> Withdraw</button>
+        <button type="button" class="btn btn-primary" onclick="closeApply()">Done</button>
+      </div>
+    </div>
+  </form>
+</dialog>
 
 <footer class="footer">
   <div class="footer-grid">
@@ -215,7 +350,7 @@
       <li><a href="wallet.html"><i class="ph ph-wallet fi-green"></i>Wallet</a></li>
     </ul></div>
     <div class="footer-col"><h4>Contact</h4><ul>
-      <li><a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>simplykae2@gmail.com</a></li>
+      <li><a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>campuslink@gmail.com</a></li>
       <li><span><i class="ph ph-map-pin fi-rose"></i>Nairobi, Kenya</span></li>
       <li><a href="register.html?role=provider"><i class="ph ph-megaphone-simple fi-sky"></i>List your service</a></li>
     </ul></div>
@@ -252,7 +387,7 @@ document.getElementById('gigTabs').addEventListener('click', e => {
 
 function renderGigs() {
   const q = document.getElementById('gigSearch').value.trim().toLowerCase();
-  const list = CampusData.getGigs().filter(g =>
+  const list = allGigs().filter(g =>
     (activeGigTab === 'All' || g.cat === activeGigTab) &&
     (!q || g.title.toLowerCase().includes(q) || (g.desc || '').toLowerCase().includes(q) || (g.skills || []).some(s => s.toLowerCase().includes(q)))
   );
@@ -261,6 +396,7 @@ function renderGigs() {
     const done = appliedGigs.has(g.id);
     return `
     <article class="card gig-card">
+      <div class="gig-photo"><img src="${esc(CampusData.gigImageFor(g))}" alt="" loading="lazy" width="640" height="400" onerror="this.remove()" /></div>
       <div class="gig-top">
         <span class="badge badge-accent">${esc(g.cat)}</span>
         <span class="text-dim text-xs">${esc(g.posted || 'just now')}</span>
@@ -272,21 +408,205 @@ function renderGigs() {
         <div>
           <span class="gig-budget">${esc(g.budget)}</span>
           <div class="poster"><span class="avatar">${esc(g.poster || '··')}</span>${(g.applicants || 0) + (done ? 1 : 0)} applied</div>
+          ${g.org ? `<div class="gig-org"><i class="ph ph-buildings"></i> ${esc(g.org)} · ${esc(g.campus)}</div>` : ''}
         </div>
-        <button class="btn btn-sm ${done ? 'applied-btn' : 'btn-outline'}" onclick="toggleApply(${Number(g.id)})">
-          ${done ? '<i class="ph ph-check"></i> Applied' : 'Apply'}
+        <button class="btn btn-sm ${done ? 'applied-btn' : 'btn-outline'}" onclick="openApply(${Number(g.id)})">
+          ${done ? '<i class="ph ph-check"></i> Applied · View' : 'Apply'}
         </button>
       </div>
     </article>`;
   }).join('') || '<div class="empty">No gigs match that search right now.</div>';
 }
 
-function toggleApply(id) {
-  if (appliedGigs.has(id)) { appliedGigs.delete(id); notify('Application withdrawn.', 'arrow-counter-clockwise'); }
-  else { appliedGigs.add(id); notify('Application sent. You can track it on your dashboard.'); }
+/* ── Applications ──
+   APPLIED_KEY keeps the list of applied gig ids (the dashboard counts it).
+   APPS_KEY keeps each application's details. Files stay in the browser: only
+   their name, size and type are saved, as there is no upload server yet. */
+const APPS_KEY = 'campuslink_applications';
+const MIN_NOTE = 50, MAX_FILES = 5, MAX_SIZE = 10 * 1024 * 1024;
+const OK_EXT = ['pdf','doc','docx','ppt','pptx','xls','xlsx','txt','jpg','jpeg','png','webp','gif','zip','fig'];
+let applications = JSON.parse(localStorage.getItem(APPS_KEY) || '{}');
+let apGigId = null, apFiles = [];
+
+function saveApps() {
+  localStorage.setItem(APPS_KEY, JSON.stringify(applications));
   localStorage.setItem(APPLIED_KEY, JSON.stringify([...appliedGigs]));
-  renderGigs();
 }
+
+const fmtSize = b => b < 1024 ? b + ' B' : b < 1048576 ? (b / 1024).toFixed(0) + ' KB' : (b / 1048576).toFixed(1) + ' MB';
+const extOf = n => (n.split('.').pop() || '').toLowerCase();
+function fileIcon(name) {
+  const e = extOf(name);
+  if (['jpg','jpeg','png','webp','gif'].includes(e)) return 'file-image';
+  if (e === 'pdf') return 'file-pdf';
+  if (['doc','docx','txt'].includes(e)) return 'file-doc';
+  if (['xls','xlsx'].includes(e)) return 'file-xls';
+  if (['ppt','pptx'].includes(e)) return 'file-ppt';
+  if (e === 'zip') return 'file-zip';
+  return 'file';
+}
+
+function openApply(id) {
+  const g = allGigs().find(x => x.id === id);
+  if (!g) return;
+  apGigId = id;
+  apFiles.forEach(f => f.url && URL.revokeObjectURL(f.url));
+  apFiles = [];
+  const app = applications[id];
+  const viewing = appliedGigs.has(id);
+
+  document.getElementById('apCat').textContent = g.cat;
+  document.getElementById('apTitle').textContent = g.title;
+  document.getElementById('apBudget').textContent = g.budget;
+  document.getElementById('apPoster').textContent = 'Posted ' + (g.posted || 'just now');
+  document.getElementById('apApplicants').textContent = ((g.applicants || 0) + (viewing ? 1 : 0)) + ' applied so far';
+
+  // edit vs read-only view
+  ['apNote', 'apCounter', 'apNoteHint', 'apFilesHint', 'apDrop'].forEach(i => document.getElementById(i).hidden = viewing);
+  document.getElementById('apNoteRead').hidden = !viewing;
+  document.getElementById('apBtnsEdit').hidden = viewing;
+  document.getElementById('apBtnsView').hidden = !viewing;
+  document.getElementById('apSent').hidden = !viewing;
+  document.querySelectorAll('#applyDialog .ap-error').forEach(e => e.hidden = true);
+  document.getElementById('apLink').disabled = document.getElementById('apAvail').disabled = viewing;
+
+  const skills = g.skills || [];
+  document.getElementById('apSkillsSection').hidden = !skills.length;
+  document.getElementById('apSkills').innerHTML = skills.map(s =>
+    `<label class="ap-skill"><input type="checkbox" value="${esc(s)}" ${app && app.skills.includes(s) ? 'checked' : ''} ${viewing ? 'disabled' : ''}> ${esc(s)}</label>`
+  ).join('');
+
+  if (viewing && app) {
+    document.getElementById('apSentText').textContent = 'Application sent on ' + new Date(app.date).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' });
+    document.getElementById('apNoteRead').textContent = app.note;
+    document.getElementById('apLink').value = app.link || '';
+    document.getElementById('apAvail').value = app.availability || '';
+    apFiles = app.files.map(f => ({ ...f }));
+  } else if (viewing) {
+    // applied before this form existed: no details saved
+    document.getElementById('apSentText').textContent = 'Application sent.';
+    document.getElementById('apNoteRead').textContent = 'No details were saved for this application.';
+  } else {
+    document.getElementById('apNote').value = '';
+    document.getElementById('apLink').value = '';
+    document.getElementById('apAvail').value = '';
+  }
+  updateNoteCount();
+  renderFiles(viewing);
+  document.getElementById('applyDialog').showModal();
+  if (!viewing) document.getElementById('apNote').focus();
+}
+
+function closeApply() { document.getElementById('applyDialog').close(); }
+
+function updateNoteCount() {
+  const n = document.getElementById('apNote').value.trim().length;
+  document.getElementById('apNoteCount').textContent = n + ' / 1200';
+  document.getElementById('apCounter').classList.toggle('ok', n >= MIN_NOTE);
+  if (n >= MIN_NOTE) document.getElementById('apNoteError').hidden = true;
+}
+
+function showFileError(msg) {
+  const el = document.getElementById('apFilesError');
+  el.innerHTML = msg ? '<i class="ph ph-warning-circle"></i> ' + esc(msg) : '';
+  el.hidden = !msg;
+}
+
+function addFiles(list) {
+  const problems = [];
+  for (const f of list) {
+    if (apFiles.length >= MAX_FILES) { problems.push(`You can add up to ${MAX_FILES} files.`); break; }
+    if (!OK_EXT.includes(extOf(f.name))) { problems.push(`"${f.name}" isn't a supported file type.`); continue; }
+    if (f.size > MAX_SIZE) { problems.push(`"${f.name}" is larger than 10 MB.`); continue; }
+    if (apFiles.some(x => x.name === f.name && x.size === f.size)) continue;
+    apFiles.push({ name: f.name, size: f.size, type: f.type, url: f.type.startsWith('image/') ? URL.createObjectURL(f) : null });
+  }
+  showFileError(problems.join(' '));
+  renderFiles(false);
+}
+
+function removeFile(i) {
+  const [f] = apFiles.splice(i, 1);
+  if (f && f.url) URL.revokeObjectURL(f.url);
+  showFileError('');
+  renderFiles(false);
+}
+
+function renderFiles(readOnly) {
+  document.getElementById('apFiles').innerHTML = apFiles.map((f, i) => `
+    <li class="ap-file">
+      <span class="ap-file-thumb">${f.url ? `<img src="${f.url}" alt="">` : `<i class="ph ph-${fileIcon(f.name)}"></i>`}</span>
+      <span class="ap-file-info"><div class="ap-file-name">${esc(f.name)}</div><div class="ap-file-size">${fmtSize(f.size)}</div></span>
+      ${readOnly ? '' : `<button type="button" class="ap-file-remove" onclick="removeFile(${i})" aria-label="Remove ${esc(f.name)}"><i class="ph ph-trash"></i></button>`}
+    </li>`).join('') || (readOnly ? '<li class="ap-file-size">No files attached.</li>' : '');
+}
+
+// drag and drop onto the upload box
+(function () {
+  const drop = document.getElementById('apDrop');
+  ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('drag'); }));
+  ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('drag'); }));
+  drop.addEventListener('drop', e => addFiles(e.dataTransfer.files));
+})();
+
+function submitApplication(e) {
+  e.preventDefault();
+  const note = document.getElementById('apNote').value.trim();
+  const link = document.getElementById('apLink').value.trim();
+  let firstBad = null;
+
+  const noteBad = note.length < MIN_NOTE;
+  document.getElementById('apNoteError').hidden = !noteBad;
+  if (noteBad) firstBad = firstBad || document.getElementById('apNote');
+
+  if (!apFiles.length) { showFileError('Please upload at least one file: your CV or a sample of your work.'); firstBad = firstBad || document.getElementById('apDrop'); }
+
+  const linkBad = link && !/^https?:\/\/\S+\.\S+/.test(link);
+  document.getElementById('apLinkError').hidden = !linkBad;
+  if (linkBad) firstBad = firstBad || document.getElementById('apLink');
+
+  if (firstBad) { firstBad.focus(); return; }
+
+  applications[apGigId] = {
+    note, link,
+    availability: document.getElementById('apAvail').value,
+    skills: [...document.querySelectorAll('#apSkills input:checked')].map(i => i.value),
+    files: apFiles.map(({ name, size, type }) => ({ name, size, type })),
+    date: new Date().toISOString(),
+  };
+  appliedGigs.add(apGigId);
+  saveApps();
+  closeApply();
+  renderGigs();
+  notify('Application sent with ' + apFiles.length + ' file' + (apFiles.length !== 1 ? 's' : '') + '. Track it on your dashboard.', 'paper-plane-tilt');
+}
+
+function withdrawApplication() {
+  if (!confirm('Withdraw your application for this gig?')) return;
+  appliedGigs.delete(apGigId);
+  delete applications[apGigId];
+  saveApps();
+  closeApply();
+  renderGigs();
+  notify('Application withdrawn.', 'arrow-counter-clockwise');
+}
+
+/* Gigs posted by recruiters (from the server) are shown alongside the built-in ones. */
+let serverGigs = [];
+function allGigs() { return serverGigs.concat(CampusData.getGigs()); }
+function ago(iso) {
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  return m < 60 ? Math.max(1, m) + 'm ago' : m < 1440 ? Math.round(m / 60) + 'h ago' : Math.round(m / 1440) + 'd ago';
+}
+CampusAPI.gigs().then(list => {
+  serverGigs = list.map(g => ({
+    id: CampusAPI.ID_OFFSET + g.id, title: g.title, desc: g.desc, cat: g.cat, skills: g.skills,
+    budget: 'Ksh ' + g.budget.toLocaleString(), posted: ago(g.createdAt), applicants: 0,
+    poster: (g.poster || '').split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase(),
+    org: g.poster, campus: g.campus,
+  }));
+  renderGigs();
+}).catch(() => { /* server offline: built-in gigs only */ });
 
 /* Deep links: gigs.html?cat=Tech */
 (function init() {

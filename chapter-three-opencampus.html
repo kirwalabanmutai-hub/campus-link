@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chapter Three - Open Campus</title>
+  <style>
+    @page { size: A4; margin: 25mm 25mm 25mm 30mm; }
+    * { box-sizing: border-box; }
+    body {
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 24px;
+      color: #111;
+      background: #fff;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12pt;
+      line-height: 1.5;
+    }
+    h1, h2, h3 { font-size: 12pt; line-height: 1.5; }
+    h1, .chapter-title { text-align: center; font-weight: bold; }
+    h1 { margin: 0 0 1em; text-transform: uppercase; }
+    h2 { margin: 1em 0 0.25em; font-weight: bold; }
+    h3 { margin: 0.6em 0 0.2em; font-weight: bold; }
+    p { margin: 0 0 0.65em; text-align: justify; }
+    .subtitle { text-align: center; margin-bottom: 1.5em; }
+    .caption { text-align: center; font-weight: bold; margin: 0.8em 0 0.3em; }
+    .source { font-size: 11pt; text-align: left; margin-bottom: 0.9em; }
+    .formula { text-align: center; margin: 0.4em 0 0.6em; font-style: italic; }
+    table { width: 100%; border-collapse: collapse; margin: 0.3em 0 0.4em; font-size: 11pt; line-height: 1.3; }
+    th, td { border: 1px solid #111; padding: 4px 6px; vertical-align: top; text-align: left; }
+    th { font-weight: bold; }
+    td.num, th.num { text-align: right; }
+    .gantt { table-layout: fixed; }
+    .gantt td, .gantt th { padding: 3px 2px; text-align: center; font-size: 9.5pt; }
+    .gantt td:first-child, .gantt th:first-child { text-align: left; padding-left: 5px; width: 34%; }
+    .gantt td.on { background: #555; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    figure { margin: 0.6em 0; }
+    figure svg { display: block; width: 100%; height: auto; }
+    .refs p { font-size: 12pt; text-align: left; padding-left: 0.5in; text-indent: -0.5in; }
+    .print-bar { position: sticky; top: 0; display: flex; flex-wrap: wrap; gap: 0.5em; justify-content: flex-end; padding: 0.5em 0; background: #fff; }
+    .print-btn { display: inline-block; text-decoration: none; border: 0; border-radius: 4px; padding: 0.65em 1em; color: #fff; background: #12664f; font: 600 10pt Arial, sans-serif; cursor: pointer; }
+    .print-btn:hover { background: #0b4e3c; }
+    @media print {
+      body { max-width: none; padding: 0; }
+      .print-bar { display: none; }
+      h2, h3, .caption { break-after: avoid; }
+      table, figure { break-inside: avoid; }
+      p { orphans: 3; widows: 3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="print-bar">
+    <a class="print-btn" href="chapter-three-opencampus.pdf" download>Download PDF</a>
+    <button class="print-btn" type="button" onclick="window.print()">Print</button>
+  </div>
+
+  <h1>Chapter Three</h1>
+  <p class="chapter-title">Research Methodology</p>
+  <p class="subtitle"><strong>Study title:</strong> Design and Evaluation of Open Campus (CampusLink), an Integrated Campus Services and Opportunities Platform for Students at a Selected Institution in Nairobi County, Kenya</p>
+
+  <h2>3.1 Introduction</h2>
+  <p>This chapter describes how the study will be carried out to achieve the four specific objectives set out in Chapter One. It begins with the research design and then describes the target population, the sampling technique and sample size, and the methods that will be used to collect primary and secondary data. It then presents the system development methodology that will guide the building of the Open Campus (CampusLink) prototype, followed by the requirements analysis, the system design tools and techniques, and the development tools and technologies. The chapter closes with the testing strategy, the data analysis and presentation procedures, the ethical considerations, the project schedule and budget, and a summary that introduces Chapter Four.</p>
+
+  <h2>3.2 Research Design</h2>
+  <p>The study will use a mixed-methods design that combines a descriptive survey with a design science approach. A descriptive survey collects data from a defined group of people at one point in time in order to describe their characteristics, practices and opinions as they currently exist, without manipulating any variables (Mugenda &amp; Mugenda, 2003). Design science, by contrast, is an approach in which the researcher builds an artefact to solve an identified problem and then evaluates how well it performs (Hevner et al., 2004). Peffers et al. (2007) organise design science work into six activities: problem identification, definition of objectives, design and development, demonstration, evaluation and communication, and these activities provide the overall sequence followed in this study.</p>
+  <p>This combination is the most suitable for answering the research questions in Chapter One because the questions are of two different kinds. The first question asks which channels and challenges students and providers currently experience, which is a descriptive question best answered by surveying the people concerned. The remaining questions ask what a platform should do and how well a prototype performs once it has been built, which can only be answered by designing an artefact and evaluating it with users. A purely descriptive design would identify the problem without testing a solution, while a purely developmental project would risk building features that users do not need. Combining the two keeps the prototype grounded in evidence and keeps the evaluation focused on the needs that the survey identifies (Creswell &amp; Creswell, 2018).</p>
+  <p>Each part of the design is linked to a specific objective. The descriptive survey, made up of student questionnaires and interviews with providers, opportunity posters and administrators, will be used to meet Objective One, which is to identify current channels and information-access challenges. The design and development activity of design science, carried out through the evolutionary prototyping methodology described in Section 3.6, will be used to meet Objective Two, which is to design and implement the prototype. The evaluation activity will meet Objectives Three and Four: task-based usability sessions scored with the System Usability Scale will address Objective Three, and a structured questionnaire on perceived usefulness and intention to use will address Objective Four.</p>
+
+  <h2>3.3 Target Population</h2>
+  <p>The target population will consist of the people who either look for or offer campus services and short-term opportunities at a selected higher education institution in Nairobi County, Kenya, during the 2026 study period. The institution is not named in this report in order to protect the confidentiality of participants and of the institution itself, as stated in Chapter One. Four groups make up the population. Registered students are the main users who search for printing, laundry, food, housing, repairs and moving services and who look for gigs. Campus service providers are the businesses and individuals who offer these services on or near the campus. Opportunity posters are student societies, staff members and local businesses that advertise short-term work, and administrative and ICT staff are the officers who oversee student welfare and campus systems.</p>
+  <p>The number of people in each category is shown in Table 3.1. The figures are planning estimates based on the expected size of the institution and will be confirmed with the registry and the office of the Dean of Students before data collection begins, after which the sample sizes in Section 3.4 will be recalculated if necessary. The population is consistent with the scope stated in Section 1.8 of Chapter One, which limits the study to students, campus service providers and opportunity posters at one institution and does not extend to other campuses in Kenya.</p>
+  <p class="caption">Table 3.1: Target Population</p>
+  <table>
+    <thead><tr><th>Category</th><th>Description</th><th class="num">Population</th></tr></thead>
+    <tbody>
+      <tr><td>Certificate students</td><td>Registered certificate-level students</td><td class="num">800</td></tr>
+      <tr><td>Diploma students</td><td>Registered diploma-level students</td><td class="num">2,000</td></tr>
+      <tr><td>Degree students</td><td>Registered undergraduate degree students</td><td class="num">1,200</td></tr>
+      <tr><td>Campus service providers</td><td>Printing, laundry, food, cleaning, repair and moving providers serving the campus</td><td class="num">25</td></tr>
+      <tr><td>Opportunity posters</td><td>Student societies, staff and local businesses that post short-term work</td><td class="num">15</td></tr>
+      <tr><td>Administrative and ICT staff</td><td>Dean of Students office and ICT department officers</td><td class="num">5</td></tr>
+      <tr><th colspan="2">Total</th><th class="num">4,045</th></tr>
+    </tbody>
+  </table>
+  <p class="source">Source: Planning estimates, to be confirmed with the institution's registry and administration (2026).</p>
+
+  <h2>3.4 Sampling Technique and Sample Size</h2>
+  <p>Different sampling techniques will be used for each group because the groups differ greatly in size. Students will be selected by stratified random sampling, in which the population is divided into strata and a random sample is drawn from each stratum in proportion to its size (Kothari, 2004). The strata will be the three levels of study, because certificate, diploma and degree students may differ in how long they have been on campus and in how much they rely on campus services and part-time work. Stratification ensures that each level is represented in the same proportion as in the population, which a simple random sample of the same size would not guarantee. Within each stratum, students will be picked at random from class lists using a random number generator.</p>
+  <p>The student sample size will be calculated using Yamane's (1967) simplified formula for a finite population, shown below, where <em>n</em> is the sample size, <em>N</em> is the population size and <em>e</em> is the margin of error. A margin of error of 10 percent will be used, which is acceptable for a descriptive student study with limited time and resources. With a student population of 4,000, the formula gives 4,000 ÷ (1 + 4,000 × 0.1²) = 4,000 ÷ 41 = 97.6, which is rounded up to 98 students. The 98 students will then be shared among the three strata in proportion to their size, as shown in Table 3.2.</p>
+  <p class="formula">n = N / (1 + N e²)</p>
+  <p>The service providers, opportunity posters and administrative staff are small groups, so the study will include all of them rather than draw a sample. A census is appropriate when a population is small enough to be reached in full, because sampling a small group would leave too few cases to describe it reliably (Mugenda &amp; Mugenda, 2003). All 25 service providers and all 15 opportunity posters will therefore be invited to take part, and the 5 administrative and ICT officers will be selected purposively because they hold the institutional knowledge needed to describe current systems and data policies. The total sample will therefore be 143 respondents.</p>
+  <p>For the usability evaluation under Objective Three, a smaller purposive sub-sample of 20 participants will be drawn from respondents who agree to take part in a second session: 14 students spread across the three levels and 6 providers or opportunity posters. Nielsen (2000) showed that small groups of test users uncover most usability problems in a design, and Tullis and Stetson (2004) found that the System Usability Scale produced consistent results with samples of about 12 participants. A sub-sample of 20 is therefore large enough to produce a stable usability score while remaining manageable for one-to-one sessions. The same 20 participants will also complete the usefulness and intention questionnaire for Objective Four immediately after their session.</p>
+  <p class="caption">Table 3.2: Sample Size</p>
+  <table>
+    <thead><tr><th>Category</th><th class="num">Population</th><th>Technique</th><th class="num">Sample</th></tr></thead>
+    <tbody>
+      <tr><td>Certificate students</td><td class="num">800</td><td>Stratified random (20%)</td><td class="num">20</td></tr>
+      <tr><td>Diploma students</td><td class="num">2,000</td><td>Stratified random (50%)</td><td class="num">49</td></tr>
+      <tr><td>Degree students</td><td class="num">1,200</td><td>Stratified random (30%)</td><td class="num">29</td></tr>
+      <tr><td>Campus service providers</td><td class="num">25</td><td>Census</td><td class="num">25</td></tr>
+      <tr><td>Opportunity posters</td><td class="num">15</td><td>Census</td><td class="num">15</td></tr>
+      <tr><td>Administrative and ICT staff</td><td class="num">5</td><td>Purposive</td><td class="num">5</td></tr>
+      <tr><th>Total</th><th class="num">4,045</th><th></th><th class="num">143</th></tr>
+    </tbody>
+  </table>
+  <p class="source">Source: Researcher (2026), using Yamane (1967).</p>
+
+  <h2>3.5 Data Collection Methods</h2>
+  <p>The study will collect both primary and secondary data. Primary data are data gathered first-hand by the researcher for the purpose of the study, while secondary data are data that already exist in documents and systems prepared for other purposes (Kothari, 2004). Table 3.3 summarises which method will be used with which group and the objective that each method serves.</p>
+
+  <h3>3.5.1 Primary Data</h3>
+  <p><strong>Questionnaires.</strong> A structured questionnaire will be administered to the 98 sampled students, both on paper and through Google Forms so that students can respond on their phones. Section A will collect background information such as level of study and access to a smartphone and the internet. Section B will ask which channels students currently use to find campus services and gigs, such as messaging groups, notice boards, word of mouth and social media, and how often they experience problems such as outdated information, unverified providers or difficulty contacting them. Most questions will be closed-ended, using multiple-choice items and five-point Likert scales, so that responses can be counted and compared; two open-ended questions will allow students to describe problems and features in their own words. The questionnaire was chosen over interviews for students because it can reach a large group quickly and at low cost and produces data that can be analysed statistically. It serves Objective One and provides the user requirements for Objective Two.</p>
+  <p><strong>Interviews.</strong> Semi-structured interviews will be held with the 25 service providers, the 15 opportunity posters and the 5 administrative and ICT officers. Each interview will last about 20 to 30 minutes and will follow an interview guide with open-ended questions about how providers currently advertise their services, how posters find student workers, how payments are made, and what an administrator would need in order to approve or remove listings. Interviews were chosen for these groups because they are small, their experiences differ widely, and follow-up questions are needed to understand their workflows in enough detail to write system requirements. With permission, interviews will be audio-recorded and later transcribed. The interviews serve Objectives One and Two.</p>
+  <p><strong>Observation and task-based usability testing.</strong> In the evaluation stage, each of the 20 usability participants will be asked to complete a set of predefined tasks on the prototype, such as finding a laundry service, booking it, adding two grocery items to the cart, applying for a gig and starting an M-Pesa top-up. The researcher will observe each session using a structured observation checklist that records whether each task was completed, the time taken, the number of errors and any point where the participant asked for help. Observation was chosen because it records what participants actually do rather than what they say they would do. Immediately after the tasks, participants will complete the ten-item System Usability Scale (Brooke, 1996). This method serves Objective Three.</p>
+  <p><strong>Usefulness and intention questionnaire.</strong> After the usability session, the same participants will complete a short closed-ended questionnaire on perceived usefulness and intention to use, adapted from the items developed by Davis (1989) and measured on a five-point Likert scale. Example items include "Using CampusLink would make it easier to find campus services" and "I intend to use CampusLink if it is made available at my campus." A final open-ended question will ask for suggested improvements. This instrument serves Objective Four.</p>
+
+  <h3>3.5.2 Secondary Data</h3>
+  <p>Secondary data will be drawn from sources that relate directly to the campus and to the platform being developed. These will include the institution's student handbook and any list of approved campus vendors, which will help confirm the categories of services available; campus notice-board postings and, with the consent of group administrators, sample posts from student messaging groups, which will show how services and gigs are currently advertised; and the documentation and public pages of the existing systems reviewed in Chapter Two, namely Handshake, LinkedIn, Upwork, Fiverr, the Ajira Digital Programme, BrighterMonday and Fuzu, which will be compared feature by feature to identify what CampusLink should include and avoid. The existing Open Campus prototype files and the Human Capital Wallet database schema will also be reviewed as system documentation. No text from these sources will be copied into the CampusLink system or this report; they will be used only to inform the requirements.</p>
+
+  <h3>3.5.3 Validity and Reliability of Instruments</h3>
+  <p>Validity is the extent to which an instrument measures what it is intended to measure, and reliability is the extent to which it produces consistent results when used repeatedly (Kothari, 2004). Content validity will be checked by asking the project supervisor and one lecturer in information technology to review every item against the objectives, and items that do not relate clearly to an objective will be removed or rewritten. The instruments will then be pre-tested in a pilot study with 10 students and 2 service providers who will not take part in the main study. Unclear or ambiguous questions identified in the pilot will be revised before the main data collection. The internal consistency of the Likert-scale sections will be measured using Cronbach's alpha, and a value of 0.70 or above will be accepted as reliable (Tavakol &amp; Dennick, 2011). The System Usability Scale and the Davis (1989) usefulness items are already validated instruments, so only minimal wording changes will be made to fit the campus context.</p>
+  <p>The full student questionnaire, interview guide, usability task sheet with the System Usability Scale, usefulness and intention questionnaire, and introduction letter are attached in the Appendices (see Appendices A to E).</p>
+  <p class="caption">Table 3.3: Data Collection Methods by Objective</p>
+  <table>
+    <thead><tr><th>Objective</th><th>Method and instrument</th><th>Respondents</th></tr></thead>
+    <tbody>
+      <tr><td>One: identify channels and challenges</td><td>Questionnaire (Appendix A); interview guide (Appendix B); document review</td><td>98 students; 25 providers; 15 posters; 5 staff</td></tr>
+      <tr><td>Two: design and implement the prototype</td><td>Requirements from Objective One; review of existing systems; prototype feedback sessions</td><td>Same respondents; supervisor</td></tr>
+      <tr><td>Three: assess usability</td><td>Task sheet and observation checklist; System Usability Scale (Appendix C)</td><td>20 usability participants</td></tr>
+      <tr><td>Four: measure usefulness and intention</td><td>Usefulness and intention questionnaire (Appendix D)</td><td>20 usability participants</td></tr>
+    </tbody>
+  </table>
+  <p class="source">Source: Researcher (2026).</p>
+
+  <h2>3.6 System Development Methodology</h2>
+  <p>The CampusLink prototype will be developed using the evolutionary prototyping methodology. Evolutionary prototyping is an approach in which an initial working version of the system is built from the best available understanding of the requirements, shown to users, and then refined through repeated cycles of evaluation and improvement until it becomes the final system (Sommerville, 2016). Unlike throwaway prototyping, in which an early model is discarded once it has clarified the requirements, the evolutionary prototype is kept and improved in each cycle (Budde et al., 1992). The six phases of the model, as used in this study, are shown in Figure 3.1 and described below in the same order.</p>
+  <figure>
+    <svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif" font-size="13" role="img" aria-label="Evolutionary prototyping model">
+      <defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+      <g fill="#fff" stroke="#111" stroke-width="1.3">
+        <rect x="10" y="20" width="140" height="54" rx="6"/>
+        <rect x="190" y="20" width="120" height="54" rx="6"/>
+        <rect x="350" y="20" width="130" height="54" rx="6"/>
+        <rect x="350" y="150" width="130" height="54" rx="6"/>
+        <rect x="190" y="150" width="120" height="54" rx="6"/>
+        <rect x="490" y="232" width="140" height="54" rx="6"/>
+      </g>
+      <g text-anchor="middle">
+        <text x="80" y="43">1. Requirements</text><text x="80" y="61">gathering</text>
+        <text x="250" y="43">2. Quick</text><text x="250" y="61">design</text>
+        <text x="415" y="43">3. Build</text><text x="415" y="61">prototype</text>
+        <text x="415" y="173">4. User</text><text x="415" y="191">evaluation</text>
+        <text x="250" y="173">5. Refine</text><text x="250" y="191">prototype</text>
+        <text x="560" y="255">6. Final system</text><text x="560" y="273">and handover</text>
+      </g>
+      <g stroke="#111" stroke-width="1.3" fill="none" marker-end="url(#a1)">
+        <line x1="150" y1="47" x2="188" y2="47"/>
+        <line x1="310" y1="47" x2="348" y2="47"/>
+        <line x1="415" y1="74" x2="415" y2="148"/>
+        <line x1="350" y1="177" x2="312" y2="177"/>
+        <path d="M250,150 L250,76"/>
+        <path d="M480,190 L560,190 L560,230"/>
+      </g>
+      <text x="258" y="118" font-size="12" font-style="italic">repeat until</text>
+      <text x="258" y="133" font-size="12" font-style="italic">users are satisfied</text>
+      <text x="492" y="183" font-size="12" font-style="italic">accepted</text>
+    </svg>
+  </figure>
+  <p class="caption">Figure 3.1: Evolutionary Prototyping Model</p>
+  <p class="source">Source: Adapted from Sommerville (2016).</p>
+
+  <p><strong>Phase 1: Requirements gathering.</strong> In this phase, the researcher will analyse the questionnaire and interview data collected under Objective One and the review of existing systems, and turn them into a list of functional and non-functional requirements grouped by user type, as presented in Section 3.7. The researcher will also note which needs are most frequently mentioned so that the most important features are built first, and the researcher will agree the requirements list with my supervisor before moving on. The output of this phase will be a prioritised requirements specification.</p>
+  <p><strong>Phase 2: Quick design.</strong> In this phase, the researcher will draw the context diagram and the Level 1 data flow diagram shown in Section 3.8, sketch the entity relationship diagram for the main data such as users, services, bookings, products, orders, gigs, applications and transactions, and produce low-fidelity wireframes for the home, services, shop, gigs, wallet and dashboard pages. The design will be kept deliberately simple so that a working version can be shown to users quickly.</p>
+  <p><strong>Phase 3: Build prototype.</strong> In this phase, the researcher will build or update the CampusLink pages in HTML, CSS and JavaScript and connect them to a shared data layer, so that listings added by the administrator appear on the services and gigs pages. The first cycle will cover service discovery and booking, the shop and cart, gig listings and applications, and the registration and sign-in screens. The wallet will be built as a simulated M-Pesa top-up workflow, consistent with the scope in Chapter One, and will not process real payments.</p>
+  <p><strong>Phase 4: User evaluation.</strong> In this phase, the researcher will demonstrate the working prototype to a small group of students and providers drawn from the respondents, observe them completing short tasks, and record the problems they meet and the changes they suggest. These short feedback sessions are separate from, and smaller than, the formal usability evaluation for Objective Three, which will take place on the final version.</p>
+  <p><strong>Phase 5: Refine prototype.</strong> In this phase, the researcher will fix the problems recorded in Phase 4, adjust layouts and wording that confused users, and add any missing requirement that users identified. Phases 2 to 5 will be repeated, with a target of three cycles within the development weeks shown in the project schedule, until users can complete the core tasks without assistance.</p>
+  <p><strong>Phase 6: Final system and handover.</strong> In this phase, the researcher will freeze the features, carry out the system testing described in Section 3.10, run the formal usability sessions and questionnaires for Objectives Three and Four, and deploy the final prototype to a hosting service so that it can be demonstrated. The researcher will also prepare the user guide and the technical documentation that will appear in Chapter Four and the Appendices.</p>
+
+  <p><strong>Justification.</strong> Evolutionary prototyping fits this project for several reasons. First, the requirements are not fully known at the start: Chapter One explains that the needs of students and providers at the selected institution have not yet been established, so a methodology that expects requirements to change as users react to the system is more realistic than one that fixes them at the beginning. Second, an initial prototype already exists, which can be improved cycle by cycle rather than rebuilt. Third, the method depends on regular user feedback, and the students and providers in the sample will be available on campus throughout the study period. Fourth, the project is small, is built by a single developer and has a fixed academic timeframe, so a light, iterative process with working versions at each cycle reduces the risk of reaching the deadline with nothing to show. Finally, the user evaluation built into each cycle supports Objective Three, because usability problems are found and fixed before the formal evaluation rather than after it.</p>
+  <p>The Waterfall model was considered as an alternative. Waterfall completes each phase in full before the next begins, which makes it easy to plan and document, but it assumes that requirements are known and stable at the start and gives users nothing to test until late in the project (Pressman &amp; Maxim, 2020). It was rejected because changes discovered during testing would be expensive to make and because it does not provide the early user feedback this study depends on.</p>
+
+  <h2>3.7 Requirements Analysis</h2>
+  <p>Requirements analysis is the process of establishing the services that users expect from a system and the constraints under which it must operate (Sommerville, 2016). The requirements below are the initial set, derived from the existing Open Campus prototype and the review of existing systems in Chapter Two. They will be confirmed, extended or removed using the questionnaire and interview data collected as described in Section 3.5, and the confirmed set will be the basis for Objective Two.</p>
+
+  <h3>3.7.1 Functional Requirements</h3>
+  <p>Functional requirements describe what the system must do. They are grouped below by the type of user who performs them.</p>
+  <p class="caption">Table 3.4: Functional Requirements</p>
+  <table>
+    <thead><tr><th style="width:18%">User type</th><th>Requirement</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="6">Student</td><td>FR1: The system shall allow a visitor to register as a student, provider, recruiter or investor using a name, email address and password.</td></tr>
+      <tr><td>FR2: The system shall allow a registered user to sign in and to request a password reset.</td></tr>
+      <tr><td>FR3: The system shall allow a student to search for services by name or provider and to filter them by category.</td></tr>
+      <tr><td>FR4: The system shall allow a student to view a service's price, rating, location and opening hours and to send a booking request.</td></tr>
+      <tr><td>FR5: The system shall allow a student to browse shop products, filter them by department and price, add them to a cart, change quantities and place an order.</td></tr>
+      <tr><td>FR6: The system shall allow a student to search gigs, filter them by category, and apply for or withdraw from a gig.</td></tr>
+      <tr><td rowspan="3">Student (account)</td><td>FR7: The system shall display a dashboard showing the user's earnings, gig applications, rating and recent activity.</td></tr>
+      <tr><td>FR8: The system shall allow a user to view their wallet balance and transaction history and to start a simulated M-Pesa top-up by entering a phone number and amount.</td></tr>
+      <tr><td>FR9: The system shall provide a career page with suggested roles, skill gaps, a study plan and a question-and-answer career coach.</td></tr>
+      <tr><td rowspan="2">Service provider</td><td>FR10: The system shall allow a provider to list a service with a name, category, price, location and hours.</td></tr>
+      <tr><td>FR11: The system shall allow a provider to receive booking requests and to view ratings left by students.</td></tr>
+      <tr><td>Recruiter</td><td>FR12: The system shall allow a recruiter to post a gig with a title, description, budget, category and required skills, and to view the number of applicants.</td></tr>
+      <tr><td rowspan="3">Administrator</td><td>FR13: The system shall allow an administrator to add, edit and delete services, gigs and categories.</td></tr>
+      <tr><td>FR14: The system shall show an administrator summary counts of services, gigs, categories and users.</td></tr>
+      <tr><td>FR15: The system shall allow an administrator to update site settings such as the contact email, phone number and location.</td></tr>
+    </tbody>
+  </table>
+  <p class="source">Source: Researcher (2026).</p>
+
+  <h3>3.7.2 Non-Functional Requirements</h3>
+  <p>Non-functional requirements state the quality attributes of the system, that is, how well it must perform its functions rather than what functions it performs. The attributes below follow the product quality model of ISO/IEC 25010 (International Organization for Standardization, 2011), and each one has been written in a measurable form so that it can be tested in Chapter Four.</p>
+  <p class="caption">Table 3.5: Non-Functional Requirements</p>
+  <table>
+    <thead><tr><th style="width:18%">Attribute</th><th>Definition</th><th style="width:38%">Measurable requirement</th></tr></thead>
+    <tbody>
+      <tr><td>Usability</td><td>The degree to which users can achieve their goals effectively, efficiently and with satisfaction.</td><td>Mean System Usability Scale score of 68 or above; at least 80% completion of each core task.</td></tr>
+      <tr><td>Performance</td><td>The response time and resource use of the system under stated conditions.</td><td>Each page shall load in under 3 seconds on a 4G mobile connection.</td></tr>
+      <tr><td>Reliability</td><td>The ability of the system to perform its functions without failure for a stated period.</td><td>No crash or data loss during the 20 usability sessions; cart and applications are kept after a page refresh.</td></tr>
+      <tr><td>Security</td><td>The protection of data so that only authorised people can read or change it.</td><td>Passwords of at least 8 characters stored only as bcrypt hashes; administrator pages restricted to the administrator role; all traffic over HTTPS when deployed.</td></tr>
+      <tr><td>Availability</td><td>The degree to which the system is accessible when it is needed.</td><td>The deployed prototype shall be reachable for at least 99% of the evaluation period.</td></tr>
+      <tr><td>Portability</td><td>The ability of the system to run on different devices, operating systems and browsers.</td><td>Works on current Chrome, Firefox and Edge on Android and Windows, on screens from 360 px wide.</td></tr>
+      <tr><td>Scalability</td><td>The ability of the system to handle more users or data without major redesign.</td><td>New categories, services and gigs can be added through the admin panel without changing code.</td></tr>
+      <tr><td>Maintainability</td><td>The ease with which the system can be corrected or improved.</td><td>One shared stylesheet, header and data layer for all pages; source code kept in Git.</td></tr>
+    </tbody>
+  </table>
+  <p class="source">Source: Researcher (2026), using ISO/IEC 25010.</p>
+
+  <h3>3.7.3 Sources and Traceability of Requirements</h3>
+  <p>The requirements will be obtained from the data collection methods in Section 3.5. Student questionnaire results will confirm the search and filtering needs in FR3 to FR6 and the importance of mobile access behind the portability requirement. Interviews with providers and opportunity posters will confirm how services and gigs should be listed and managed in FR10 to FR12, while interviews with administrative and ICT staff will define the moderation and settings functions in FR13 to FR15 and the security requirement. The review of existing systems will identify features such as ratings and payment records that users already expect. Every confirmed requirement will be recorded in a traceability table linking it to the respondent group that raised it and to the test case that will check it, which will show that the requirements trace back to Objective Two and that each one is tested in Chapter Four.</p>
+
+  <h2>3.8 System Design Tools and Techniques</h2>
+  <p>The study will use the structured approach to system modelling, which describes a system in terms of the processes that transform data and the stores in which data are kept (DeMarco, 1979). The structured approach was chosen rather than an object-oriented approach for three reasons. The CampusLink pages are built as plain web pages that pass data between processes rather than as a large class hierarchy; the data is relational, as shown by the PostgreSQL schema of the related Human Capital Wallet component; and data flow diagrams and entity relationship diagrams are easily understood by non-technical reviewers such as campus administrators.</p>
+  <p>The following diagrams will be produced. The context diagram will show the whole system as a single process and the external entities that exchange data with it. The Level 1 data flow diagram will break that process into its main sub-processes and show the data stores they use. The entity relationship diagram will show the main data entities, their attributes and the relationships between them (Chen, 1976), and the database schema will translate it into tables, keys and constraints. Wireframes and interface mock-ups will show the layout of each page. In line with departmental practice, only the context diagram (Figure 3.2) and the Level 1 data flow diagram (Figure 3.3) are presented in this chapter; the entity relationship diagram, the database schema and the interface designs will be presented in Chapter Four.</p>
+
+  <figure>
+    <svg viewBox="0 85 720 270" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif" font-size="12.5" role="img" aria-label="Context diagram">
+      <defs><marker id="c2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+      <g fill="#fff" stroke="#111" stroke-width="1.3">
+        <circle cx="360" cy="165" r="72"/>
+        <rect x="10" y="98" width="110" height="44"/>
+        <rect x="10" y="188" width="110" height="44"/>
+        <rect x="600" y="98" width="110" height="44"/>
+        <rect x="600" y="188" width="110" height="44"/>
+        <rect x="300" y="300" width="120" height="48"/>
+      </g>
+      <g text-anchor="middle">
+        <text x="360" y="159" font-weight="bold">0</text>
+        <text x="360" y="177">CampusLink</text>
+        <text x="360" y="193">System</text>
+        <text x="65" y="125">Student</text>
+        <text x="65" y="215">Service Provider</text>
+        <text x="655" y="125">Recruiter</text>
+        <text x="655" y="215">Administrator</text>
+        <text x="360" y="321">M-Pesa</text>
+        <text x="360" y="338" font-size="11">(simulated)</text>
+      </g>
+      <g stroke="#111" stroke-width="1.2" fill="none" font-size="10.5">
+        
+    <line x1="120" y1="112" x2="311.3" y2="112" marker-end="url(#c2)"/>
+    <line x1="297.1" y1="130" x2="120" y2="130" marker-end="url(#c2)"/>
+    <text x="128" y="107" stroke="none" fill="#111">bookings, orders, applications</text>
+    <text x="128" y="144" stroke="none" fill="#111">listings, confirmations, balance</text>
+        
+    <line x1="120" y1="200" x2="297.1" y2="200" marker-end="url(#c2)"/>
+    <line x1="311.3" y1="218" x2="120" y2="218" marker-end="url(#c2)"/>
+    <text x="128" y="195" stroke="none" fill="#111">service details, replies</text>
+    <text x="128" y="232" stroke="none" fill="#111">booking requests, ratings</text>
+        
+    <line x1="600" y1="130" x2="422.9" y2="130" marker-end="url(#c2)"/>
+    <line x1="408.7" y1="112" x2="600" y2="112" marker-end="url(#c2)"/>
+    <text x="440" y="144" stroke="none" fill="#111">gig details</text>
+    <text x="440" y="107" stroke="none" fill="#111">applicant list</text>
+        
+    <line x1="600" y1="218" x2="408.7" y2="218" marker-end="url(#c2)"/>
+    <line x1="422.9" y1="200" x2="600" y2="200" marker-end="url(#c2)"/>
+    <text x="440" y="232" stroke="none" fill="#111">listing edits, settings</text>
+    <text x="440" y="195" stroke="none" fill="#111">summary reports</text>
+        <line x1="350" y1="236.3" x2="350" y2="298" marker-end="url(#c2)"/>
+        <line x1="370" y1="298" x2="370" y2="236.3" marker-end="url(#c2)"/>
+        <text x="344" y="276" text-anchor="end" stroke="none" fill="#111">payment prompt</text>
+        <text x="376" y="276" stroke="none" fill="#111">payment status</text>
+      </g>
+    </svg>
+  </figure>
+  <p class="caption">Figure 3.2: Context Diagram of the CampusLink System</p>
+  <p class="source">Source: Researcher (2026).</p>
+
+  <figure>
+    <svg viewBox="0 0 720 590" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif" font-size="12" role="img" aria-label="Level 1 data flow diagram">
+      <defs><marker id="c3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+      <g stroke="#111" stroke-width="1.2" fill="#fff">
+        <rect x="250" y="20" width="160" height="52" rx="8"/>
+        <line x1="250" y1="38" x2="410" y2="38"/>
+        <rect x="250" y="105" width="160" height="52" rx="8"/>
+        <line x1="250" y1="123" x2="410" y2="123"/>
+        <rect x="250" y="190" width="160" height="52" rx="8"/>
+        <line x1="250" y1="208" x2="410" y2="208"/>
+        <rect x="250" y="275" width="160" height="52" rx="8"/>
+        <line x1="250" y1="293" x2="410" y2="293"/>
+        <rect x="250" y="360" width="160" height="52" rx="8"/>
+        <line x1="250" y1="378" x2="410" y2="378"/>
+        <rect x="250" y="445" width="160" height="52" rx="8"/>
+        <line x1="250" y1="463" x2="410" y2="463"/>
+        <rect x="10" y="245" width="100" height="50"/>
+        <rect x="610" y="93" width="105" height="36"/>
+        <rect x="610" y="263" width="105" height="36"/>
+        <rect x="610" y="348" width="105" height="36"/>
+        <rect x="270" y="532" width="120" height="40"/>
+      </g>
+      <g text-anchor="middle"><text x="330" y="34" font-weight="bold">1.0</text><text x="330" y="53">Manage</text><text x="330" y="67">accounts</text><text x="330" y="119" font-weight="bold">2.0</text><text x="330" y="138">Manage services</text><text x="330" y="152">and bookings</text><text x="330" y="204" font-weight="bold">3.0</text><text x="330" y="223">Manage shop</text><text x="330" y="237">orders</text><text x="330" y="289" font-weight="bold">4.0</text><text x="330" y="308">Manage gigs and</text><text x="330" y="322">applications</text><text x="330" y="374" font-weight="bold">5.0</text><text x="330" y="393">Manage wallet</text><text x="330" y="407">and payments</text><text x="330" y="459" font-weight="bold">6.0</text><text x="330" y="478">Administer</text><text x="330" y="492">listings</text>
+        <text x="60" y="274">Student</text>
+        <text x="662" y="115">Service Provider</text>
+        <text x="662" y="285">Recruiter</text>
+        <text x="662" y="364">M-Pesa</text><text x="662" y="378" font-size="10.5">(simulated)</text>
+        <text x="330" y="557">Administrator</text>
+      </g>
+      <g stroke="#111" stroke-width="1.1" font-size="11.5"><path d="M440,34 H590 M440,58 H590 M440,34 V58 M470,34 V58" fill="none"/>
+   <text x="446" y="50" stroke="none" fill="#111">D1</text><text x="476" y="50" stroke="none" fill="#111">Users</text><line x1="410" y1="46" x2="438" y2="46" marker-start="url(#c3)" marker-end="url(#c3)"/><path d="M440,119 H590 M440,143 H590 M440,119 V143 M470,119 V143" fill="none"/>
+   <text x="446" y="135" stroke="none" fill="#111">D2</text><text x="476" y="135" stroke="none" fill="#111">Services and bookings</text><line x1="410" y1="131" x2="438" y2="131" marker-start="url(#c3)" marker-end="url(#c3)"/><path d="M440,204 H590 M440,228 H590 M440,204 V228 M470,204 V228" fill="none"/>
+   <text x="446" y="220" stroke="none" fill="#111">D3</text><text x="476" y="220" stroke="none" fill="#111">Products and orders</text><line x1="410" y1="216" x2="438" y2="216" marker-start="url(#c3)" marker-end="url(#c3)"/><path d="M440,289 H590 M440,313 H590 M440,289 V313 M470,289 V313" fill="none"/>
+   <text x="446" y="305" stroke="none" fill="#111">D4</text><text x="476" y="305" stroke="none" fill="#111">Gigs and applications</text><line x1="410" y1="301" x2="438" y2="301" marker-start="url(#c3)" marker-end="url(#c3)"/><path d="M440,374 H590 M440,398 H590 M440,374 V398 M470,374 V398" fill="none"/>
+   <text x="446" y="390" stroke="none" fill="#111">D5</text><text x="476" y="390" stroke="none" fill="#111">Transactions</text><line x1="410" y1="386" x2="438" y2="386" marker-start="url(#c3)" marker-end="url(#c3)"/><path d="M440,447 H590 M440,471 H590 M440,447 V471 M470,447 V471" fill="none"/>
+   <text x="446" y="463" stroke="none" fill="#111">D2</text><text x="476" y="463" stroke="none" fill="#111">Services and bookings</text><path d="M440,475 H590 M440,499 H590 M440,475 V499 M470,475 V499" fill="none"/>
+   <text x="446" y="491" stroke="none" fill="#111">D4</text><text x="476" y="491" stroke="none" fill="#111">Gigs and applications</text><line x1="410" y1="459" x2="438" y2="459" marker-end="url(#c3)"/><line x1="410" y1="487" x2="438" y2="487" marker-end="url(#c3)"/></g>
+      <g stroke="#111" stroke-width="1.1" fill="none" font-size="10.5">
+        <line x1="110" y1="270" x2="150" y2="270"/>
+        <line x1="150" y1="54" x2="150" y2="394"/><line x1="150" y1="54" x2="248" y2="54" marker-end="url(#c3)"/><text x="155" y="49" stroke="none" fill="#111">registration, login</text><line x1="150" y1="139" x2="248" y2="139" marker-end="url(#c3)"/><text x="155" y="134" stroke="none" fill="#111">booking request</text><line x1="150" y1="224" x2="248" y2="224" marker-end="url(#c3)"/><text x="155" y="219" stroke="none" fill="#111">order</text><line x1="150" y1="309" x2="248" y2="309" marker-end="url(#c3)"/><text x="155" y="304" stroke="none" fill="#111">application</text><line x1="150" y1="394" x2="248" y2="394" marker-end="url(#c3)"/><text x="155" y="389" stroke="none" fill="#111">top-up request</text><line x1="608" y1="111" x2="412" y2="111" marker-start="url(#c3)" marker-end="url(#c3)"/><text x="420" y="107" stroke="none" fill="#111">service listing, booking reply</text><line x1="608" y1="281" x2="412" y2="281" marker-start="url(#c3)" marker-end="url(#c3)"/><text x="420" y="277" stroke="none" fill="#111">gig post, applicant list</text><line x1="608" y1="366" x2="412" y2="366" marker-start="url(#c3)" marker-end="url(#c3)"/><text x="420" y="362" stroke="none" fill="#111">payment prompt, status</text><line x1="330" y1="530" x2="330" y2="499" marker-end="url(#c3)"/><text x="337" y="517" stroke="none" fill="#111">listing edits, settings</text>
+      </g>
+    </svg>
+  </figure>
+  <p class="caption">Figure 3.3: Level 1 Data Flow Diagram of the CampusLink System</p>
+  <p class="source">Source: Researcher (2026).</p>
+  <p>Figure 3.2 shows that five external entities exchange data with the system. Students send bookings, orders and gig applications and receive listings, confirmations and their wallet balance. Service providers send service details and replies to bookings and receive booking requests and ratings. Recruiters send gig details and receive the list of applicants. The administrator sends listing edits and settings and receives summary reports, and the simulated M-Pesa service receives payment prompts and returns a payment status. Figure 3.3 divides the system into six processes: managing accounts, managing services and bookings, managing shop orders, managing gigs and applications, managing the wallet and payments, and administering listings. The first five processes each read from and write to their own data store (D1 to D5), while the administration process updates the service and gig stores, which are shown a second time beside it to keep the diagram readable. All figures in this report are numbered in sequence, titled and referred to in the text, and the diagrams will be refined during the quick design phase of each prototyping cycle.</p>
+
+  <h2>3.9 Development Tools and Technologies</h2>
+  <p>The tools listed in Table 3.6 will be used to build and document the system. Each tool was chosen because it is free, widely documented and already used in the existing Open Campus files, which avoids the time cost of learning a new stack during a short academic project.</p>
+  <p class="caption">Table 3.6: Development Tools and Their Roles</p>
+  <table>
+    <thead><tr><th style="width:26%">Tool</th><th>Role in the system</th></tr></thead>
+    <tbody>
+      <tr><td>HTML5 and CSS3</td><td>Structure and styling of every CampusLink page, including the responsive layouts for phones and laptops.</td></tr>
+      <tr><td>JavaScript (ES2020)</td><td>Page behaviour in the browser: search, filters, cart, gig applications, the wallet top-up form and the shared data layer.</td></tr>
+      <tr><td>Vite 5</td><td>Local development server with automatic reloading, and build tool that packages all pages into a folder ready for hosting.</td></tr>
+      <tr><td>Node.js and Express</td><td>Server-side application programming interface (API) of the related Human Capital Wallet component, handling accounts, opportunities and payment records.</td></tr>
+      <tr><td>PostgreSQL 16</td><td>Relational database that stores users, profiles, opportunities, income records and transactions for the API.</td></tr>
+      <tr><td>bcryptjs and JSON Web Tokens</td><td>Hashing of passwords before storage, and signed tokens that identify a signed-in user on each request.</td></tr>
+      <tr><td>Helmet and express-rate-limit</td><td>Secure HTTP headers and limits on repeated requests, which protect the API from common attacks.</td></tr>
+      <tr><td>Docker and Docker Compose</td><td>Running the database, API and front end together in containers so that the setup is the same on any computer.</td></tr>
+      <tr><td>Visual Studio Code</td><td>Code editor used to write, debug and run all project files.</td></tr>
+      <tr><td>Git and GitHub</td><td>Version control and an online backup of the source code, recording every change between prototyping cycles.</td></tr>
+      <tr><td>Google Chrome DevTools and Lighthouse</td><td>Testing page layouts on simulated phone screens and measuring load time and accessibility.</td></tr>
+      <tr><td>draw.io (diagrams.net)</td><td>Drawing the context diagram, data flow diagrams, entity relationship diagram and wireframes.</td></tr>
+      <tr><td>Google Forms, Microsoft Excel and SPSS</td><td>Online questionnaire distribution, data entry and cleaning, and statistical analysis of the responses.</td></tr>
+      <tr><td>Microsoft Word</td><td>Writing the project report and the user guide.</td></tr>
+    </tbody>
+  </table>
+  <p class="source">Source: Researcher (2026).</p>
+  <p>Two choices need further justification. Plain HTML, CSS and JavaScript were chosen for the CampusLink pages rather than a framework such as React because the pages must load quickly on low-cost phones and limited data bundles, which is a key concern in Sub-Saharan Africa where data remains less affordable than in other regions (GSMA, 2023). Pages without a large framework download less code and remain usable on slower connections. PostgreSQL was chosen rather than MySQL for the API because the existing Human Capital Wallet schema already uses PostgreSQL features such as universally unique identifiers and text search, so changing databases would add work without benefit to the study.</p>
+  <p>The hardware and software needed to develop and use the system are listed in Table 3.7. The figures are realistic for this kind of system: users do not install anything, because CampusLink runs in the web browser that is already on their phone or computer.</p>
+  <p class="caption">Table 3.7: Hardware and Software Requirements</p>
+  <table>
+    <thead><tr><th style="width:22%">Item</th><th>Development (researcher)</th><th>Use (students and providers)</th></tr></thead>
+    <tbody>
+      <tr><td>Device</td><td>Laptop with Intel Core i5 processor or equivalent</td><td>Smartphone, tablet or computer</td></tr>
+      <tr><td>Memory</td><td>8 GB RAM</td><td>2 GB RAM or more</td></tr>
+      <tr><td>Storage</td><td>256 GB SSD with at least 20 GB free</td><td>About 50 MB of free space for browser cache; no installation</td></tr>
+      <tr><td>Operating system</td><td>Windows 10 or 11</td><td>Android 8 or later, iOS 14 or later, Windows or macOS</td></tr>
+      <tr><td>Software</td><td>Node.js 20, Docker Desktop, Visual Studio Code, Git, Google Chrome</td><td>Current Chrome, Firefox, Edge or Safari browser</td></tr>
+      <tr><td>Network</td><td>Broadband or 4G connection</td><td>3G, 4G or Wi-Fi connection</td></tr>
+      <tr><td>Hosting</td><td>Static hosting for the pages and a small cloud server (1 vCPU, 1 GB RAM) for the API and database</td><td>Not applicable</td></tr>
+    </tbody>
+  </table>
+  <p class="source">Source: Researcher (2026).</p>
+
+  <h2>3.10 Testing Strategy</h2>
+  <p>Testing will be carried out at four levels. Unit testing checks the smallest parts of the code on their own, such as the function that calculates the cart total, the function that filters services by category, and the check that rejects an invalid M-Pesa phone number. Integration testing checks that separate parts work correctly together, for example that a service added in the administrator panel appears on the services and home pages, and that a gig application is reflected on the dashboard. System testing checks the complete prototype against all the functional and non-functional requirements in Section 3.7, including loading time and display on different browsers and screen sizes. User acceptance testing checks whether the intended users can use the system to perform their real tasks, and in this study it will take the form of the formal usability evaluation for Objective Three (Pressman &amp; Maxim, 2020).</p>
+  <p>Two testing techniques will be applied across these levels. Black-box testing checks what the system does from the outside: the tester enters inputs and compares the outputs with the expected results without looking at the code, and it will be used for system testing and user acceptance testing. White-box testing checks how the code works from the inside: the tester uses knowledge of the code to make sure that each branch and condition is exercised, and it will be used for unit testing of the filtering, cart and validation functions (Sommerville, 2016).</p>
+  <p>Unit, integration and system testing will be carried out by the researcher. User acceptance testing will be carried out by the 20 usability participants described in Section 3.4. The test data will consist of the demonstration records already in the prototype, namely 14 service listings, 8 gigs and 60 shop products, together with test accounts for each user role. Invalid inputs will also be used, such as an incorrect phone number, mismatched passwords and an empty search, to confirm that the system handles errors correctly. No real personal data or real payments will be used in testing.</p>
+  <p>Each functional and non-functional requirement will be mapped to at least one test case in a requirements traceability matrix, so that it is possible to show that every requirement has been tested. A requirement will be considered met when all of its test cases pass. The test cases, their expected and actual results, and the resulting traceability matrix will be reported in Chapter Four.</p>
+
+  <h2>3.11 Data Analysis and Presentation</h2>
+  <p>After collection, the data will be prepared in three steps. Completed questionnaires will first be checked for missing or inconsistent answers, and questionnaires with more than half of the items unanswered will be excluded. Responses will then be coded, for example by giving each Likert response a number from 1 (strongly disagree) to 5 (strongly agree) and each channel a code, and entered into Microsoft Excel. Responses collected through Google Forms will be downloaded directly into Excel. The combined data will finally be imported into SPSS for analysis, and a random selection of ten percent of the paper questionnaires will be re-checked against the entered data to catch entry errors.</p>
+  <p>Quantitative data will be analysed using descriptive statistics. Frequencies and percentages will describe how many respondents use each channel and how often they experience each problem under Objective One. Means and standard deviations will summarise the Likert-scale responses on perceived usefulness and intention to use under Objective Four. Usability under Objective Three will be measured in three ways: the task completion rate for each task, the mean time on task and number of errors, and the System Usability Scale score. Each participant's SUS score will be calculated using Brooke's (1996) method, which converts the ten responses into a score from 0 to 100. The mean score will be compared with the commonly used benchmark of 68 and interpreted using the adjective ratings of Bangor et al. (2009). Cronbach's alpha will be reported for each multi-item scale.</p>
+  <p>Qualitative data from the interviews and the open-ended questions will be analysed using thematic analysis, a method for identifying, analysing and reporting patterns of meaning across a data set (Braun &amp; Clarke, 2006). The interview transcripts will be read several times, short codes will be attached to relevant statements, and related codes will be grouped into themes such as "unverified providers", "outdated notices" and "payment trust". These themes will be used to explain the survey results and to confirm or add system requirements.</p>
+  <p>The findings will be presented in tables, bar charts and pie charts, with a short interpretation after each one. Bar charts will compare the use of different channels and the completion rates of different tasks, pie charts will show proportions such as respondents by level of study, and tables will present means, standard deviations and SUS scores. Selected direct quotations from interviews will be used to illustrate the main themes.</p>
+
+  <h2>3.12 Ethical Considerations</h2>
+  <p>Several steps will be taken to protect participants. Every participant will receive an information sheet explaining the purpose of the study, what taking part involves, how long it will take and how the data will be used, and will sign a consent form before taking part. Participation will be voluntary, and participants will be told that they may skip any question or withdraw at any time without giving a reason and without any penalty. Names will not be recorded on questionnaires, and each participant will be identified only by a code such as S014 or P07, so that individual responses cannot be traced back to a person in the report. Paper questionnaires will be kept in a locked drawer, electronic files will be stored in a password-protected folder that only the researcher can open, audio recordings will be deleted once they have been transcribed, and all raw data will be destroyed one year after the project has been examined.</p>
+  <p>Before data collection begins, an introduction letter will be obtained from the researcher's department, and written permission to collect data will be requested from the management of the selected institution. Where required for research involving human participants in Kenya, a research licence will also be sought from the National Commission for Science, Technology and Innovation under the Science, Technology and Innovation Act (Republic of Kenya, 2013). Interviews with service providers will be arranged at times that do not disrupt their businesses.</p>
+  <p>Because CampusLink stores personal data such as names, email addresses, phone numbers and transaction records, the system will be designed to comply with the Kenya Data Protection Act, 2019 (Republic of Kenya, 2019). The system will collect only the data needed for each function, will explain at registration why the data is collected, and will not share it with third parties. Passwords will be stored only as hashes, administrator functions will be restricted to authorised accounts, and users will be able to request that their account and data be deleted. During the study, the prototype will contain demonstration records rather than real users' data, and the simulated M-Pesa workflow will not collect or process real payment information.</p>
+
+  <h2>3.13 Project Schedule and Budget</h2>
+  <p>The project will be completed over 16 weeks. Table 3.8 presents the schedule as a Gantt chart showing when each activity will take place. Activities overlap where this is practical; for example, development begins while the questionnaire data are still being analysed, because the first prototyping cycle can start from the existing prototype and the initial requirements in Section 3.7.</p>
+  <p class="caption">Table 3.8: Project Schedule (Gantt Chart)</p>
+  <table class="gantt">
+    <thead><tr><th>Activity</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr></thead>
+    <tbody>
+      <tr><td>Proposal writing and approval</td><td class="on"></td><td class="on"></td><td class="on"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Instrument design and pilot test</td><td></td><td></td><td class="on"></td><td class="on"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Data collection</td><td></td><td></td><td></td><td></td><td class="on"></td><td class="on"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Data analysis (Objective One)</td><td></td><td></td><td></td><td></td><td></td><td class="on"></td><td class="on"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>System design</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="on"></td><td class="on"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Development (prototyping cycles)</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="on"></td><td class="on"></td><td class="on"></td><td class="on"></td><td class="on"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Testing</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="on"></td><td class="on"></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Usability evaluation (Objectives Three and Four)</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="on"></td><td class="on"></td><td></td><td></td><td></td></tr>
+      <tr><td>Report writing</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="on"></td><td class="on"></td><td class="on"></td><td></td></tr>
+      <tr><td>Presentation and submission</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="on"></td><td class="on"></td></tr>
+    </tbody>
+  </table>
+  <p class="source">Source: Researcher (2026). Columns show week numbers.</p>
+  <p>The expected costs of the project are listed in Table 3.9. Software costs are zero because all the development tools are free, and the prototype will be hosted on free tiers of hosting services during the study, so the main costs are internet data, printing, transport and the domain name. A contingency of about ten percent is included to cover unexpected costs such as price changes.</p>
+  <p class="caption">Table 3.9: Project Budget</p>
+  <table>
+    <thead><tr><th>Item</th><th>Description</th><th class="num">Cost (Ksh)</th></tr></thead>
+    <tbody>
+      <tr><td>Internet bundles</td><td>Data for development, research and online questionnaires (4 months × Ksh 1,000)</td><td class="num">4,000</td></tr>
+      <tr><td>Printing and photocopying</td><td>Questionnaires, consent forms and interview guides for 143 respondents and the pilot</td><td class="num">2,500</td></tr>
+      <tr><td>Report printing and binding</td><td>Draft and final copies of the project report</td><td class="num">2,000</td></tr>
+      <tr><td>Transport</td><td>Travel for data collection and supervisor meetings</td><td class="num">3,000</td></tr>
+      <tr><td>Domain name</td><td>One-year .co.ke domain for the demonstration site</td><td class="num">1,500</td></tr>
+      <tr><td>Hosting</td><td>Free tier of static and cloud hosting during the study</td><td class="num">0</td></tr>
+      <tr><td>Airtime</td><td>Calls to arrange interviews and usability sessions</td><td class="num">500</td></tr>
+      <tr><td>Contingency</td><td>About 10% of the above</td><td class="num">1,350</td></tr>
+      <tr><th colspan="2">Total</th><th class="num">14,850</th></tr>
+    </tbody>
+  </table>
+  <p class="source">Source: Researcher (2026).</p>
+
+  <h2>3.14 Chapter Summary</h2>
+  <p>This chapter has explained how the study will be carried out. A mixed-methods design combining a descriptive survey with a design science approach will be used, with 98 students selected by stratified random sampling and all service providers, opportunity posters and selected staff included, giving 143 respondents and a usability sub-sample of 20. Data will be collected through questionnaires, interviews, observation, the System Usability Scale and a usefulness and intention questionnaire, all pilot-tested before use. The prototype will be developed through evolutionary prototyping, guided by the functional and non-functional requirements and modelled with structured tools, and it will be tested at unit, integration, system and acceptance levels. The data will be analysed with descriptive statistics and thematic analysis under clear ethical safeguards and within a 16-week schedule and a budget of Ksh 14,850. Chapter Four will present the system analysis and design in full, the implementation of the prototype, and the results of testing and evaluation.</p>
+
+  <h2>References</h2>
+  <div class="refs">
+    <p>Bangor, A., Kortum, P., &amp; Miller, J. (2009). Determining what individual SUS scores mean: Adding an adjective rating scale. <em>Journal of Usability Studies, 4</em>(3), 114–123.</p>
+    <p>Braun, V., &amp; Clarke, V. (2006). Using thematic analysis in psychology. <em>Qualitative Research in Psychology, 3</em>(2), 77–101. https://doi.org/10.1191/1478088706qp063oa</p>
+    <p>Brooke, J. (1996). SUS: A "quick and dirty" usability scale. In P. W. Jordan, B. Thomas, B. A. Weerdmeester, &amp; I. L. McClelland (Eds.), <em>Usability evaluation in industry</em> (pp. 189–194). Taylor &amp; Francis.</p>
+    <p>Budde, R., Kautz, K., Kuhlenkamp, K., &amp; Züllighoven, H. (1992). <em>Prototyping: An approach to evolutionary system development</em>. Springer.</p>
+    <p>Chen, P. P.-S. (1976). The entity-relationship model: Toward a unified view of data. <em>ACM Transactions on Database Systems, 1</em>(1), 9–36. https://doi.org/10.1145/320434.320440</p>
+    <p>Creswell, J. W., &amp; Creswell, J. D. (2018). <em>Research design: Qualitative, quantitative, and mixed methods approaches</em> (5th ed.). SAGE.</p>
+    <p>Davis, F. D. (1989). Perceived usefulness, perceived ease of use, and user acceptance of information technology. <em>MIS Quarterly, 13</em>(3), 319–340. https://doi.org/10.2307/249008</p>
+    <p>DeMarco, T. (1979). <em>Structured analysis and system specification</em>. Yourdon Press.</p>
+    <p>GSMA. (2023). <em>The state of mobile internet connectivity 2023</em>. GSM Association.</p>
+    <p>Hevner, A. R., March, S. T., Park, J., &amp; Ram, S. (2004). Design science in information systems research. <em>MIS Quarterly, 28</em>(1), 75–105. https://doi.org/10.2307/25148625</p>
+    <p>International Organization for Standardization. (2011). <em>Systems and software engineering: Systems and software Quality Requirements and Evaluation (SQuaRE): System and software quality models</em> (ISO/IEC Standard No. 25010:2011).</p>
+    <p>Kothari, C. R. (2004). <em>Research methodology: Methods and techniques</em> (2nd rev. ed.). New Age International.</p>
+    <p>Mugenda, O. M., &amp; Mugenda, A. G. (2003). <em>Research methods: Quantitative and qualitative approaches</em>. ACTS Press.</p>
+    <p>Nielsen, J. (2000, March 18). <em>Why you only need to test with 5 users</em>. Nielsen Norman Group. https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/</p>
+    <p>Peffers, K., Tuunanen, T., Rothenberger, M. A., &amp; Chatterjee, S. (2007). A design science research methodology for information systems research. <em>Journal of Management Information Systems, 24</em>(3), 45–77. https://doi.org/10.2753/MIS0742-1222240302</p>
+    <p>Pressman, R. S., &amp; Maxim, B. R. (2020). <em>Software engineering: A practitioner's approach</em> (9th ed.). McGraw-Hill Education.</p>
+    <p>Republic of Kenya. (2013). <em>The Science, Technology and Innovation Act, No. 28 of 2013</em>. Government Printer.</p>
+    <p>Republic of Kenya. (2019). <em>The Data Protection Act, No. 24 of 2019</em>. Government Printer.</p>
+    <p>Sommerville, I. (2016). <em>Software engineering</em> (10th ed.). Pearson.</p>
+    <p>Tavakol, M., &amp; Dennick, R. (2011). Making sense of Cronbach's alpha. <em>International Journal of Medical Education, 2</em>, 53–55. https://doi.org/10.5116/ijme.4dfb.8dfd</p>
+    <p>Tullis, T. S., &amp; Stetson, J. N. (2004, June). <em>A comparison of questionnaires for assessing website usability</em> [Paper presentation]. Usability Professionals Association Conference, Minneapolis, MN, United States.</p>
+    <p>Yamane, T. (1967). <em>Statistics: An introductory analysis</em> (2nd ed.). Harper &amp; Row.</p>
+  </div>
+</body>
+</html>

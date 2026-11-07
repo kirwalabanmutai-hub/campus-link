@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
-  <link rel="stylesheet" href="campuslink.css" />
+  <link rel="stylesheet" href="/campuslink.css" />
   <style>
     /* ── Hero ── */
     .hero {
@@ -57,7 +57,8 @@
     .quick-card:hover { transform: translateY(-3px); }
     .quick-card .icon-tile { background: color-mix(in srgb, var(--c) 12%, #fff); color: var(--c); }
     .quick-card b { display: block; font-family: var(--font-head); color: var(--primary); font-size: 1.02rem; }
-    .quick-card span { color: var(--dim); font-size: .82rem; }
+    .quick-card div > span { color: var(--dim); font-size: .82rem; }
+    .quick-card .icon-tile { font-size: 1.35rem; }
 
     /* ── Welcome + statement ── */
     .welcome { display: grid; grid-template-columns: 1.1fr .9fr; gap: 3rem; align-items: center; }
@@ -69,7 +70,7 @@
     .highlight span { color: var(--dim); font-size: .82rem; }
     .welcome-media { position: relative; padding-bottom: 7rem; }
     .welcome-media .photo { aspect-ratio: 4 / 3; }
-    .welcome-media .statement { position: absolute; right: -1rem; bottom: 0; width: min(420px, 92%); padding: 1.6rem; }
+    .welcome-media .statement { position: absolute; right: 0; bottom: 0; width: min(420px, 92%); padding: 1.6rem; }
     .welcome-media .statement h3 { font-size: 1.2rem; margin-bottom: .6rem; }
     .welcome-media .statement blockquote { font-size: .9rem; margin-bottom: 1rem; }
     .statement { background: var(--primary); color: #cbd5e1; border-radius: var(--radius-lg); padding: 2.25rem; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); border-bottom: 4px solid var(--gold); }
@@ -117,7 +118,9 @@
 
     /* ── Service cards ── */
     .svc-card { display: flex; flex-direction: column; gap: .2rem; }
-    .svc-card .icon-tile { margin-bottom: .9rem; }
+    .svc-card { overflow: hidden; }
+    .pop-photo { position: relative; margin: -1.35rem -1.35rem 1rem; aspect-ratio: 16 / 10; background: var(--border); overflow: hidden; }
+    .pop-photo .icon-tile { position: absolute; left: .75rem; bottom: .75rem; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
     .svc-name { font-weight: 700; font-size: 1rem; color: var(--primary); }
     .svc-provider { color: var(--muted); font-size: .86rem; }
     .svc-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--border); }
@@ -132,7 +135,9 @@
 
     /* ── Gig cards ── */
     .gig-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
-    .gig-card .bar { height: 4px; background: var(--c, var(--primary)); }
+    .gig-card .gig-photo { aspect-ratio: 16 / 9; background: var(--border); overflow: hidden; border-bottom: 3px solid var(--c, var(--primary)); }
+    .gig-card .gig-photo img, .pop-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+    .gig-card:hover .gig-photo img, .svc-card:hover .pop-photo img { transform: scale(1.05); }
     .gig-card .in { padding: 1.25rem; display: flex; flex-direction: column; flex: 1; }
     .gig-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: .75rem; font-size: .78rem; color: var(--dim); }
     .gig-card h3 { font-family: var(--font-head); font-size: 1.1rem; margin-bottom: .4rem; }
@@ -193,7 +198,7 @@
   <div class="topbar-inner">
     <div class="topbar-group">
       <span class="hide-sm"><i class="ph ph-map-pin"></i> Nairobi, Kenya</span>
-      <a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple"></i> simplykae2@gmail.com</a>
+      <a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple"></i> campuslink@gmail.com</a>
       <span class="hide-sm"><i class="ph ph-clock"></i> Support: Mon–Sat, 8am–8pm</span>
     </div>
     <div class="topbar-group">
@@ -324,7 +329,7 @@
         <p class="hero-lead">Book printing and laundry, order food to your hostel, pick up paid work between lectures, and pay for all of it with M-Pesa.</p>
         <div class="hero-btns">
           <a href="services.html" class="btn btn-gold btn-lg"><i class="ph ph-storefront"></i> Browse services</a>
-          <a href="shop.html" class="btn btn-maroon btn-lg"><i class="ph ph-shopping-bag"></i> Open the shop</a>
+          <a href="shop.html" class="btn btn-white-line btn-lg"><i class="ph ph-shopping-bag"></i> Open the shop</a>
           <a href="gigs.html" class="btn btn-white-line btn-lg"><i class="ph ph-briefcase"></i> Find gigs</a>
         </div>
         <form class="hero-search" action="services.html" method="get" role="search">
@@ -563,7 +568,7 @@
       <li><a href="wallet.html"><i class="ph ph-wallet fi-green"></i>Wallet</a></li>
     </ul></div>
     <div class="footer-col"><h4>Contact</h4><ul>
-      <li><a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>simplykae2@gmail.com</a></li>
+      <li><a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>campuslink@gmail.com</a></li>
       <li><span><i class="ph ph-map-pin fi-rose"></i>Nairobi, Kenya</span></li>
       <li><a href="register.html?role=provider"><i class="ph ph-megaphone-simple fi-sky"></i>List your service</a></li>
     </ul></div>
@@ -583,7 +588,7 @@
   var picks = services.filter(function (s) { return s.badge; }).concat(services.filter(function (s) { return !s.badge; })).slice(0, 4);
   document.getElementById('popularGrid').innerHTML = picks.map(function (s) {
     return '<a href="services.html?cat=' + encodeURIComponent(s.cat) + '" class="card svc-card">' +
-      '<span class="icon-tile"><i class="ph ph-' + CampusData.iconFor(s.cat) + '"></i></span>' +
+      '<div class="pop-photo"><img src="' + esc(CampusData.imageFor(s)) + '" alt="" loading="lazy" width="640" height="400" onerror="this.remove()"><span class="icon-tile"><i class="ph ph-' + CampusData.iconFor(s.cat) + '"></i></span></div>' +
       '<div class="svc-name">' + esc(s.name) + '</div>' +
       '<div class="svc-provider">' + esc(s.provider) + '</div>' +
       '<div class="stars">★ ' + esc(s.rating) + ' <span>(' + esc(s.reviews) + ' reviews)</span></div>' +
@@ -593,7 +598,7 @@
 
   var COLORS = { Academic: '#7a1c2e', Tech: '#0284c7', Creative: '#d4af37', Admin: '#0b2545', Physical: '#16a34a' };
   document.getElementById('gigList').innerHTML = CampusData.getGigs().slice(0, 3).map(function (g) {
-    return '<article class="card gig-card" style="--c:' + (COLORS[g.cat] || '#0b2545') + '"><div class="bar"></div><div class="in">' +
+    return '<article class="card gig-card" style="--c:' + (COLORS[g.cat] || '#0b2545') + '"><div class="gig-photo"><img src="' + esc(CampusData.gigImageFor(g)) + '" alt="" loading="lazy" width="640" height="400" onerror="this.remove()"></div><div class="in">' +
       '<div class="gig-meta"><span class="badge badge-maroon">' + esc(g.cat) + '</span><span><i class="ph ph-clock"></i> ' + esc(g.posted || 'just now') + '</span></div>' +
       '<h3>' + esc(g.title) + '</h3><p>' + esc(g.desc || '') + '</p>' +
       '<div class="foot"><span class="budget">' + esc(g.budget) + '</span><a href="gigs.html?cat=' + encodeURIComponent(g.cat) + '" class="see-all">View gig <i class="ph ph-arrow-right"></i></a></div>' +

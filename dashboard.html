@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
-  <link rel="stylesheet" href="campuslink.css" />
+  <link rel="stylesheet" href="/campuslink.css" />
   <style>
     .stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
     .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; display: block; transition: border-color .15s; }
@@ -43,6 +43,34 @@
     @media (max-width: 1000px) { .stat-cards { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 900px)  { .dash-layout { grid-template-columns: 1fr; } }
     @media (max-width: 420px)  { .stat-cards { grid-template-columns: 1fr; } }
+    /* Seller verification status (business accounts) */
+    .seller-status { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border-radius: var(--radius); border: 1px solid; margin-bottom: 1.25rem; }
+    .seller-status[hidden] { display: none; }
+    .seller-status > i { font-size: 1.8rem; flex-shrink: 0; }
+    .seller-status div { flex: 1; }
+    .seller-status strong { display: block; font-size: 1rem; margin-bottom: .15rem; }
+    .seller-status p { font-size: .88rem; margin: 0; line-height: 1.5; }
+    .seller-status.pending  { background: #fffbeb; border-color: #fcd34d; color: #78350f; }
+    .seller-status.approved { background: #f0fdf4; border-color: #86efac; color: #14532d; }
+    .seller-status.rejected { background: #fef2f2; border-color: #fca5a5; color: #7f1d1d; }
+    @media (max-width: 600px) { .seller-status { flex-wrap: wrap; } }
+    .seller-status.guest { background: #eff6ff; border-color: #bfdbfe; color: #1e3a8a; }
+    .my-gigs { margin-bottom: 1.25rem; }
+    .my-gigs[hidden] { display: none; }
+    .gig-form { margin-bottom: 1.25rem; }
+    .gf-row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: .75rem; }
+    .gig-form .input { width: 100%; }
+    .gig-form textarea.input { resize: vertical; font-family: inherit; }
+    .gf-err { color: #b91c1c; font-size: .78rem; margin-top: .25rem; }
+    .gf-err:empty { display: none; }
+    .mg-sub { font-size: .95rem; margin: 0 0 .6rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .mg-list { display: grid; gap: .5rem; }
+    .mg-item { display: flex; align-items: center; gap: .6rem; padding: .7rem .85rem; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+    .mg-item div { flex: 1; min-width: 0; }
+    .mg-item strong { display: block; font-size: .92rem; }
+    .mg-item span { color: var(--muted); font-size: .8rem; }
+    .mg-empty { color: var(--muted); font-size: .88rem; }
+    @media (max-width: 700px) { .gf-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -52,7 +80,7 @@
   <div class="topbar-inner">
     <div class="topbar-group">
       <span class="hide-sm"><i class="ph ph-map-pin"></i> Nairobi, Kenya</span>
-      <a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple"></i> simplykae2@gmail.com</a>
+      <a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple"></i> campuslink@gmail.com</a>
       <span class="hide-sm"><i class="ph ph-clock"></i> Support: Mon–Sat, 8am–8pm</span>
     </div>
     <div class="topbar-group">
@@ -179,7 +207,7 @@
       <div>
         <div class="crumbs"><a href="home.html">Home</a> / Dashboard</div>
         <h1 id="greeting">Good day</h1>
-        <p>Here's how your month is going.</p>
+        <p id="greetSub">Here's how your month is going.</p>
       </div>
       <div class="flex gap-2 flex-wrap">
         <a href="gigs.html" class="btn btn-ghost"><i class="ph ph-magnifying-glass"></i> Find gigs</a>
@@ -190,6 +218,25 @@
 
   <section class="section-tight">
     <div class="container">
+      <div id="guestNote" class="seller-status guest" hidden><i class="ph ph-info"></i><div><strong>You're viewing sample data</strong><p>Sign in to see your own account, or create one. Students, businesses and recruiters each get their own dashboard.</p></div><a class="btn btn-primary btn-sm" href="login.html">Sign in</a><a class="btn btn-ghost btn-sm" href="register.html">Create account</a></div>
+      <div id="sellerStatus" class="seller-status" hidden></div>
+
+      <!-- Recruiters: post gigs for students at their campus -->
+      <section id="my-gigs" class="card my-gigs" hidden>
+        <div class="card-head"><h2 class="card-title">Post a gig</h2><span class="text-dim text-xs" id="mgCampus"></span></div>
+        <form id="gigForm" class="gig-form" novalidate>
+          <div class="gf-row">
+            <div class="form-group"><label class="label" for="gTitle">Title</label><input class="input" id="gTitle" maxlength="100" placeholder="e.g. Photographer for our cultural night"><p class="gf-err" data-err="title"></p></div>
+            <div class="form-group"><label class="label" for="gCat">Category</label><select class="input" id="gCat"></select><p class="gf-err" data-err="cat"></p></div>
+            <div class="form-group"><label class="label" for="gBudget">Pay (Ksh)</label><input class="input" id="gBudget" type="number" min="100" step="50" placeholder="1500"><p class="gf-err" data-err="budget"></p></div>
+          </div>
+          <div class="form-group"><label class="label" for="gDesc">What needs doing?</label><textarea class="input" id="gDesc" rows="3" maxlength="1000" placeholder="Describe the work, when it's needed and anything applicants should know."></textarea><p class="gf-err" data-err="description"></p></div>
+          <div class="form-group"><label class="label" for="gSkills">Skills <span class="text-dim">(comma separated, optional)</span></label><input class="input" id="gSkills" placeholder="Photography, Editing"></div>
+          <button class="btn btn-primary" type="submit"><i class="ph ph-paper-plane-tilt"></i> Publish gig</button>
+        </form>
+        <h3 class="mg-sub">Your posted gigs</h3>
+        <div id="mgList" class="mg-list"></div>
+      </section>
       <div class="stat-cards">
         <a href="wallet.html#transactions" class="stat-card">
           <div class="stat-top">Earned this month <i class="ph ph-coins"></i></div>
@@ -269,7 +316,7 @@
       <li><a href="wallet.html"><i class="ph ph-wallet fi-green"></i>Wallet</a></li>
     </ul></div>
     <div class="footer-col"><h4>Contact</h4><ul>
-      <li><a href="mailto:simplykae2@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>simplykae2@gmail.com</a></li>
+      <li><a href="mailto:campuslink@gmail.com"><i class="ph ph-envelope-simple fi-gold"></i>campuslink@gmail.com</a></li>
       <li><span><i class="ph ph-map-pin fi-rose"></i>Nairobi, Kenya</span></li>
       <li><a href="register.html?role=provider"><i class="ph ph-megaphone-simple fi-sky"></i>List your service</a></li>
     </ul></div>
@@ -282,10 +329,80 @@
 <div class="float-help"><a href="career.html#coach" class="fh-chat" title="Ask the career coach" aria-label="Ask the career coach"><i class="ph ph-chat-circle-dots"></i></a></div>
 
 <script src="/nav.js"></script>
+<script src="/data.js"></script>
 <script>
 (function () {
   const h = new Date().getHours();
   document.getElementById('greeting').textContent = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+
+  /* Signed-in account (from the server). Guests see sample data and a sign-in prompt. */
+  CampusAPI.me().then(me => {
+    if (!me) { document.getElementById('guestNote').hidden = false; return; }
+    if (me.type === 'admin') { location.href = 'admin.html'; return; }
+    document.getElementById('greeting').textContent += ', ' + me.firstName;
+    const sub = document.getElementById('greetSub');
+    if (me.type === 'student') sub.textContent = me.campus + " · here's how your month is going.";
+    if (me.type === 'recruiter') { sub.textContent = me.orgName + ' · hiring at ' + me.campus; setupGigs(me); }
+    if (me.type === 'business') {
+      sub.textContent = me.orgName + ' · near ' + me.campus;
+      const box = document.getElementById('sellerStatus');
+      const note = (me.reviewNote || 'not given').replace(/[.\s]+$/, '');
+      const S = {
+        pending:  { icon: 'hourglass-medium', title: 'Your documents are under review',
+                    text: "You can't sell yet. An admin is checking your KRA PIN certificate, business permit and shop location. This usually takes 1–2 working days.",
+                    btn: '<a class="btn btn-ghost btn-sm" href="seller.html">View my application</a>' },
+        approved: { icon: 'seal-check', title: 'Verified seller',
+                    text: 'Your shop is approved. Students at ' + esc(me.campus) + ' can find ' + esc(me.orgName) + ' and the products you list.',
+                    btn: '<a class="btn btn-primary btn-sm" href="seller.html">Manage my products</a>' },
+        rejected: { icon: 'x-circle', title: 'Verification not approved',
+                    text: 'Reason from our team: ' + esc(note) + ". Upload corrected documents and we'll review them again.",
+                    btn: '<a class="btn btn-primary btn-sm" href="seller.html">Fix and resubmit</a>' },
+      }[me.status];
+      if (S) {
+        box.className = 'seller-status ' + me.status;
+        box.innerHTML = '<i class="ph ph-' + S.icon + '"></i><div><strong>' + S.title + '</strong><p>' + S.text + '</p></div>' + S.btn;
+        box.hidden = false;
+      }
+    }
+  });
+
+  /* Recruiters: post gigs and see or remove their own */
+  async function setupGigs(me) {
+    const sec = document.getElementById('my-gigs');
+    sec.hidden = false;
+    document.getElementById('mgCampus').textContent = 'Shown to students as near ' + me.campus;
+    const meta = await CampusAPI.meta();
+    document.getElementById('gCat').innerHTML = '<option value="">Choose…</option>' + meta.gigCats.map(c => '<option>' + esc(c) + '</option>').join('');
+    if (location.hash === '#my-gigs') sec.scrollIntoView({ block: 'start' });
+    const list = document.getElementById('mgList');
+    async function load() {
+      const gigs = await CampusAPI.myGigs();
+      list.innerHTML = gigs.map(g => `<div class="mg-item"><div><strong>${esc(g.title)}</strong><span>${esc(g.cat)} · Ksh ${g.budget.toLocaleString()} · posted ${new Date(g.createdAt).toLocaleDateString('en-KE', { day: 'numeric', month: 'short' })}</span></div>
+        <a class="btn btn-ghost btn-sm" href="gigs.html">View</a><button class="btn btn-ghost btn-sm" data-del="${g.id}"><i class="ph ph-trash"></i> Remove</button></div>`).join('')
+        || "<p class=\"mg-empty\">You haven't posted any gigs yet.</p>";
+    }
+    list.addEventListener('click', async e => {
+      const b = e.target.closest('[data-del]'); if (!b) return;
+      if (!confirm('Remove this gig? Students will no longer see it.')) return;
+      await CampusAPI.deleteGig(b.dataset.del); notify('Gig removed.', 'trash'); load();
+    });
+    document.getElementById('gigForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      document.querySelectorAll('.gf-err').forEach(p => { p.textContent = ''; });
+      const v = id => document.getElementById(id).value.trim();
+      try {
+        await CampusAPI.postGig({ title: v('gTitle'), cat: v('gCat'), budget: v('gBudget'), description: v('gDesc'), skills: v('gSkills') });
+        e.target.reset();
+        notify('Gig published. Students can see it on the gigs page now.', 'paper-plane-tilt');
+        load();
+      } catch (err) {
+        const errs = Object.entries(err.errors || {});
+        if (!errs.length) return notify(err.message, 'warning');
+        errs.forEach(([f, m]) => { const p = document.querySelector('.gf-err[data-err="' + f + '"]'); if (p) p.textContent = m; });
+      }
+    });
+    load();
+  }
 
   const applied = JSON.parse(localStorage.getItem('campuslink_applied') || '[]').length;
   if (applied) document.getElementById('appCount').textContent = 7 + applied;

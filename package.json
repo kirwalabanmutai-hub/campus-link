@@ -5,15 +5,19 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "node --env-file-if-exists=.env --watch-path=server server/index.js",
+    "start": "node --env-file-if-exists=.env server/index.js",
     "build": "vite build",
     "lint": "eslint src",
     "preview": "vite preview"
   },
   "dependencies": {
+    "express": "^4.22.3",
+    "lucide-react": "^0.441.0",
+    "multer": "^2.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.18.5",
-    "lucide-react": "^0.441.0",
     "recharts": "^2.12.7"
   },
   "devDependencies": {

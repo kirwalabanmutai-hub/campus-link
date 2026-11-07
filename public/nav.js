@@ -102,4 +102,34 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   };
+
+  /* Sign out from anywhere */
+  window.signOut = function () {
+    fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' })
+      .catch(function () {})
+      .then(function () { location.href = 'home.html'; });
+  };
+
+  /* Header: when signed in, swap "Sign in / Join free" for the account's name,
+     a shortcut (My shop for sellers, Admin for admins) and Sign out. */
+  function accountHeader() {
+    var box = document.querySelector('.nav-actions');
+    if (!box) return;
+    fetch('/api/auth/me', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : { user: null }; })
+      .then(function (d) {
+        var u = d.user;
+        if (!u) return;
+        var shortcut = u.type === 'admin' ? '<a href="admin.html" class="btn btn-ghost btn-sm"><i class="ph ph-shield-check"></i> Admin</a>'
+          : u.type === 'business' ? '<a href="seller.html" class="btn btn-ghost btn-sm"><i class="ph ph-storefront"></i> My shop</a>'
+          : u.type === 'recruiter' ? '<a href="dashboard.html#my-gigs" class="btn btn-ghost btn-sm"><i class="ph ph-briefcase"></i> My gigs</a>'
+          : '';
+        box.innerHTML = shortcut +
+          '<a href="dashboard.html" class="btn btn-ghost btn-sm nav-me" title="' + esc(u.email) + '"><i class="ph ph-user-circle"></i> ' + esc(u.firstName) + '</a>' +
+          '<button type="button" class="btn btn-primary btn-sm" onclick="signOut()">Sign out</button>';
+      })
+      .catch(function () { /* server not running: keep the default buttons */ });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', accountHeader);
+  else accountHeader();
 })();

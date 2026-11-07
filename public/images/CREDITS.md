@@ -83,3 +83,35 @@ attribution required). They were resized and saved as WebP for faster loading.
 | juice.webp | https://images.unsplash.com/photo-1617319683252-027deeba5fd5 |
 | soda.webp | https://images.unsplash.com/photo-1567103472667-6898f3a79cf2 |
 | mango-smoothie.webp | https://images.unsplash.com/photo-1623065422902-30a2d299bbe4 |
+
+## Service card photos (images/services/)
+
+B&W printing and data entry reuse `printing-card.webp` and `student-laptop.webp` from above.
+
+| File | Unsplash image |
+|---|---|
+| laundry.webp | https://images.unsplash.com/photo-1582735689369-4fe89db7114c |
+| lecture-notes.webp | https://images.unsplash.com/photo-1519096990358-3c121dec4458 |
+| essay-writing.webp | https://images.unsplash.com/photo-1455390582262-044cdead277a |
+| printing-color.webp | https://images.unsplash.com/photo-1588829608082-df51eb07f6cf |
+| room-cleaning.webp | https://images.unsplash.com/photo-1758273705627-937374bfa978 |
+| food-delivery.webp | https://images.unsplash.com/photo-1597974828431-9078248d8cc9 |
+| moving-boxes.webp | https://images.unsplash.com/photo-1714647211902-bb711d643a17 |
+| relocation-truck.webp | https://images.unsplash.com/photo-1616432043562-3671ea2e5242 |
+| furniture-assembly.webp | https://images.unsplash.com/photo-1571018400279-7f33252d0ad6 |
+| luggage.webp | https://images.unsplash.com/photo-1639598003276-8a70fcaaad6c |
+| pickup-delivery.webp | https://images.unsplash.com/photo-1648394794449-5dbe63f6a8b5 |
+| packing.webp | https://images.unsplash.com/photo-1786026632781-5d580ee117c6 |
+
+## Gig card photos (images/gigs/)
+
+Data entry and furniture mover reuse `student-laptop.webp` and `services/moving-boxes.webp`.
+
+| File | Unsplash image |
+|---|---|
+| math-tutor.webp | https://images.unsplash.com/photo-1509228468518-180dd4864904 |
+| web-design.webp | https://images.unsplash.com/photo-1547658719-da2b51169166 |
+| poster-design.webp | https://images.unsplash.com/photo-1572044162444-ad60f128bdea |
+| python-code.webp | https://images.unsplash.com/photo-1515879218367-8466d910aaa4 |
+| content-writing.webp | https://images.unsplash.com/photo-1499914485622-a88fac536970 |
+| social-media.webp | https://images.unsplash.com/photo-1488509082528-cefbba5ad692 |
